@@ -2943,11 +2943,6 @@
     "minimalistic-assert" "^1.0.0"
     "minimalistic-crypto-utils" "^1.0.1"
 
-"html-entities@1.0.x":
-  "integrity" "sha1-DepZEw3VDfFU6CxM9x0Iwsnclos="
-  "resolved" "https://registry.yarnpkg.com/html-entities/-/html-entities-1.0.10.tgz"
-  "version" "1.0.10"
-
 "htmlparser2@4.1.0":
   "integrity" "sha512-4zDq1a1zhE4gQso/c5LP1OtrhYTncXNSpvJYtWJBtXAETPlMfi3IFNjGuQbYLuVY4ZR0QMqRVvo4Pdy9KLyP8Q=="
   "resolved" "https://registry.yarnpkg.com/htmlparser2/-/htmlparser2-4.1.0.tgz"
@@ -4577,7 +4572,7 @@
     "schema-utils" "^2.7.1"
     "semver" "^7.3.2"
 
-"sax@^1.2.4", "sax@>=0.6.0":
+"sax@>=0.6.0":
   "integrity" "sha512-NqVDv9TpANUjFm0N8uM5GxL36UgKi9/atZw+x7YFnQ8ckwFGKrl4xX4yWtrey3UJm5nP1kUbnYgLopqWNSRhWw=="
   "resolved" "https://registry.yarnpkg.com/sax/-/sax-1.2.4.tgz"
   "version" "1.2.4"
@@ -4748,15 +4743,10 @@
     "source-map-resolve" "^0.5.0"
     "use" "^3.1.0"
 
-"sonos-discovery@https://github.com/jishi/node-sonos-discovery/archive/v1.7.3.tar.gz":
-  "version" "1.7.3"
-  dependencies:
-    "html-entities" "1.0.x"
-    "xml-flow" "1.0.2"
-
-"sonos@github:bencevans/node-sonos":
-  "resolved" "git+ssh://git@github.com/bencevans/node-sonos.git#6591b2bd748c9680197ec1b7f078ec3b110084be"
-  "version" "0.0.0-development"
+"sonos@1.14.0":
+  "integrity" "sha512-JJlU2Mx0eGqC6ZmFAnsY0w3ge0nPqsV8bGuAZ1byaTSMLQQhcamBeylII50OyxpzmQxV9ESpA2RevmoTdMPYxw=="
+  "resolved" "https://registry.npmjs.org/sonos/-/sonos-1.14.0.tgz"
+  "version" "1.14.0"
   dependencies:
     "axios" "^0.19.0"
     "debug" "^4.1.1"
@@ -5420,13 +5410,6 @@
   "integrity" "sha1-tSQ9jz7BqjXxNkYFvA0QNuMKtp8="
   "resolved" "https://registry.yarnpkg.com/wrappy/-/wrappy-1.0.2.tgz"
   "version" "1.0.2"
-
-"xml-flow@1.0.2":
-  "integrity" "sha512-TfV52Su2083n8w61l1hGI5K3ZAkn4hmaon3oJHc+TRQo0QkKLMPAPdMpGMJd+5Aik6ZUicPDjBINO8QxLkZGgg=="
-  "resolved" "https://registry.yarnpkg.com/xml-flow/-/xml-flow-1.0.2.tgz"
-  "version" "1.0.2"
-  dependencies:
-    "sax" "^1.2.4"
 
 "xml2js@^0.4.19":
   "integrity" "sha512-ySPiMjM0+pLDftHgXY4By0uswI3SPKLDw/i3UXbnO8M/p28zqexCUoPmQFrYD+/1BzhGJSs2i1ERWKJAtiLrug=="
