@@ -8,12 +8,12 @@ export default async (req, res) => {
 	const ipAddress = getRoomIpAddress(roomToPlay);
 	const device = new Sonos(ipAddress);
 
-	await device.togglePlayback();
+	const volume = await device.getVolume();
 	const getCurrentState = await device.getCurrentState();
 
 	res.statusCode = 200;
 	res.json({
-		name: "Sonos toggle-room",
+		name: "Sonos status-room",
 		status: getCurrentState,
 		roomToPlay,
 	});
