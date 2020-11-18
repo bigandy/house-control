@@ -14,8 +14,6 @@ export default async (req, res) => {
 		query: { slug },
 	} = req;
 
-	console.log(slug);
-
 	// get the method and the room
 	const [method, room] = slug;
 	let status = "";
