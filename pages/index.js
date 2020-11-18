@@ -24,9 +24,13 @@ const rooms = [
 
 const RoomSelector = ({ selected, handleChange }) => {
 	return (
-		<select name="" id="" onChange={handleChange}>
-			{rooms.map((room) => {
-				return <option value={room.id}>{room.text}</option>;
+		<select onChange={handleChange}>
+			{rooms.map((room, index) => {
+				return (
+					<option value={room.id} key={`select-${index}`}>
+						{room.text}
+					</option>
+				);
 			})}
 		</select>
 	);
@@ -79,7 +83,8 @@ export default function Home() {
 				Turn Office Lights {lightsOn ? "Off" : "On"}
 			</button>
 			<button onClick={toggleMusic}>
-				Turn Music in <em>{room}</em> {musicPlaying === "paused" ? "On" : "Off"}
+				Turn Music in <em>{room}</em>{" "}
+				{musicPlaying === "paused" || musicPlaying === "stopped" ? "On" : "Off"}
 			</button>
 		</div>
 	);
