@@ -81,8 +81,13 @@ export default function Home() {
     setRoom(e.target.value);
   };
 
-  const turnOffAllSonos = () => {
+  const turnOffAllSonos = async () => {
     console.log("want to turn off all sonos music");
+
+    await fetch(`/api/sonos/pause-all`)
+      .then((res) => res.json())
+      .then((json) => console.log(json))
+      .catch((e) => console.error(e));
   };
 
   return (
