@@ -36,6 +36,46 @@ const getRoomIpAddress = (room) => {
 	return ipAddress;
 };
 
+const playRoom = async (roomToPlay) => {
+	const ipAddress = getRoomIpAddress(roomToPlay);
+	const device = new Sonos(ipAddress);
+
+	await device.play();
+	const state = await device.getCurrentState();
+	return state;
+};
+
+const pauseRoom = async (roomToPlay) => {
+	const ipAddress = getRoomIpAddress(roomToPlay);
+	const device = new Sonos(ipAddress);
+
+	await device.pause();
+	const state = await device.getCurrentState();
+	return state;
+};
+
+const toggleRoom = async (roomToPlay) => {
+	const ipAddress = getRoomIpAddress(roomToPlay);
+	const device = new Sonos(ipAddress);
+
+	await device.togglePlayback();
+	const state = await device.getCurrentState();
+	return state;
+};
+
+const statusRoom = async (roomToPlay) => {
+	const ipAddress = getRoomIpAddress(roomToPlay);
+	const device = new Sonos(ipAddress);
+
+	const volume = await device.getVolume();
+	const state = await device.getCurrentState();
+
+	return state;
+};
+
 module.exports = {
-	getRoomIpAddress,
+	playRoom,
+	statusRoom,
+	pauseRoom,
+	toggleRoom,
 };

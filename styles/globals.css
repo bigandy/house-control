@@ -18,4 +18,12 @@ a {
 
 button {
   padding: 3rem;
+  margin-bottom: 2em;
+  width: 100%;
+}
+
+select {
+  width: 100%;
+  margin: 1em 1em 3em;
+  padding: 2em;
 }
