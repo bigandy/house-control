@@ -2,9 +2,16 @@
 
 ## TODO
 
-- [ ] Discovery of all lights
-- [ ] Status of all lights
-- [ ] Turn all lights off/on
+- [ ] Track data in Firebase or other (e.g. Sanity / Fauna)
+- [ ] Temperature and Weather tracking using Raspberry Pi + sensor
+- [ ] Dashboard with Time / Date 
+- [ ] Dashboard which allows user interaction i.e. if it is a touch screen allow all lights off or everything off 
+- [ ] Dashboard that shows the weather for day / next 3 days
+- [ ] Dashboard shows current temperature outside / inside
+- [ ] Google Home API to connect to `anything` in the Home i.e. my Tapo P100 plugs (no current JS API available)
+- [x] Discovery of all lights
+- [x] Status of all lights
+- [x] Turn all lights off/on
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
