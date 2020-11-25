@@ -86,8 +86,12 @@ export default function Dashboard() {
   }, []);
 
   useEffect(async () => {
-    const result = await fetch("/api/weather/get-weather");
-    console.log(result);
+    const result = await fetch("/api/weather/get-weather")
+      .then((response) => response.json())
+      .then((json) => json.result);
+    // console.log(result.temp.value);
+
+    setTemperatureOutside(result.temp.value);
   }, []);
 
   // useInterval(() => {
