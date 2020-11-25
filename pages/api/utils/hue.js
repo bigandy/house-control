@@ -74,10 +74,6 @@ const toggleLight = async (lightId = OFFICE_LIGHT) => {
     })
     .catch((e) => {
       throw new Error("lights failed");
-      res.send({
-        statusCode: 400,
-        body: JSON.stringify(e),
-      });
     });
 };
 

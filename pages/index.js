@@ -1,31 +1,16 @@
 import { useState, useEffect } from "react";
-
 import Head from "next/head";
-import styles from "../styles/Home.module.css";
 
-const rooms = [
-  {
-    text: "Lounge",
-    id: "lounge",
-  },
-  {
-    text: "Kitchen",
-    id: "kitchen",
-  },
-  {
-    text: "Kitchen Eating",
-    id: "kitchen-eating",
-  },
-  {
-    text: "Bedroom",
-    id: "bedroom",
-  },
-];
+import DefaultLayout from "layouts/Default";
+
+import styles from "styles/Home.module.scss";
+
+import { sonosRooms } from "utils/sonos";
 
 const RoomSelector = ({ selected, handleChange }) => {
   return (
     <select onChange={handleChange}>
-      {rooms.map((room, index) => {
+      {sonosRooms.map((room, index) => {
         return (
           <option value={room.id} key={`select-${index}`}>
             {room.text}
@@ -54,7 +39,6 @@ export default function Home() {
   };
 
   useEffect(async () => {
-    // setMusicPlaying
     await fetch(`/api/sonos/status/${room}`)
       .then((res) => res.json())
       .then((json) => setMusicPlaying(json.status))
@@ -62,7 +46,6 @@ export default function Home() {
   }, [room]);
 
   useEffect(async () => {
-    // http://localhost:3000/api/hue/status-light
     await fetch(`/api/hue/status-light`)
       .then((res) => res.json())
       .then((json) => setLightsOn(json.state.on))
@@ -70,7 +53,6 @@ export default function Home() {
   }, []);
 
   const toggleMusic = async () => {
-    // setMusicPlaying
     await fetch(`/api/sonos/toggle/${room}`)
       .then((res) => res.json())
       .then((json) => setMusicPlaying(json.status))
@@ -90,7 +72,6 @@ export default function Home() {
       .catch((e) => console.error(e));
   };
 
-  //turnOffAllHue
   const turnOffAllHue = async () => {
     console.log("want to turn off all HUE Lights");
 
@@ -108,25 +89,26 @@ export default function Home() {
   };
 
   return (
-    <div
-      className={styles.container}
-      style={{ backgroundColor: lightsOn ? "white" : "black" }}
-    >
+    <DefaultLayout>
       <Head>
         <title>Homepage</title>
       </Head>
-      <RoomSelector handleChange={handleRoomChange} selected={room} />
+      <div className={styles.container}>
+        <RoomSelector handleChange={handleRoomChange} selected={room} />
 
-      <button onClick={toggleLight}>
-        Turn Office Lights {lightsOn ? "Off" : "On"}
-      </button>
-      <button onClick={toggleMusic}>
-        Turn Music in <em>{room}</em>{" "}
-        {musicPlaying === "paused" || musicPlaying === "stopped" ? "On" : "Off"}
-      </button>
-      <button onClick={turnOffAllSonos}>Turn All SONOS off</button>
-      <button onClick={turnOffAllHue}>Turn All HUE off</button>
-      <button onClick={turnOffEverything}>Turn Everything off</button>
-    </div>
+        <button onClick={toggleLight}>
+          Turn Office Lights {lightsOn ? "Off" : "On"}
+        </button>
+        <button onClick={toggleMusic}>
+          Turn Music in <em>{room}</em>{" "}
+          {musicPlaying === "paused" || musicPlaying === "stopped"
+            ? "On"
+            : "Off"}
+        </button>
+        <button onClick={turnOffAllSonos}>Turn All SONOS off</button>
+        <button onClick={turnOffAllHue}>Turn All HUE off</button>
+        <button onClick={turnOffEverything}>Turn Everything off</button>
+      </div>
+    </DefaultLayout>
   );
 }

@@ -1,20 +1,23 @@
 import { useState, useEffect, Fragment } from "react";
 
 import Head from "next/head";
-import styles from "../styles/Dashboard.module.css";
+import styles from "./styles.module.scss";
 
-import useInterval from "../hooks/useInterval";
+import DefaultLayout from "layouts/Default";
+
+import useInterval from "hooks/useInterval";
 
 import {
   getTimeValues,
   getDayFromDayNumber,
   getSeasonFromMonthNumber,
-} from "../utils/time";
+  getMonthNameFromMonthNumber,
+} from "utils/time";
 
 const Clock = ({ minutes, hours }) => {
   return (
     <div>
-      {hours}:{minutes}
+      {String(hours).padStart(2, "0")}:{String(minutes).padStart(2, "0")}
     </div>
   );
 };
@@ -34,7 +37,8 @@ const DateOfMonth = ({ date }) => {
 };
 
 const Month = ({ month }) => {
-  return <div>{month}</div>;
+  const monthName = getMonthNameFromMonthNumber(month);
+  return <div>{monthName}</div>;
 };
 
 const Year = ({ year }) => {
@@ -81,18 +85,23 @@ export default function Dashboard() {
     setDate(currentDate);
   }, []);
 
-  useInterval(() => {
-    const { currentHour, currentMinute } = getTimeValues();
-    setHours(currentHour);
-    setMinutes(currentMinute);
-  }, 1000);
+  useEffect(async () => {
+    const result = await fetch("/api/weather/get-weather");
+    console.log(result);
+  }, []);
 
-  useInterval(() => {
-    const { currentYear, currentDay, currentMonth } = getTimeValues();
-    setMonth(currentMonth);
-    setDay(currentDay);
-    setYear(currentYear);
-  }, 3000);
+  // useInterval(() => {
+  //   const { currentHour, currentMinute } = getTimeValues();
+  //   setHours(currentHour);
+  //   setMinutes(currentMinute);
+  // }, 1000);
+
+  // useInterval(() => {
+  //   const { currentYear, currentDay, currentMonth } = getTimeValues();
+  //   setMonth(currentMonth);
+  //   setDay(currentDay);
+  //   setYear(currentYear);
+  // }, 3000);
 
   // Every 30 minutes, call Weather API to get the outside weather.
   useInterval(() => {
@@ -102,7 +111,7 @@ export default function Dashboard() {
   }, 1000 * 30 * 60);
 
   return (
-    <Fragment>
+    <DefaultLayout>
       <Head>
         <title>Dashboard</title>
       </Head>
@@ -117,6 +126,6 @@ export default function Dashboard() {
         <Temperature temperature={temperatureInside} />
         <Temperature temperature={temperatureOutside} type="outside" />
       </div>
-    </Fragment>
+    </DefaultLayout>
   );
 }
