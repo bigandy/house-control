@@ -1,0 +1,13 @@
+.container {
+	background: black;
+	color: white;
+	min-height: 100vh;
+
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	/* grid-template-rows: */
+
+	place-items: center;
+	font-size: 50px;
+	font-weight: bold;
+}
