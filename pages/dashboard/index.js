@@ -3,7 +3,7 @@ import { useState, useEffect, Fragment } from "react";
 import Head from "next/head";
 import styles from "./styles.module.scss";
 
-import DefaultLayout from "layouts/Default";
+import DefaultLayout from "layouts/default";
 
 import useInterval from "hooks/useInterval";
 

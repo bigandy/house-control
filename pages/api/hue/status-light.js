@@ -7,14 +7,12 @@ export default async function handler(req, res) {
   try {
     const { state } = await statusLight();
 
-    res.statusCode = 200;
-    res.json({
+    res.status(200).json({
       name: "Hue status-room",
       state,
     });
   } catch (error) {
-    res.statusCode = 400;
-    res.json({
+    res.status(400).json({
       name: "Hue status-room-error",
       error,
     });

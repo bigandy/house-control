@@ -2,15 +2,14 @@ const { Sonos } = require("sonos");
 const { pauseRoom } = require("../utils/sonos");
 
 export default async (req, res) => {
-	const { room } = req.query;
+  const { room } = req.query;
 
-	const roomToPlay = room || "lounge";
-	const status = await pauseRoom(roomToPlay);
+  const roomToPlay = room || "lounge";
+  const status = await pauseRoom(roomToPlay);
 
-	res.statusCode = 200;
-	res.json({
-		name: "Sonos pause-room",
-		status,
-		roomToPlay,
-	});
+  res.status(200).json({
+    name: "Sonos pause-room",
+    status,
+    roomToPlay,
+  });
 };

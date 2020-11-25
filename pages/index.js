@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import Head from "next/head";
 
-import DefaultLayout from "layouts/Default";
+import DefaultLayout from "layouts/default";
 
 import styles from "styles/Home.module.scss";
 
