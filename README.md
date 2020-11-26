@@ -3,11 +3,11 @@
 ## TODO
 
 - [ ] Track data in Firebase or other (e.g. Sanity / Fauna)
-- [ ] Temperature and Weather tracking using Raspberry Pi + sensor
-- [ ] Dashboard with Time / Date
+- [x] Temperature and Weather tracking using Raspberry Pi + sensor
+- [x] Dashboard with Time / Date
 - [ ] Dashboard which allows user interaction i.e. if it is a touch screen allow all lights off or everything off
 - [ ] Dashboard that shows the weather for day / next 3 days
-- [ ] Dashboard shows current temperature outside / inside
+- [x] Dashboard shows current temperature outside / inside
 - [ ] Google Home API to connect to `anything` in the Home i.e. my Tapo P100 plugs (no current JS API available)
 - [x] Discovery of all lights
 - [x] Status of all lights
