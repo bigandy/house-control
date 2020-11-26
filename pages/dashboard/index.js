@@ -95,6 +95,18 @@ export default function Dashboard() {
     setTemperatureOutside(result.temp.value);
   }, []);
 
+  useEffect(async () => {
+    try {
+      const result = await fetch("/api/weather/get-pi-sensor")
+        .then((response) => response.json())
+        .then((json) => json.result);
+
+      setTemperatureInside(result.temperature);
+    } catch (error) {
+      console.error(error);
+    }
+  }, []);
+
   // useInterval(() => {
   //   const { currentHour, currentMinute } = getTimeValues();
   //   setHours(currentHour);
