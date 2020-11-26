@@ -22,11 +22,12 @@ const Clock = ({ minutes, hours }) => {
   );
 };
 
-const Temperature = ({ temperature, type = "inside" }) => {
+const Temperature = ({ temperature, type = "in" }) => {
   const [degrees, setDegrees] = useState(0);
   return (
     <div>
-      Temperature {type}: {temperature}
+      <div>Temp. {type}:</div>
+      {temperature}
       <sup>&deg;</sup>C
     </div>
   );
@@ -128,7 +129,7 @@ export default function Dashboard() {
         <Season season={season} />
         <Clock hours={hours} minutes={minutes} />
         <Temperature temperature={temperatureInside} />
-        <Temperature temperature={temperatureOutside} type="outside" />
+        <Temperature temperature={temperatureOutside} type="out" />
       </div>
     </DefaultLayout>
   );
