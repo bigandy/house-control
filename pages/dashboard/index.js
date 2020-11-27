@@ -27,8 +27,12 @@ const Temperature = ({ temperature, type = "in" }) => {
   return (
     <div>
       <div>Temp. {type}:</div>
-      {temperature}
-      <sup>&deg;</sup>C
+      {temperature !== undefined && (
+        <Fragment>
+          {temperature.toFixed(1)}
+          <sup>&deg;</sup>C
+        </Fragment>
+      )}
     </div>
   );
 };
@@ -108,7 +112,7 @@ export default function Dashboard() {
     } catch (error) {
       console.error(error);
 
-      setTemperatureInside("-");
+      setTemperatureInside(undefined);
     }
   };
 
