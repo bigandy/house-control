@@ -86,16 +86,19 @@ export default function Dashboard() {
     setDate(currentDate);
   }, []);
 
-  useEffect(async () => {
-    const result = await fetch("/api/weather/get-weather")
-      .then((response) => response.json())
-      .then((json) => json.result);
-    // console.log(result.temp.value);
+  const getOutsideTemperature = async () => {
+    try {
+      const result = await fetch("/api/weather/get-weather")
+        .then((response) => response.json())
+        .then((json) => json.result);
 
-    setTemperatureOutside(result.temp.value);
-  }, []);
+      setTemperatureOutside(result.temp.value);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
-  useEffect(async () => {
+  const getInsideTemperature = async () => {
     try {
       const result = await fetch("/api/weather/get-pi-sensor")
         .then((response) => response.json())
@@ -104,28 +107,39 @@ export default function Dashboard() {
       setTemperatureInside(result.temperature);
     } catch (error) {
       console.error(error);
+
+      setTemperatureInside("-");
     }
+  };
+
+  useEffect(async () => {
+    await getOutsideTemperature();
   }, []);
 
-  // useInterval(() => {
-  //   const { currentHour, currentMinute } = getTimeValues();
-  //   setHours(currentHour);
-  //   setMinutes(currentMinute);
-  // }, 1000);
+  useEffect(async () => {
+    await getInsideTemperature();
+  }, []);
 
-  // useInterval(() => {
-  //   const { currentYear, currentDay, currentMonth } = getTimeValues();
-  //   setMonth(currentMonth);
-  //   setDay(currentDay);
-  //   setYear(currentYear);
-  // }, 3000);
-
-  // Every 30 minutes, call Weather API to get the outside weather.
   useInterval(() => {
+    const { currentHour, currentMinute } = getTimeValues();
+    setHours(currentHour);
+    setMinutes(currentMinute);
+  }, 1000);
+
+  useInterval(async () => {
+    const { currentYear, currentDay, currentMonth } = getTimeValues();
+    setMonth(currentMonth);
+    setDay(currentDay);
+    setYear(currentYear);
+
+    await getInsideTemperature();
+  }, 3000);
+
+  // Every 3 minutes, call Weather API to get the outside weather.
+  useInterval(async () => {
     // GET THE TEMPERATURE FROM THE API
-    const outsideTemperature = 0;
-    setTemperatureOutside(outsideTemperature);
-  }, 1000 * 30 * 60);
+    await getOutsideTemperature();
+  }, 1000 * 3 * 60);
 
   return (
     <DefaultLayout>
