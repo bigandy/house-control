@@ -19,6 +19,8 @@ export const getTimeValues = () => {
 
 export const getDayFromDayNumber = (dayNumber) => {
   switch (dayNumber) {
+    case 0:
+      return "Sunday";
     case 1:
       return "Monday";
     case 2:
@@ -31,8 +33,6 @@ export const getDayFromDayNumber = (dayNumber) => {
       return "Friday";
     case 6:
       return "Saturday";
-    case 7:
-      return "Sunday";
   }
 };
 
