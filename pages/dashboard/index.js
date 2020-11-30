@@ -15,9 +15,12 @@ import {
 } from "utils/time";
 
 const Clock = ({ minutes, hours }) => {
+  const isPm = hours > 12;
+
   return (
     <div>
-      {String(hours).padStart(2, "0")}:{String(minutes).padStart(2, "0")}
+      {String(hours > 12 ? hours - 12 : hours).padStart(2, "0")}:
+      {String(minutes).padStart(2, "0")} {isPm ? "pm" : "am"}
     </div>
   );
 };
