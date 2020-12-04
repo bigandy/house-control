@@ -2,13 +2,19 @@
 
 ## TODO
 
-- [ ] Track data in Firebase or other (e.g. Sanity / Fauna)
+- [ ] Graph of Temperature and Humidity over time
+- [ ] Track data with SQLite and Prisma (the latter is a damn PITA to install so not doing that yet)
+- [ ] Dashboard that shows the weather for day / next 3 days
+- [ ] Google Home API to connect to `anything` in the Home i.e. my Tapo P100 plugs (no current JS API available)
+
+
+## DONE
+- [x] node-cron to get measurement every 1 minute. in external folder.
+- [x] Track data in DB (e.g. Hasura) and access via GraphQL endpoint
 - [x] Temperature and Weather tracking using Raspberry Pi + sensor
 - [x] Dashboard with Time / Date
-- [ ] Dashboard which allows user interaction i.e. if it is a touch screen allow all lights off or everything off
-- [ ] Dashboard that shows the weather for day / next 3 days
+- [x] Dashboard which allows user interaction i.e. if it is a touch screen allow all lights off or everything off
 - [x] Dashboard shows current temperature outside / inside
-- [ ] Google Home API to connect to `anything` in the Home i.e. my Tapo P100 plugs (no current JS API available)
 - [x] Discovery of all lights
 - [x] Status of all lights
 - [x] Turn all lights off/on
