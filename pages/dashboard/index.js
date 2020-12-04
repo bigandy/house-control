@@ -107,15 +107,17 @@ export default function Dashboard() {
 
   const getInsideTemperature = async () => {
     try {
-      const result = await fetch("/api/weather/get-pi-sensor")
-        .then((response) => response.json())
-        .then((json) => json.result);
+      const { temperature } = await fetch(
+        "/api/weather/get-pi-sensor"
+      ).then((response) => response.json());
 
-      setTemperatureInside(result.temperature);
+      setTemperatureInside(temperature);
     } catch (error) {
-      console.error(error);
+      const { sensor_data } = await fetch(
+        "/api/hasura/get-weather?number=1"
+      ).then((response) => response.json());
 
-      setTemperatureInside(undefined);
+      setTemperatureInside(sensor_data[0].temperature);
     }
   };
 
@@ -138,14 +140,14 @@ export default function Dashboard() {
     setMonth(currentMonth);
     setDay(currentDay);
     setYear(currentYear);
-
-    await getInsideTemperature();
   }, 3000);
 
   // Every 3 minutes, call Weather API to get the outside weather.
   useInterval(async () => {
     // GET THE TEMPERATURE FROM THE API
     await getOutsideTemperature();
+
+    await getInsideTemperature();
   }, 1000 * 3 * 60);
 
   return (

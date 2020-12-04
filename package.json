@@ -12,6 +12,7 @@
     "next": "10.0.1",
     "next-google-fonts": "1.2.1",
     "node-dht-sensor": "0.4.3",
+    "node-fetch": "2.6.0",
     "node-hue-api": "4.0.9",
     "react": "17.0.1",
     "react-dom": "17.0.1",
