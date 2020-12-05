@@ -33,6 +33,17 @@ const NavBar = () => {
             </a>
           </Link>
         </li>
+        <li>
+          <Link href="/sensor">
+            <a
+              className={classNames({
+                [styles.active]: router.pathname === "/sensor",
+              })}
+            >
+              Sensor
+            </a>
+          </Link>
+        </li>
       </ul>
     </nav>
   );
