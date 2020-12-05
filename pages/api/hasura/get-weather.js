@@ -10,6 +10,7 @@ export default async function handler(req, res) {
           sensor_data(limit: $limit, order_by: {created_at: desc}) {
             humidity
             temperature
+            created_at
           }
         }
 
