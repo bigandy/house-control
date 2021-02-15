@@ -18,6 +18,7 @@
     "react-dom": "17.0.1",
     "recharts": "1.8.5",
     "sass": "1.29.0",
-    "sonos": "1.14.0"
+    "sonos": "1.14.0",
+    "tp-link-tapo-connect": "git+https://github.com/dickydoouk/tp-link-tapo-connect.git"
   }
 }
