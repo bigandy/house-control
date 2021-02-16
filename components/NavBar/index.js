@@ -44,6 +44,17 @@ const NavBar = () => {
             </a>
           </Link>
         </li>
+        <li>
+          <Link href="/plugs">
+            <a
+              className={classNames({
+                [styles.active]: router.pathname === "/plugs",
+              })}
+            >
+              Plugs
+            </a>
+          </Link>
+        </li>
       </ul>
     </nav>
   );
