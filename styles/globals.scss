@@ -2,8 +2,8 @@ html,
 body {
   padding: 0;
   margin: 0;
-  font-family: "Piazzolla", -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-family: "Piazzolla", -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
+    Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
 a {
@@ -15,7 +15,6 @@ a {
   box-sizing: border-box;
 }
 
-
 button {
   padding: 3rem;
   margin-bottom: 2em;
@@ -26,4 +25,6 @@ select {
   width: 100%;
   margin: 1em 1em 3em;
   padding: 2em;
+  border-radius: 0;
+  border: 1px solid black;
 }
