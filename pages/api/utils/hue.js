@@ -34,8 +34,6 @@ const getAllLights = async () => {
 };
 
 const handleAll = async (method = "off") => {
-  console.log("method", method);
-
   const devices = await getAllLights();
 
   await devices.reduce(async (previousPromise, nextID) => {

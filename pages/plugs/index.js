@@ -5,7 +5,6 @@ import DefaultLayout from "layouts/default";
 
 import styles from "styles/Home.module.scss";
 
-import { sonosRooms } from "utils/sonos";
 import fetch from "node-fetch";
 
 const plugs = ["2", "3", "4", "office"];
@@ -52,11 +51,16 @@ export default function Home() {
       </Head>
 
       <div className={styles.container}>
+        <h1>Plugs</h1>
         <button onClick={() => offAllPlugs()}>Off All</button>
         <button onClick={() => onAllPlugs()}>On All</button>
 
         {plugs.map((plug) => {
-          return <button onClick={() => togglePlug(plug)}>{plug}</button>;
+          return (
+            <button key={plug} onClick={() => togglePlug(plug)}>
+              {plug}
+            </button>
+          );
         })}
       </div>
     </DefaultLayout>

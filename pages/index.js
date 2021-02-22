@@ -32,14 +32,13 @@ export default function Home() {
     await fetch("/api/hue/toggle-light")
       .then((res) => res.json())
       .then((json) => {
-        console.log(json);
         setLightsOn((prevState) => !prevState);
       })
       .catch((e) => console.error(e));
   };
 
   useEffect(async () => {
-    await fetch(`/api/sonos/status/${room}`)
+    await fetch(`/api/sonos/status-room/?room=${room}`)
       .then((res) => res.json())
       .then((json) => setMusicPlaying(json.status))
       .catch((e) => console.error(e));
@@ -53,7 +52,7 @@ export default function Home() {
   }, []);
 
   const toggleMusic = async () => {
-    await fetch(`/api/sonos/toggle/${room}`)
+    await fetch(`/api/sonos/toggle-room/?room=${room}`)
       .then((res) => res.json())
       .then((json) => setMusicPlaying(json.status))
       .catch((e) => console.error(e));
@@ -64,26 +63,18 @@ export default function Home() {
   };
 
   const turnOffAllSonos = async () => {
-    console.log("want to turn off all sonos music");
-
     await fetch(`/api/sonos/pause-all`)
       .then((res) => res.json())
-      .then((json) => console.log(json))
       .catch((e) => console.error(e));
   };
 
   const turnOffAllHue = async () => {
-    console.log("want to turn off all HUE Lights");
-
     await fetch(`/api/hue/off-all`)
       .then((res) => res.json())
-      .then((json) => console.log(json))
       .catch((e) => console.error(e));
   };
 
   const turnOffEverything = async () => {
-    console.log("want to turn off Everything");
-
     await turnOffAllHue();
     await turnOffAllSonos();
   };

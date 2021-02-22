@@ -9,8 +9,6 @@ import { URL } from "url";
 export const createUrl = ({ url, query = {} }) => {
   const urlBuilder = new URL(url);
 
-  console.log(query);
-
   Object.entries(query).forEach(([key, value]) => {
     if (value == null) {
       return;

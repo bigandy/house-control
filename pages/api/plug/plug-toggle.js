@@ -17,8 +17,6 @@ export default async function handler(req, res) {
 
     const statusesOut = await getAllPlugs();
 
-    console.log(statusesOut[plug].response);
-
     res.status(200).json({
       plug,
       statusOut: statusesOut[plug].response,

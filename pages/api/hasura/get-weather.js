@@ -2,7 +2,7 @@ const { query } = require("../utils/hasura");
 
 export default async function handler(req, res) {
   const limit = Number(req.query.number) || null;
-  console.log(limit);
+  // console.log(limit);
   try {
     const { sensor_data } = await query({
       query: `

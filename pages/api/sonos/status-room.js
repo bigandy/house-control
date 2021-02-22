@@ -10,7 +10,7 @@ export default async (req, res) => {
 
   res.status(200).json({
     name: "Sonos status-room",
-    status,
+    status: state,
     roomToPlay,
   });
 };
