@@ -21,14 +21,13 @@ const RoomSelector = ({ selected, handleChange }) => {
   );
 };
 
-export default function Home() {
+export default function HomePage() {
   const [room, setRoom] = useState("lounge");
   const [musicPlaying, setMusicPlaying] = useState(false);
 
   const [lightsOn, setLightsOn] = useState(false);
 
   const toggleLight = async () => {
-    // handle light change. Trigger via api
     await fetch("/api/hue/toggle-light")
       .then((res) => res.json())
       .then((json) => {
@@ -63,20 +62,21 @@ export default function Home() {
   };
 
   const turnOffAllSonos = async () => {
-    await fetch(`/api/sonos/pause-all`)
-      .then((res) => res.json())
-      .catch((e) => console.error(e));
+    await fetch(`/api/sonos/pause-all`).catch((e) => console.error(e));
   };
 
   const turnOffAllHue = async () => {
-    await fetch(`/api/hue/off-all`)
-      .then((res) => res.json())
-      .catch((e) => console.error(e));
+    await fetch(`/api/hue/off-all`).catch((e) => console.error(e));
+  };
+
+  const turnOffAllPlugs = async () => {
+    await fetch(`/api/plug/plug-all-off`).catch((e) => console.error(e));
   };
 
   const turnOffEverything = async () => {
     await turnOffAllHue();
     await turnOffAllSonos();
+    await turnOffAllPlugs();
   };
 
   return (

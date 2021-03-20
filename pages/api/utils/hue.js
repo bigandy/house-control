@@ -68,7 +68,7 @@ const toggleLight = async (lightId = OFFICE_LIGHT) => {
       const result = await api.lights.setLightState(lightId, {
         on: !state.on,
       });
-      return result;
+      return !state.on;
     })
     .catch((e) => {
       throw new Error("lights failed");

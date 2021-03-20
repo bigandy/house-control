@@ -2,20 +2,19 @@ const { DeviceDiscovery, Sonos, AsyncDeviceDiscovery } = require("sonos");
 
 // find one device
 // Useful for finding all the IP addresses of devices.
-const deviceDiscovery = () => {
-  DeviceDiscovery((device) => {
-    console.log("found device at " + device.host);
+const deviceDiscovery = async () => {
+  const DeviceDiscovery = new AsyncDeviceDiscovery();
 
-    // get all groups
-    const sonos = new Sonos(device.host);
-    sonos.getAllGroups().then((groups) => {
-      groups.forEach((group) => {
-        console.log({ group });
+  const devices = await DeviceDiscovery.discover();
 
-        return groups[0].CoordinatorDevice().setPlayMode("paused");
-      });
-    });
-  });
+  const sonos = new Sonos(devices.host);
+  const groups = await sonos.getAllGroups();
+
+  // Might have to run a few times to get all, because
+  // there is Sonos1 and Sonos2 and thus different host.
+  // Grrrrr!
+
+  return groups.map((group) => ({ host: group.host, name: group.Name }));
 };
 
 const getRoomIpAddress = (room) => {
@@ -57,12 +56,16 @@ const pauseRoom = async (roomToPlay) => {
 };
 
 const toggleRoom = async (roomToPlay) => {
-  const ipAddress = getRoomIpAddress(roomToPlay);
-  const device = new Sonos(ipAddress);
+  try {
+    const ipAddress = getRoomIpAddress(roomToPlay);
+    const device = new Sonos(ipAddress);
 
-  await device.togglePlayback();
-  const state = await device.getCurrentState();
-  return state;
+    await device.togglePlayback();
+    const state = await device.getCurrentState();
+    return state;
+  } catch (error) {
+    console.error("error in toggleRoom", error);
+  }
 };
 
 const statusRoom = async (roomToPlay) => {
@@ -76,24 +79,25 @@ const statusRoom = async (roomToPlay) => {
 };
 
 const handleAll = async (method = "pause") => {
-  console.log("method", method);
-
   const rooms = ["lounge", "bedroom", "kitchen", "kitchen-eating"];
 
-  await rooms.reduce(async (previousPromise, nextID) => {
-    await previousPromise;
+  if (method === "pause" || method === "play") {
+    await rooms.reduce(async (previousPromise, nextID) => {
+      await previousPromise;
 
-    if (method === "pause") {
-      return pauseRoom(nextID);
-    } else {
-      return playRoom(nextID);
-    }
-  }, Promise.resolve());
+      if (method === "pause") {
+        return pauseRoom(nextID);
+      } else {
+        return playRoom(nextID);
+      }
+    }, Promise.resolve());
+  }
+
   const statuses = [];
   await rooms.reduce(async (previousPromise, nextID) => {
     await previousPromise;
     const status = await statusRoom(nextID);
-    statuses.push(status);
+    statuses.push({ status, room: nextID });
     return status;
   }, Promise.resolve());
 
@@ -106,4 +110,5 @@ module.exports = {
   pauseRoom,
   toggleRoom,
   handleAll,
+  deviceDiscovery,
 };

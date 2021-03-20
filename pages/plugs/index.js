@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import Head from "next/head";
+
+import classnames from "classnames";
 
 import DefaultLayout from "layouts/default";
 
@@ -10,54 +11,64 @@ import fetch from "node-fetch";
 const plugs = ["2", "3", "4", "office"];
 
 export default function Home() {
-  const [room, setRoom] = useState("4");
-  //   const [status, setStatus] = useState(plugs.map(() => false));
-
-  // AHTODO Keep track of on/off status using the API.
+  const initialPlugState = {};
+  plugs.forEach((plug) => {
+    initialPlugState[plug] = false;
+  });
+  const [status, setStatus] = useState(initialPlugState);
 
   useEffect(async () => {
-    const plugs = await await fetch(`/api/plug/statuses`)
+    const plugs = await fetch(`/api/plug/statuses`)
       .then((res) => res.json())
       .then((json) => {
-        console.log(status);
-        // setStatus(json.plugs.findIndex((plug) => plug.name === room).status);
+        setStatus(json.statuses);
       })
       .catch((e) => console.error(e));
-  }, [room]);
-
-  const handleRoomChange = (e) => {
-    setRoom(e.target.value);
-  };
+  }, []);
 
   const togglePlug = async (plug) => {
     await fetch(`/api/plug/plug-toggle/?room=${plug}`)
       .then((res) => res.json())
-      .then((json) => setStatus(json.statusOut))
+      .then(({ statusOut }) => {
+        setStatus((prevState) => {
+          return {
+            ...prevState,
+            [plug]: statusOut,
+          };
+        });
+      })
       .catch((e) => console.error(e));
   };
 
   const offAllPlugs = async (plug) => {
-    await fetch(`/api/plug/plug-all-off`).catch((e) => console.error(e));
-  };
+    await fetch(`/api/plug/plug-all-off`)
+      .then((res) => res.json())
+      .then(({ statusesOut }) => {
+        setStatus((prevState) => {
+          Object.keys(prevState).forEach((key) => {
+            prevState[key] = statusesOut[key].status;
+          });
+          return { ...prevState };
+        });
+      })
 
-  const onAllPlugs = async (plug) => {
-    await fetch(`/api/plug/plug-all-on`).catch((e) => console.error(e));
+      .catch((e) => console.error(e));
   };
 
   return (
-    <DefaultLayout>
-      <Head>
-        <title>Plug</title>
-      </Head>
-
+    <DefaultLayout title="Plugs">
       <div className={styles.container}>
-        <h1>Plugs</h1>
-        <button onClick={() => offAllPlugs()}>Off All</button>
-        <button onClick={() => onAllPlugs()}>On All</button>
+        <button onClick={offAllPlugs}>Off All</button>
 
         {plugs.map((plug) => {
           return (
-            <button key={plug} onClick={() => togglePlug(plug)}>
+            <button
+              key={plug}
+              onClick={() => togglePlug(plug)}
+              className={classnames("button-plug", {
+                active: status[plug],
+              })}
+            >
               {plug}
             </button>
           );

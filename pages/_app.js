@@ -3,7 +3,7 @@ import Head from "next/head";
 
 import "../styles/globals.scss";
 
-function MyApp({ Component, pageProps }) {
+function NextHouseControlApp({ Component, pageProps }) {
   return (
     <Fragment>
       <Head>
@@ -15,4 +15,4 @@ function MyApp({ Component, pageProps }) {
   );
 }
 
-export default MyApp;
+export default NextHouseControlApp;

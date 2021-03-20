@@ -14,8 +14,7 @@ export default async function handler(req, res) {
     const statusesOut = await getAllPlugs();
 
     res.status(200).json({
-      roomToPlay,
-      statusOut: statusesOut[plug].response,
+      statusOut: statusesOut[plug].status,
     });
   } catch (error) {
     console.error(error);

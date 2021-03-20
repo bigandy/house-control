@@ -5,6 +5,6 @@ export default async function handler(req, res) {
 
   res.status(200).json({
     name: "Hue getall-lights",
-    lights: lights.map((light) => light.id),
+    lights,
   });
 }

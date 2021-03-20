@@ -18,6 +18,14 @@ const pages = [
     url: "/plugs",
     title: "Plugs",
   },
+  {
+    url: "/music",
+    title: "Music",
+  },
+  {
+    url: "/lights",
+    title: "Lights",
+  },
 ];
 
 const NavBar = () => {

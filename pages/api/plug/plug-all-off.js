@@ -13,7 +13,6 @@ export default async function handler(req, res) {
     const statusesOut = await getAllPlugs();
 
     res.status(200).json({
-      roomToPlay,
       statusesOut,
     });
   } catch (error) {

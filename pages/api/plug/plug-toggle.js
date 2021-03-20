@@ -9,7 +9,7 @@ export default async function handler(req, res) {
 
     const plug = room || "4";
 
-    if (plugs[plug].response === false) {
+    if (plugs[plug].status === false) {
       await turnOn(plugs[plug].token);
     } else {
       await turnOff(plugs[plug].token);
@@ -19,7 +19,7 @@ export default async function handler(req, res) {
 
     res.status(200).json({
       plug,
-      statusOut: statusesOut[plug].response,
+      statusOut: statusesOut[plug].status,
     });
   } catch (error) {
     console.error(error);

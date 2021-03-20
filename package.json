@@ -9,15 +9,15 @@
   },
   "dependencies": {
     "classnames": "2.2.6",
-    "next": "10.0.7",
-    "next-google-fonts": "1.2.1",
+    "next": "10.0.9",
+    "next-google-fonts": "2.1.0",
     "node-dht-sensor": "0.4.3",
     "node-fetch": "2.6.1",
-    "node-hue-api": "4.0.9",
+    "node-hue-api": "4.0.10",
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "sass": "1.32.8",
-    "sonos": "1.14.0",
+    "sonos": "1.14.1",
     "tp-link-tapo-connect": "1.0.3"
   }
 }
