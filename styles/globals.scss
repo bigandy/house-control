@@ -40,9 +40,6 @@ button {
   }
 }
 
-@media (min-width: 600px) {
-}
-
 .button-light,
 .button-plug,
 .button-music {
@@ -51,5 +48,25 @@ button {
 
   &.active {
     background: red;
+  }
+}
+
+label {
+  padding: 2rem;
+  border: 1px solid black;
+
+  &:hover,
+  &:focus {
+    cursor: pointer;
+    background: grey;
+    color: white;
+  }
+}
+
+.play-wrapper {
+  svg {
+    path {
+      transition: 300ms ease;
+    }
   }
 }

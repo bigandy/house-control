@@ -24,7 +24,7 @@ export default async (req, res) => {
       status = await toggleRoom(room);
       break;
     case "status":
-      status = await statusRoom(room);
+      status = await statusRoom(room).state;
       break;
 
     default:

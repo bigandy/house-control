@@ -6,6 +6,7 @@
   width: 100%;
 
   ul {
+    margin: 0;
     padding-left: 1em;
   }
 
@@ -16,6 +17,8 @@
 
   a {
     border-bottom: 3px solid transparent;
+    padding: 1rem;
+    display: inline-block;
 
     &:hover,
     &:focus {

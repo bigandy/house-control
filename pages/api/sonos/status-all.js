@@ -10,6 +10,7 @@ export default async (req, res) => {
       statuses,
     });
   } catch (error) {
+    console.error(error);
     res.status(400).json({
       name: "Hue All-Status Error",
       error,

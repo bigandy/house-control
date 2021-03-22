@@ -19,7 +19,7 @@ export default function DefaultLayout({ children, title }) {
         <title>{title}</title>
       </Head>
 
-      <h1 className={styles.pageTitle}>{title}</h1>
+      {title && <h1 className={styles.pageTitle}>{title}</h1>}
 
       {children}
     </Fragment>

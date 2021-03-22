@@ -6,11 +6,11 @@ export default async (req, res) => {
 
   const roomToPlay = room || "lounge";
 
-  const favorites = await getFavorites("bedroom");
+  const { formattedFavorites, sonosFavorites } = await getFavorites("bedroom");
 
   res.status(200).json({
     name: "Sonos get-favorites",
-    favorites,
-    roomToPlay,
+    formattedFavorites,
+    sonosFavorites,
   });
 };

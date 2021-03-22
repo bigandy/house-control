@@ -79,78 +79,168 @@ const statusRoom = async (roomToPlay) => {
 
   const volume = await device.getVolume();
   const state = await device.getCurrentState();
+  const currentTrack = await device.currentTrack();
 
-  return state;
+  return { volume, state, currentTrack };
 };
 
 const getFavorites = async (roomToPlay) => {
   const ipAddress = getRoomIpAddress(roomToPlay);
   const device = new Sonos(ipAddress);
 
-  const favorites = await device
+  const sonosFavorites = await device
     .getFavorites()
     .then((favorites) => {
-      console.log("Got current favorites %j", favorites);
-      const tripleJ =
-        "x-rincon-mp3radio://http://www.abc.net.au/res/streaming/audio/mp3/triplej.pls";
-
       return favorites;
     })
     .catch((err) => {
       console.log("Error occurred %j", err);
     });
 
+  // // This assumes you have the Spotify music service connected to
+  // // your Sonos system.
+
+  // const favorites = {
+  //   "6music": {
+  //     type: "tunein",
+  //     title: "BBC Radio 6 Music",
+  //     id: "s44491",
+  //   },
+  //   fip: {
+  //     type: "mp3",
+  //     title: "fip",
+  //     url: "http://icecast.radiofrance.fr/fip-midfi.mp3",
+  //   },
+  //   earthtones: {
+  //     type: "spotify",
+  //     title: "earthtones",
+  //     id: "album:2mn50aOZXBLAf66gZVuFAo",
+  //   },
+  //   "70s-Disco": {
+  //     type: "spotify",
+  //     title: "70s disco",
+  //     id: "playlist:3AtFItPTNrmxqREWOWZV6e",
+  //   },
+  //   somafm: {
+  //     type: "mp3",
+  //     title: "somafm",
+  //     url:
+  //       "x-rincon-mp3radio://http://www.abc.net.au/res/streaming/audio/aac/dig_music.pls",
+  //   },
+  // };
+
+  // // get random property from an object.
+  const favoriteItems = sonosFavorites.items.filter((item) => item.uri);
+
+  const formattedFavorites = {};
+  favoriteItems.forEach((item) => {
+    const returnObj = {
+      title: item.title,
+    };
+
+    const type = item.uri.replace(/(^:)|(:$)/g, "");
+    const split = type.replace(/(^:)|(:$)/g, "").split(":");
+
+    if (split[0] === "x-sonosapi-stream") {
+      returnObj.type = "tunein";
+      returnObj.id = split[1].split("?")[0];
+    } else if (split[0] === "x-rincon-mp3radio") {
+      returnObj.type = "mp3";
+      returnObj.url = type;
+    } else if (split[0] === "x-rincon-cpcontainer") {
+      if (!split[1].includes("spotify")) {
+        return;
+      }
+      const beforeQuestion = split[1]
+        .split("?")[0]
+        .replace(/%3a/g, ":")
+        // .replace("%3a", ":")
+        // .replace("%3a", ":")
+        .split(":");
+
+      // either spotify-album or spotify-playlist
+      returnObj.id = `${beforeQuestion[1]}:${beforeQuestion[2]}`;
+      returnObj.type = "spotify";
+    }
+
+    formattedFavorites[item.title] = returnObj;
+  });
+
+  return { formattedFavorites, sonosFavorites };
+};
+
+const playFavorite = async (favorite, roomToPlay = "") => {
+  const ipAddress = getRoomIpAddress(roomToPlay);
+  const device = new Sonos(ipAddress);
+
   device.setSpotifyRegion(Regions.EU);
-  // This example demonstrates playing various spotify uri types.
-  // The Spotify uris can be obtained by using the Spotify
-  // REST apis:
-  //     https://developer.spotify.com/web-api/console/
-  //
-  // Or by using a scoped internet search and scraping the results:
-  //    e.g. "A night at the opera site:spotify.com"
-  //
-  // And right from spotify, click the three dots => share => Copy spotify uri
-  //
-  // Spotify uri examples:
-  //     Bohemian Rhapsody track - spotify:track:1AhDOtG9vPSOmsWgNW0BEY
-  //     A night at the opera album - spotify:album:1TSZDcvlPtAnekTaItI3qO
-  //     Top tracks by Queen - spotify:artistTopTracks:1dfeR4HaWDbWqFHLkxsg1d
-  //     Top Tracks by Guus Meeuwis spotify:artistTopTracks:72qVrKXRp9GeFQOesj0Pmv
-  //     Queen playlist (public user) - spotify:user:lorrainehelen:playlist:2ytnaITywUiPoS9JDYig5I
-  //     Summer rewind by Spotify - spotify:user:spotify:playlist:37i9dQZF1DWSBi5svWQ9Nk
-  //
-  // This assumes you have the Spotify music service connected to
-  // your Sonos system.
 
-  // var spotifyUri = 'spotify:artistTopTracks:72qVrKXRp9GeFQOesj0Pmv'
-  // var spotifyUri = "spotify:track:6sYJuVcEu4gFHmeTLdHzRz";
+  const statusBefore = await device.getCurrentState(roomToPlay);
 
-  // // spotifyUri = "spotify:playlist:3AtFItPTNrmxqREWOWZV6e";
-  // spotifyUri = "spotify:album:2mn50aOZXBLAf66gZVuFAo";
+  let currentTrack = null;
 
-  // await device
-  //   .play(spotifyUri)
-  //   .then((success) => {
-  //     console.log("Yeay");
-  //     return sonos.currentTrack();
-  //   })
-  //   .then((track) => {
-  //     console.log(JSON.stringify(track, null, 2));
-  //   })
-  //   .catch((err) => {
-  //     console.log("Error occurred %j", err);
-  //   });
+  if (statusBefore !== "playing") {
+    // // const favorite = formattedFavorites[selectedFavorite]; // TEMP
 
-  await device
-    .play("http://icecast.radiofrance.fr/fip-midfi.mp3")
-    .then((success) => {
-      console.log("Yeay");
-    })
-    .catch((err) => {
-      console.log("Error occurred %j", err);
-    });
+    if (favorite.type === "tunein") {
+      currentTrack = await device
+        .playTuneinRadio(favorite.id, favorite.title)
+        .then((success) => {
+          // console.log("Yeay tunein playing", favorite.title);
+          return device.currentTrack();
+        })
+        .catch((err) => {
+          console.log("Error occurred", err);
+        });
+    } else if (favorite.type === "mp3") {
+      currentTrack = await device
+        .play(favorite.url)
+        .then((success) => {
+          // console.log("Yeay mp3 playing", favorite.title);
+          return device.currentTrack();
+        })
+        .catch((err) => {
+          console.log("Error occurred", err);
+        });
+    } else if (favorite.type === "spotify") {
+      spotifyUri = `spotify:${favorite.id}`;
 
-  return favorites;
+      currentTrack = await device
+        .play(spotifyUri)
+        .then((success) => {
+          // console.log("Yeay, spotify album playing", favorite.title);
+          return device.currentTrack();
+        })
+        .catch((err) => {
+          console.log("Error occurred: ", err);
+        });
+    } else if (favorite.type === "spotify-playlist") {
+      spotifyUri = `spotify:playlist:${favorite.id}`;
+      currentTrack = await device
+        .play(spotifyUri)
+        .then((success) => {
+          // console.log("Yeay, spotify Playlist playing", favorite.title);
+          return device.currentTrack();
+        })
+        .catch((err) => {
+          console.log("Error occurred: ", err);
+        });
+    } else {
+      console.log("you didn't choose an available option");
+    }
+  } else {
+    console.log("do we want to pause here?");
+    await device.pause();
+  }
+
+  const status = await device.getCurrentState(roomToPlay);
+
+  return {
+    currentTrack,
+    favorite,
+    status,
+    statusBefore,
+  };
 };
 
 const handleAll = async (method = "pause") => {
@@ -171,9 +261,9 @@ const handleAll = async (method = "pause") => {
   const statuses = [];
   await rooms.reduce(async (previousPromise, nextID) => {
     await previousPromise;
-    const status = await statusRoom(nextID);
-    statuses.push({ status, room: nextID });
-    return status;
+    const { state, volume, currentTrack } = await statusRoom(nextID);
+    statuses.push({ state, volume, currentTrack, room: nextID });
+    return state;
   }, Promise.resolve());
 
   return statuses;
@@ -187,4 +277,5 @@ module.exports = {
   handleAll,
   deviceDiscovery,
   getFavorites,
+  playFavorite,
 };
