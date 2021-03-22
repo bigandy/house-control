@@ -1,4 +1,9 @@
-const { DeviceDiscovery, Sonos, AsyncDeviceDiscovery } = require("sonos");
+const {
+  DeviceDiscovery,
+  Sonos,
+  AsyncDeviceDiscovery,
+  SpotifyRegion: Regions,
+} = require("sonos");
 
 // find one device
 // Useful for finding all the IP addresses of devices.
@@ -78,6 +83,76 @@ const statusRoom = async (roomToPlay) => {
   return state;
 };
 
+const getFavorites = async (roomToPlay) => {
+  const ipAddress = getRoomIpAddress(roomToPlay);
+  const device = new Sonos(ipAddress);
+
+  const favorites = await device
+    .getFavorites()
+    .then((favorites) => {
+      console.log("Got current favorites %j", favorites);
+      const tripleJ =
+        "x-rincon-mp3radio://http://www.abc.net.au/res/streaming/audio/mp3/triplej.pls";
+
+      return favorites;
+    })
+    .catch((err) => {
+      console.log("Error occurred %j", err);
+    });
+
+  device.setSpotifyRegion(Regions.EU);
+  // This example demonstrates playing various spotify uri types.
+  // The Spotify uris can be obtained by using the Spotify
+  // REST apis:
+  //     https://developer.spotify.com/web-api/console/
+  //
+  // Or by using a scoped internet search and scraping the results:
+  //    e.g. "A night at the opera site:spotify.com"
+  //
+  // And right from spotify, click the three dots => share => Copy spotify uri
+  //
+  // Spotify uri examples:
+  //     Bohemian Rhapsody track - spotify:track:1AhDOtG9vPSOmsWgNW0BEY
+  //     A night at the opera album - spotify:album:1TSZDcvlPtAnekTaItI3qO
+  //     Top tracks by Queen - spotify:artistTopTracks:1dfeR4HaWDbWqFHLkxsg1d
+  //     Top Tracks by Guus Meeuwis spotify:artistTopTracks:72qVrKXRp9GeFQOesj0Pmv
+  //     Queen playlist (public user) - spotify:user:lorrainehelen:playlist:2ytnaITywUiPoS9JDYig5I
+  //     Summer rewind by Spotify - spotify:user:spotify:playlist:37i9dQZF1DWSBi5svWQ9Nk
+  //
+  // This assumes you have the Spotify music service connected to
+  // your Sonos system.
+
+  // var spotifyUri = 'spotify:artistTopTracks:72qVrKXRp9GeFQOesj0Pmv'
+  // var spotifyUri = "spotify:track:6sYJuVcEu4gFHmeTLdHzRz";
+
+  // // spotifyUri = "spotify:playlist:3AtFItPTNrmxqREWOWZV6e";
+  // spotifyUri = "spotify:album:2mn50aOZXBLAf66gZVuFAo";
+
+  // await device
+  //   .play(spotifyUri)
+  //   .then((success) => {
+  //     console.log("Yeay");
+  //     return sonos.currentTrack();
+  //   })
+  //   .then((track) => {
+  //     console.log(JSON.stringify(track, null, 2));
+  //   })
+  //   .catch((err) => {
+  //     console.log("Error occurred %j", err);
+  //   });
+
+  await device
+    .play("http://icecast.radiofrance.fr/fip-midfi.mp3")
+    .then((success) => {
+      console.log("Yeay");
+    })
+    .catch((err) => {
+      console.log("Error occurred %j", err);
+    });
+
+  return favorites;
+};
+
 const handleAll = async (method = "pause") => {
   const rooms = ["lounge", "bedroom", "kitchen", "kitchen-eating"];
 
@@ -111,4 +186,5 @@ module.exports = {
   toggleRoom,
   handleAll,
   deviceDiscovery,
+  getFavorites,
 };

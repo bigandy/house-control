@@ -23,6 +23,10 @@ const pages = [
     title: "Music",
   },
   {
+    url: "/music/room",
+    title: "Music Room",
+  },
+  {
     url: "/lights",
     title: "Lights",
   },
