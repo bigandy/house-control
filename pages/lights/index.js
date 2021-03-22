@@ -10,19 +10,17 @@ import fetch from "node-fetch";
 
 const pageTitle = "Music";
 
-const { getAllLights } = require("pages/api/utils/hue");
+export default function LightsPage() {
+  const [lights, setLights] = useState(null);
 
-export default function LightsPage({ initialLightsState }) {
-  const [lights, setLights] = useState(initialLightsState);
-
-  // useEffect(async () => {
-  //   await fetch(`/api/hue/getall-lights`)
-  //     .then((res) => res.json())
-  //     .then(({ lights }) => {
-  //       setLights(lights);
-  //     })
-  //     .catch((e) => console.error(e));
-  // }, []);
+  useEffect(async () => {
+    await fetch(`/api/hue/getall-lights`)
+      .then((res) => res.json())
+      .then(({ lights }) => {
+        setLights(lights);
+      })
+      .catch((e) => console.error(e));
+  }, []);
 
   const toggleLight = async (light) => {
     await fetch(`/api/hue/toggle-light/?lightId=${light.id}`)
@@ -71,23 +69,3 @@ export default function LightsPage({ initialLightsState }) {
   );
 }
 
-// This function gets called at build time on server-side.
-// It won't be called on client-side, so you can even do
-// direct database queries. See the "Technical details" section.
-export async function getStaticProps() {
-  // Call an external API endpoint to get posts.
-  // You can use any data fetching library
-  const initialLightsState = await getAllLights();
-  // .then((res) => res.json())
-  // .then(({ lights }) => {
-  //   return lights;
-  // });
-
-  // By returning { props: { posts } }, the Blog component
-  // will receive `posts` as a prop at build time
-  return {
-    props: {
-      initialLightsState,
-    },
-  };
-}
