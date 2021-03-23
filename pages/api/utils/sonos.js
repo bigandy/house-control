@@ -179,59 +179,59 @@ const playFavorite = async (favorite, roomToPlay = "") => {
 
   let currentTrack = null;
 
-  if (statusBefore !== "playing") {
-    // // const favorite = formattedFavorites[selectedFavorite]; // TEMP
+  // if (statusBefore !== "playing") {
+  // // const favorite = formattedFavorites[selectedFavorite]; // TEMP
 
-    if (favorite.type === "tunein") {
-      currentTrack = await device
-        .playTuneinRadio(favorite.id, favorite.title)
-        .then((success) => {
-          // console.log("Yeay tunein playing", favorite.title);
-          return device.currentTrack();
-        })
-        .catch((err) => {
-          console.log("Error occurred", err);
-        });
-    } else if (favorite.type === "mp3") {
-      currentTrack = await device
-        .play(favorite.url)
-        .then((success) => {
-          // console.log("Yeay mp3 playing", favorite.title);
-          return device.currentTrack();
-        })
-        .catch((err) => {
-          console.log("Error occurred", err);
-        });
-    } else if (favorite.type === "spotify") {
-      spotifyUri = `spotify:${favorite.id}`;
+  if (favorite.type === "tunein") {
+    currentTrack = await device
+      .playTuneinRadio(favorite.id, favorite.title)
+      .then((success) => {
+        // console.log("Yeay tunein playing", favorite.title);
+        return device.currentTrack();
+      })
+      .catch((err) => {
+        console.log("Error occurred", err);
+      });
+  } else if (favorite.type === "mp3") {
+    currentTrack = await device
+      .play(favorite.url)
+      .then((success) => {
+        // console.log("Yeay mp3 playing", favorite.title);
+        return device.currentTrack();
+      })
+      .catch((err) => {
+        console.log("Error occurred", err);
+      });
+  } else if (favorite.type === "spotify") {
+    spotifyUri = `spotify:${favorite.id}`;
 
-      currentTrack = await device
-        .play(spotifyUri)
-        .then((success) => {
-          // console.log("Yeay, spotify album playing", favorite.title);
-          return device.currentTrack();
-        })
-        .catch((err) => {
-          console.log("Error occurred: ", err);
-        });
-    } else if (favorite.type === "spotify-playlist") {
-      spotifyUri = `spotify:playlist:${favorite.id}`;
-      currentTrack = await device
-        .play(spotifyUri)
-        .then((success) => {
-          // console.log("Yeay, spotify Playlist playing", favorite.title);
-          return device.currentTrack();
-        })
-        .catch((err) => {
-          console.log("Error occurred: ", err);
-        });
-    } else {
-      console.log("you didn't choose an available option");
-    }
+    currentTrack = await device
+      .play(spotifyUri)
+      .then((success) => {
+        // console.log("Yeay, spotify album playing", favorite.title);
+        return device.currentTrack();
+      })
+      .catch((err) => {
+        console.log("Error occurred: ", err);
+      });
+  } else if (favorite.type === "spotify-playlist") {
+    spotifyUri = `spotify:playlist:${favorite.id}`;
+    currentTrack = await device
+      .play(spotifyUri)
+      .then((success) => {
+        // console.log("Yeay, spotify Playlist playing", favorite.title);
+        return device.currentTrack();
+      })
+      .catch((err) => {
+        console.log("Error occurred: ", err);
+      });
   } else {
-    console.log("do we want to pause here?");
-    await device.pause();
+    console.log("you didn't choose an available option");
   }
+  // } else {
+  // console.log("do we want to pause here?");
+  // await device.pause();
+  // }
 
   const status = await device.getCurrentState(roomToPlay);
 

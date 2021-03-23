@@ -20,10 +20,35 @@ export default function MusicRoomPage({ favorites }) {
   const [currentFavorite, setCurrentFavorite] = useState(null);
 
   useEffect(async () => {
+    await fetch(`/api/sonos/status-all`)
+      .then((res) => res.json())
+      .then((json) => {
+        const roomsObj = {};
+
+        json.statuses.forEach((room) => {
+          roomsObj[room.room] =
+            room.state !== "paused" && room.state !== "stopped";
+        });
+
+        setMusicPlaying(roomsObj);
+      })
+      .catch((e) => console.error(e));
+  }, []);
+
+  useEffect(async () => {
     try {
       const statuses = await fetch(`/api/sonos/status-all`)
         .then((res) => res.json())
-        .then(({ statuses }) => console.log({ statuses }));
+        .then((json) => {
+          const roomsObj = {};
+          json.statuses.forEach(
+            (room) =>
+              (roomsObj[room.room] =
+                room.state !== "paused" && room.state !== "stopped")
+          );
+          setMusicPlaying(roomsObj);
+        })
+        .catch((e) => console.error(e));
     } catch (error) {
       console.error("error in useEffect", error);
     }
@@ -45,6 +70,40 @@ export default function MusicRoomPage({ favorites }) {
       .catch((e) => console.error(e));
   };
 
+  const toggleRoom = async () => {
+    console.log("I want to toggle room");
+
+    // if there is a favorite selected, want to play that.
+    if (currentFavorite) {
+      playFavorite();
+    } else {
+      await toggleMusic();
+    }
+  };
+
+  const toggleMusic = async () => {
+    console.log("toggleMusic room", selectedRoom);
+    await fetch(`/api/sonos/toggle-room/?room=${selectedRoom}`)
+      .then((res) => res.json())
+      .then((json) => {
+        setMusicPlaying((prevState) => {
+          return {
+            ...prevState,
+            [selectedRoom]: json.status === "transitioning",
+          };
+        });
+      })
+      // .then((json) => {
+      //   setMusicPlaying((prevState) => {
+      //     return {
+      //       ...prevState,
+      //       [room]: json.status === "transitioning",
+      //     };
+      //   });
+      // })
+      .catch((e) => console.error(e));
+  };
+
   // AHTODO:
   //   1. How to persist state to localStorage so that when I refresh the page, the room is pre-selected
   //   2. How to list the favorites from Sonos? Could be Spotify Playlists or something too
@@ -62,19 +121,41 @@ export default function MusicRoomPage({ favorites }) {
 
   return (
     <DefaultLayout title="Music">
+      <button
+        className="button-square"
+        onClick={() => toggleMusic()}
+        className={classnames({
+          active: !musicPlaying[selectedRoom],
+        })}
+      >
+        Pause
+      </button>
+      <button
+        className="button-square"
+        onClick={() => toggleMusic()}
+        className={classnames({
+          active: musicPlaying[selectedRoom],
+        })}
+      >
+        Play
+      </button>
       <h2>Selected Room is : {selectedRoom}</h2>
       <div className={styles.container}>
         {["bedroom", "lounge", "kitchen", "kitchen-eating"].map((room) => {
           return (
-            <label htmlFor={room} key={room}>
+            <label
+              htmlFor={room}
+              key={room}
+              className={classnames("input-music-room", {
+                active: room === selectedRoom,
+              })}
+            >
               <input
                 id={room}
                 type="radio"
                 checked={room === selectedRoom}
                 onChange={() => setSelectedRoom(room)}
-                className={classnames("button-music", {
-                  active: room === selectedRoom,
-                })}
+                className={classnames("button-music")}
               />
               {room}
             </label>
@@ -98,16 +179,11 @@ export default function MusicRoomPage({ favorites }) {
       </div>
 
       <div className="play-wrapper">
-        <h2>
-          Is there a favorite?:{" "}
-          {currentFavorite && (
-            <button onClick={() => playFavorite()}>
-              <svg width="100px" height="100px" viewBox="0 0 36 36">
-                <path d={icon} />
-              </svg>
-            </button>
-          )}
-        </h2>
+        <button onClick={() => toggleRoom()}>
+          <svg width="100px" height="100px" viewBox="0 0 36 36">
+            <path d={icon} />
+          </svg>
+        </button>
       </div>
     </DefaultLayout>
   );

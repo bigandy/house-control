@@ -27,10 +27,6 @@ select {
 button {
   border: 2px solid black;
   cursor: pointer;
-  padding: 3rem;
-  margin-bottom: 2rem;
-  width: 100%;
-  text-transform: capitalize;
   font-size: 200%;
   font-weight: bold;
   outline: none;
@@ -43,12 +39,24 @@ button {
 .button-light,
 .button-plug,
 .button-music {
+  padding: 3rem;
+  margin-bottom: 2rem;
+  width: 100%;
+  text-transform: capitalize;
+
   background: green;
   color: white;
 
   &.active {
     background: red;
   }
+}
+
+.button-square {
+  height: 150px;
+  width: 150px;
+  display: inline-block;
+  margin-right: 1rem;
 }
 
 label {
@@ -60,6 +68,12 @@ label {
     cursor: pointer;
     background: grey;
     color: white;
+  }
+}
+
+.input-music-room {
+  &.active {
+    background: green;
   }
 }
 
