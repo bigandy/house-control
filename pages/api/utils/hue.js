@@ -1,5 +1,5 @@
 const v3 = require("node-hue-api").v3;
-const LightState = v3.lightStates.LightState;
+const { LightState, GroupLightState } = v3.lightStates;
 
 const { HUE_BRIDGE_USER, HUE_BRIDGE_USER_CLIENT_KEY } = process.env;
 
@@ -128,9 +128,31 @@ const statusLight = async (lightId = OFFICE_LIGHT) => {
   return light;
 };
 
+const hueApi = async () => {
+  return await v3.discovery.nupnpSearch().then((searchResults) => {
+    const host = searchResults[0].ipaddress;
+    return v3.api.createLocal(host).connect(USERNAME);
+  });
+};
+
+const toggleRoom = async (roomId = 0) => {
+  const api = await hueApi();
+  const room = await api.groups.getGroup(roomId);
+  const roomState = room._data.state;
+
+  let on = true;
+  if (roomState.all_on) {
+    on = false;
+  }
+
+  await api.groups.setGroupState(roomId, { on });
+  return on;
+};
+
 module.exports = {
   OFFICE_LIGHT,
   getAllLights,
+  toggleRoom,
   toggleLight,
   onLight,
   offLight,

@@ -13,7 +13,6 @@ const { getFavorites } = require("pages/api/utils/sonos");
 
 export default function MusicRoomPage({ favorites }) {
   const [musicPlaying, setMusicPlaying] = useState(false);
-  const [playing, setPlaying] = useState(false);
 
   const [selectedRoom, setSelectedRoom] = useState("bedroom");
 
@@ -56,7 +55,7 @@ export default function MusicRoomPage({ favorites }) {
 
   const playFavorite = async () => {
     // update state fast.
-    setPlaying((prevState) => !prevState);
+    // setPlaying((prevState) => !prevState);
     await fetch(
       `/api/sonos/play-favorite?favorite=${JSON.stringify(
         currentFavorite
@@ -65,7 +64,7 @@ export default function MusicRoomPage({ favorites }) {
       .then((res) => res.json())
       .then(({ status }) => {
         // if the status is different, need to update the state then.
-        setPlaying(status === "transitioning");
+        // setPlaying(status === "transitioning");
       })
       .catch((e) => console.error(e));
   };
@@ -74,11 +73,25 @@ export default function MusicRoomPage({ favorites }) {
     console.log("I want to toggle room");
 
     // if there is a favorite selected, want to play that.
-    if (currentFavorite) {
-      playFavorite();
-    } else {
-      await toggleMusic();
-    }
+    await toggleMusic();
+  };
+
+  const playFavoriteNext = async () => {
+    setCurrentFavorite(null);
+    setMusicPlaying((prevState) => {
+      return {
+        ...prevState,
+        [selectedRoom]: false,
+      };
+    });
+    await playFavorite();
+
+    setMusicPlaying((prevState) => {
+      return {
+        ...prevState,
+        [selectedRoom]: true,
+      };
+    });
   };
 
   const toggleMusic = async () => {
@@ -113,32 +126,33 @@ export default function MusicRoomPage({ favorites }) {
     const pauseIcon =
       "M11,10 L18,13.74 18,22.28 11,26 M18,13.74 L26,18 26,18 18,22.28";
 
-    if (playing) {
+    if (musicPlaying[selectedRoom]) {
       return playIcon;
     }
     return pauseIcon;
-  }, [playing]);
+  }, [musicPlaying, selectedRoom]);
 
   return (
     <DefaultLayout title="Music">
-      <button
-        className="button-square"
-        onClick={() => toggleMusic()}
-        className={classnames({
-          active: !musicPlaying[selectedRoom],
-        })}
-      >
-        Pause
-      </button>
-      <button
-        className="button-square"
-        onClick={() => toggleMusic()}
-        className={classnames({
-          active: musicPlaying[selectedRoom],
-        })}
-      >
-        Play
-      </button>
+      <div className="play-wrapper">
+        <button
+          onClick={() => toggleRoom()}
+          className={classnames({
+            active: musicPlaying[selectedRoom],
+          })}
+        >
+          <svg width="100px" height="100px" viewBox="0 0 36 36">
+            <path d={icon} />
+          </svg>
+        </button>
+
+        {currentFavorite && (
+          <button onClick={playFavoriteNext}>
+            Play {currentFavorite?.title}
+          </button>
+        )}
+      </div>
+
       <h2>Selected Room is : {selectedRoom}</h2>
       <div className={styles.container}>
         {["bedroom", "lounge", "kitchen", "kitchen-eating"].map((room) => {
@@ -146,7 +160,7 @@ export default function MusicRoomPage({ favorites }) {
             <label
               htmlFor={room}
               key={room}
-              className={classnames("input-music-room", {
+              className={classnames({
                 active: room === selectedRoom,
               })}
             >
@@ -155,7 +169,6 @@ export default function MusicRoomPage({ favorites }) {
                 type="radio"
                 checked={room === selectedRoom}
                 onChange={() => setSelectedRoom(room)}
-                className={classnames("button-music")}
               />
               {room}
             </label>
@@ -176,14 +189,6 @@ export default function MusicRoomPage({ favorites }) {
               </button>
             );
           })}
-      </div>
-
-      <div className="play-wrapper">
-        <button onClick={() => toggleRoom()}>
-          <svg width="100px" height="100px" viewBox="0 0 36 36">
-            <path d={icon} />
-          </svg>
-        </button>
       </div>
     </DefaultLayout>
   );
