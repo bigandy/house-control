@@ -14,8 +14,8 @@
     "node-dht-sensor": "0.4.3",
     "node-fetch": "2.6.1",
     "node-hue-api": "4.0.10",
-    "react": "17.0.1",
-    "react-dom": "17.0.1",
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
     "sass": "1.32.8",
     "sonos": "1.14.1",
     "tp-link-tapo-connect": "1.0.3"
