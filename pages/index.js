@@ -29,13 +29,10 @@ export default function HomePage() {
 
 	useEffect(() => {
 		const room = localStorage.getItem("room");
-		console.log({ room });
 		if (room) {
 			setSelectedRoom(room);
 		}
 	}, []);
-
-	console.log(selectedRoom);
 
 	const toggleLight = async () => {
 		await fetch("/api/hue/toggle-light")
@@ -47,11 +44,18 @@ export default function HomePage() {
 	};
 
 	useEffect(async () => {
-		await fetch(`/api/sonos/status-room/?room=${selectedRoom}`)
+		await fetch(`/api/sonos/status-all`)
 			.then((res) => res.json())
-			.then((json) => setMusicPlaying(json.status))
+			.then(({ statuses }) => {
+				const roomsObj = {};
+				statuses.forEach(
+					({ room, state }) =>
+						(roomsObj[room] = state !== "paused" && state !== "stopped")
+				);
+				setMusicPlaying(roomsObj);
+			})
 			.catch((e) => console.error(e));
-	}, [selectedRoom]);
+	}, []);
 
 	useEffect(async () => {
 		await fetch(`/api/hue/status-light`)
@@ -63,7 +67,14 @@ export default function HomePage() {
 	const toggleMusic = async () => {
 		await fetch(`/api/sonos/toggle-room/?room=${selectedRoom}`)
 			.then((res) => res.json())
-			.then((json) => setMusicPlaying(json.status))
+			.then(({ state }) => {
+				setMusicPlaying((prevState) => {
+					return {
+						...prevState,
+						[selectedRoom]: state !== "paused" && state !== "stopped",
+					};
+				});
+			})
 			.catch((e) => console.error(e));
 	};
 
@@ -91,6 +102,8 @@ export default function HomePage() {
 		await turnOffAllPlugs();
 	};
 
+	console.log(musicPlaying);
+
 	return (
 		<DefaultLayout>
 			<Head>
@@ -104,9 +117,7 @@ export default function HomePage() {
 				</button>
 				<button onClick={toggleMusic}>
 					Turn Music in <em>{selectedRoom}</em>{" "}
-					{musicPlaying === "paused" || musicPlaying === "stopped"
-						? "On"
-						: "Off"}
+					{musicPlaying[selectedRoom] ? "Off" : "On"}
 				</button>
 				<button onClick={turnOffAllSonos}>Turn All SONOS off</button>
 				<button onClick={turnOffAllHue}>Turn All HUE off</button>

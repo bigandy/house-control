@@ -20,8 +20,6 @@ export default function MusicRoomPage({ favorites }) {
 
 	useEffect(() => {
 		const room = localStorage.getItem("room");
-
-		console.log({ room });
 		if (room) {
 			setSelectedRoom(room);
 		}
@@ -50,9 +48,8 @@ export default function MusicRoomPage({ favorites }) {
 				.then((json) => {
 					const roomsObj = {};
 					json.statuses.forEach(
-						(room) =>
-							(roomsObj[room.room] =
-								room.state !== "paused" && room.state !== "stopped")
+						({ room, state }) =>
+							(roomsObj[room] = state !== "paused" && state !== "stopped")
 					);
 					setMusicPlaying(roomsObj);
 				})
@@ -101,14 +98,13 @@ export default function MusicRoomPage({ favorites }) {
 	};
 
 	const toggleMusic = async () => {
-		console.log("toggleMusic room", selectedRoom);
 		await fetch(`/api/sonos/toggle-room/?room=${selectedRoom}`)
 			.then((res) => res.json())
-			.then((json) => {
+			.then(({ state }) => {
 				setMusicPlaying((prevState) => {
 					return {
 						...prevState,
-						[selectedRoom]: json.status === "transitioning",
+						[selectedRoom]: status === "transitioning",
 					};
 				});
 			})
