@@ -211,6 +211,7 @@ export default function MusicRoomPage({ favorites }) {
             max="40"
             value={roomVolumes[selectedRoom]}
             onChange={(e) => handleVolumeChange(e)}
+            className="input-range"
           />
         )}
       </div>
@@ -237,20 +238,30 @@ export default function MusicRoomPage({ favorites }) {
           );
         })}
 
-        {favorites &&
-          Object.keys(favorites).map((favorite) => {
-            return (
-              <button
-                onClick={() => setCurrentFavorite(favorites[favorite])}
-                key={favorite}
-                className={classnames("button-music", {
-                  active: currentFavorite?.title === favorites[favorite].title,
-                })}
-              >
-                {favorites[favorite].title}
-              </button>
-            );
-          })}
+        {favorites && (
+          <select
+            onChange={(e) => {
+              console.log(e.target.value, favorites[e.target.value]);
+              setCurrentFavorite(favorites[e.target.value]);
+            }}
+            value={currentFavorite?.title}
+          >
+            {Object.keys(favorites).map((favorite) => {
+              return (
+                <option
+                  id={favorite}
+                  key={favorite}
+                  className={classnames("button-music", {
+                    active:
+                      currentFavorite?.title === favorites[favorite].title,
+                  })}
+                >
+                  {favorites[favorite].title}
+                </option>
+              );
+            })}
+          </select>
+        )}
       </div>
     </DefaultLayout>
   );

@@ -12,12 +12,9 @@ export default async (req, res) => {
     query: { slug },
   } = req;
 
-  console.log(req.query.volume);
-
   // get the method and the room
-  const [method, room, ...rest] = slug;
+  const [method, room] = slug;
 
-  console.log(rest);
   let status = "";
   switch (method) {
     case "pause":
