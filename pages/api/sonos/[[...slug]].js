@@ -3,6 +3,8 @@ const {
   statusRoom,
   pauseRoom,
   toggleRoom,
+  setRoomVolume,
+  toggleMute,
 } = require("../utils/sonos");
 
 export default async (req, res) => {
@@ -10,8 +12,12 @@ export default async (req, res) => {
     query: { slug },
   } = req;
 
+  console.log(req.query.volume);
+
   // get the method and the room
-  const [method, room] = slug;
+  const [method, room, ...rest] = slug;
+
+  console.log(rest);
   let status = "";
   switch (method) {
     case "pause":
@@ -25,6 +31,13 @@ export default async (req, res) => {
       break;
     case "status":
       status = await statusRoom(room).state;
+      break;
+
+    case "volume":
+      status = await setRoomVolume(room, req.query.volume);
+      break;
+    case "mute":
+      status = await toggleMute(room);
       break;
 
     default:

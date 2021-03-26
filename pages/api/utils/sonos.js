@@ -51,6 +51,15 @@ const playRoom = async (roomToPlay) => {
   return state;
 };
 
+const setRoomVolume = async (roomToPlay, volume) => {
+  const ipAddress = getRoomIpAddress(roomToPlay);
+  const device = new Sonos(ipAddress);
+
+  await device.setVolume(volume);
+  const state = await device.getVolume();
+  return state;
+};
+
 const pauseRoom = async (roomToPlay) => {
   const ipAddress = getRoomIpAddress(roomToPlay);
   const device = new Sonos(ipAddress);
@@ -80,8 +89,20 @@ const statusRoom = async (roomToPlay) => {
   const volume = await device.getVolume();
   const state = await device.getCurrentState();
   const currentTrack = await device.currentTrack();
+  const muted = await device.getMuted();
 
-  return { volume, state, currentTrack };
+  return { volume, state, currentTrack, muted };
+};
+
+const toggleMute = async (roomToPlay) => {
+  const ipAddress = getRoomIpAddress(roomToPlay);
+  const device = new Sonos(ipAddress);
+
+  const muted = await device.getMuted();
+
+  await device.setMuted(!muted);
+  const state = await device.getCurrentState();
+  return state;
 };
 
 const getFavorites = async (roomToPlay) => {
@@ -261,8 +282,8 @@ const handleAll = async (method = "pause") => {
   const statuses = [];
   await rooms.reduce(async (previousPromise, nextID) => {
     await previousPromise;
-    const { state, volume, currentTrack } = await statusRoom(nextID);
-    statuses.push({ state, volume, currentTrack, room: nextID });
+    const { state, volume, currentTrack, muted } = await statusRoom(nextID);
+    statuses.push({ state, volume, currentTrack, muted, room: nextID });
     return state;
   }, Promise.resolve());
 
@@ -278,4 +299,6 @@ module.exports = {
   deviceDiscovery,
   getFavorites,
   playFavorite,
+  setRoomVolume,
+  toggleMute,
 };

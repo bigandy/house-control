@@ -13,7 +13,11 @@ const pageTitle = "Music Room";
 
 const { getFavorites } = require("pages/api/utils/sonos");
 
+// AHTODO: move into a consts file for sharing
 const rooms = ["bedroom", "lounge", "kitchen", "kitchen-eating"];
+
+import VolumeOffIcon from "@material-ui/icons/VolumeOff";
+import VolumeUpIcon from "@material-ui/icons/VolumeUp";
 
 export default function MusicRoomPage({ favorites }) {
   const [musicPlaying, setMusicPlaying] = useState(false);
@@ -39,11 +43,12 @@ export default function MusicRoomPage({ favorites }) {
         const soundObj = {};
         const mutedObj = {};
 
-        json.statuses.forEach(({ room, state, volume }) => {
+        json.statuses.forEach(({ room, state, volume, muted }) => {
           roomsObj[room] = state !== "paused" && state !== "stopped";
           soundObj[room] = volume;
-          mutedObj[room] = false;
+          mutedObj[room] = muted;
         });
+
         setRoomsMuted(mutedObj);
         setRoomVolumes(soundObj);
         setMusicPlaying(roomsObj);
@@ -116,18 +121,10 @@ export default function MusicRoomPage({ favorites }) {
         setMusicPlaying((prevState) => {
           return {
             ...prevState,
-            [selectedRoom]: status === "transitioning",
+            [selectedRoom]: state === "transitioning",
           };
         });
       })
-      // .then((json) => {
-      //   setMusicPlaying((prevState) => {
-      //     return {
-      //       ...prevState,
-      //       [room]: json.status === "transitioning",
-      //     };
-      //   });
-      // })
       .catch((e) => console.error(e));
   };
 
@@ -159,32 +156,30 @@ export default function MusicRoomPage({ favorites }) {
         [selectedRoom]: volume,
       };
     });
-
-    // const debouncedTooltipHide = useDebouncedCallback(() => {
-    // 	if (allowHide) {
-    // 	  hideTooltip();
-    // 	  setHoverPoint(undefined);
-    // 	}
-    //   }, 20);
-
     updateVolume(volume, selectedRoom);
   };
 
-  const updateVolume = useDebouncedCallback((volume, room) => {
-    console.log(volume, room);
+  const updateVolume = useDebouncedCallback(async (volume, room) => {
+    await fetch(`/api/sonos/volume/bedroom?volume=${volume}`)
+      .then((res) => res.json())
+      .catch((e) => console.error(e));
   }, 100);
 
-  const handleRoomMute = () => {
+  const handleRoomMute = async () => {
     setRoomsMuted((prevState) => {
       return {
         ...prevState,
         [selectedRoom]: !prevState[selectedRoom],
       };
     });
+
+    await fetch(`/api/sonos/mute/bedroom`)
+      .then((res) => res.json())
+      .catch((e) => console.error(e));
   };
 
   return (
-    <DefaultLayout title="Music">
+    <DefaultLayout title="Music Room">
       <div className="play-wrapper">
         <button
           onClick={() => toggleRoom()}
@@ -198,15 +193,14 @@ export default function MusicRoomPage({ favorites }) {
         </button>
 
         {currentFavorite && (
-          <button onClick={playFavoriteNext}>
+          <button onClick={playFavoriteNext} className="playnext-button">
             Play {currentFavorite?.title}
           </button>
         )}
 
-        {roomVolumes && (
-          // AHTODO: Mute BUTTON
-          <button onClick={handleRoomMute}>
-            {roomsMuted[selectedRoom] ? "Mute" : "Unmute"} Button
+        {roomsMuted && (
+          <button onClick={handleRoomMute} className="mute-button">
+            {roomsMuted[selectedRoom] ? <VolumeOffIcon /> : <VolumeUpIcon />}
           </button>
         )}
 
@@ -214,7 +208,7 @@ export default function MusicRoomPage({ favorites }) {
           <input
             type="range"
             min="0"
-            max="100"
+            max="40"
             value={roomVolumes[selectedRoom]}
             onChange={(e) => handleVolumeChange(e)}
           />

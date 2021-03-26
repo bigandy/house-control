@@ -77,9 +77,22 @@ label {
 }
 
 .play-wrapper {
+  padding: 1em;
   svg {
     path {
       transition: 300ms ease;
     }
   }
+}
+
+.playnext-button {
+  margin-left: 2rem;
+}
+
+.mute-button {
+  margin-left: 2rem;
+  margin-right: 1rem;
+}
+
+[type="range"] {
 }
