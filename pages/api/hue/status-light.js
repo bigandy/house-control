@@ -14,7 +14,7 @@ export default async function handler(req, res) {
 	} catch (e) {
 		res.status(400).json({
 			name: "Hue status-room-error",
-			error,
+			e,
 		});
 	}
 }
