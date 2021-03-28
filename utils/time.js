@@ -36,7 +36,7 @@ export const getDayFromDayNumber = (dayNumber) => {
 	}
 };
 
-export const getSeasonFromMonthNumber = (currentYearNumber) => {
+export const getSeasonFromYear = (currentYearNumber) => {
 	// Thanks to this crazy script I can calculate the Seasons:
 	// https://stackoverflow.com/a/5671172
 	Date.fromJulian = function (j) {

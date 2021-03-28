@@ -2,13 +2,13 @@
 
 ## TODO
 
-- [ ] Graph of Temperature and Humidity over time
 - [ ] Track data with SQLite and Prisma (the latter is a damn PITA to install so not doing that yet)
-- [ ] Dashboard that shows the weather for day / next 3 days
+- [ ] Graph of Temperature and Humidity over time
+- [x] Dashboard that shows the time/date/weather
 - [ ] Google Home API to connect to `anything` in the Home i.e. my Tapo P100 plugs (no current JS API available)
 
-
 ## DONE
+
 - [x] node-cron to get measurement every 1 minute. in external folder.
 - [x] Track data in DB (e.g. Hasura) and access via GraphQL endpoint
 - [x] Temperature and Weather tracking using Raspberry Pi + sensor
@@ -51,7 +51,19 @@ If you want to run this continually you'll need `pm2`.
 - Restart pm2 with `pm2 restart "Next App"
 
 ## Weather API
+
 I am going to try out ClimaCell.
 
 ## Inside Temperature with DHT22 sensor
+
 I'm running this on the raspberry pi: [https://www.npmjs.com/package/node-dht-sensor]()
+
+## Future Ideas
+
+1. Music Search / Favorite on Sonos using Spotify API
+2. Radio Search / Favorite on Sonos with TuneIn / BBC
+3. Download each new Gilles Peterson show on a Sunday morning and save to Dropbox or SD card or SSD
+4. Login / Save favorites to user with Next-Auth and DB
+5. Fix Temperature Sensor. Record temperature / Humidity to local DB
+6. Record Ctemperature / Humidity to local DB
+7. Graph temperature over time from data in DB

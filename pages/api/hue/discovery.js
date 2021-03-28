@@ -52,13 +52,13 @@ async function discoverAndCreateUser() {
 		console.log(
 			`Connected to Hue Bridge: ${bridgeConfig.name} :: ${bridgeConfig.ipaddress}`
 		);
-	} catch (err) {
-		if (err.getHueErrorType() === 101) {
+	} catch (e) {
+		if (e.getHueErrorType() === 101) {
 			console.error(
 				"The Link button on the bridge was not pressed. Please press the Link button and try again."
 			);
 		} else {
-			console.error(`Unexpected Error: ${err.message}`);
+			console.error(`Unexpected Error: ${e.message}`);
 		}
 	}
 }

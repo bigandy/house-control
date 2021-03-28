@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { Fragment, useState, useEffect, useMemo } from "react";
 import Head from "next/head";
 import classnames from "classnames";
 
@@ -71,8 +71,8 @@ export default function MusicRoomPage({ favorites }) {
 					setMusicPlaying(roomsObj);
 				})
 				.catch((e) => console.error(e));
-		} catch (error) {
-			console.error("error in useEffect", error);
+		} catch (e) {
+			console.error("error in useEffect", e);
 		}
 	}, [selectedRoom]);
 
@@ -205,14 +205,17 @@ export default function MusicRoomPage({ favorites }) {
 				)}
 
 				{roomVolumes && (
-					<input
-						type="range"
-						min="0"
-						max="40"
-						value={roomVolumes[selectedRoom]}
-						onChange={(e) => handleVolumeChange(e)}
-						className="input-range"
-					/>
+					<Fragment>
+						<input
+							type="range"
+							min="0"
+							max="40"
+							value={roomVolumes[selectedRoom]}
+							onChange={(e) => handleVolumeChange(e)}
+							className="input-range"
+						/>
+						{roomVolumes[selectedRoom]}
+					</Fragment>
 				)}
 			</div>
 

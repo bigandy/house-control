@@ -102,8 +102,6 @@ export default function HomePage() {
 		await turnOffAllPlugs();
 	};
 
-	console.log(musicPlaying);
-
 	return (
 		<DefaultLayout>
 			<Head>

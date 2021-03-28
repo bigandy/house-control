@@ -10,7 +10,7 @@ import useInterval from "hooks/useInterval";
 import {
 	getTimeValues,
 	getDayFromDayNumber,
-	getSeasonFromMonthNumber,
+	getSeasonFromYear,
 	getMonthNameFromMonthNumber,
 } from "utils/time";
 
@@ -26,7 +26,6 @@ const Clock = ({ minutes, hours }) => {
 };
 
 const Temperature = ({ temperature, type = "in" }) => {
-	const [degrees, setDegrees] = useState(0);
 	return (
 		<div>
 			<div>Temp. {type}:</div>
@@ -82,7 +81,7 @@ export default function Dashboard() {
 			currentDate,
 		} = getTimeValues();
 
-		const currentSeason = getSeasonFromMonthNumber(currentYear);
+		const currentSeason = getSeasonFromYear(currentYear);
 
 		setHours(currentHour);
 		setMinutes(currentMinute);
@@ -100,8 +99,8 @@ export default function Dashboard() {
 				.then((json) => json.result);
 
 			setTemperatureOutside(result.temp.value);
-		} catch (error) {
-			console.error(error);
+		} catch (e) {
+			console.error(e);
 		}
 	};
 
@@ -112,7 +111,8 @@ export default function Dashboard() {
 			).then((response) => response.json());
 
 			setTemperatureInside(temperature);
-		} catch (error) {
+		} catch (e) {
+			console.error("error in getInsideTemperature", e);
 			const { sensor_data } = await fetch(
 				"/api/hasura/get-weather?number=1"
 			).then((response) => response.json());
