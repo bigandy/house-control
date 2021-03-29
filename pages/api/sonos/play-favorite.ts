@@ -1,5 +1,4 @@
-const { Sonos } = require("sonos");
-const { getFavorites, playFavorite } = require("../utils/sonos");
+import { getFavorites, playFavorite } from "../utils/sonos";
 
 export default async (req, res) => {
   const { room } = req.query;
@@ -12,8 +11,6 @@ export default async (req, res) => {
     return res.status(400).json({ error: "no favorite selected" });
   }
 
-  //   const { formattedFavorites, sonosFavorites } = await getFavorites("bedroom");
-
   const { currentTrack, status, statusBefore } = await playFavorite(
     favorite,
     roomToPlay
@@ -21,7 +18,6 @@ export default async (req, res) => {
 
   res.status(200).json({
     name: "Sonos play-favorite",
-    // favorite,
     roomToPlay,
 
     favorite,
@@ -29,7 +25,5 @@ export default async (req, res) => {
 
     status,
     statusBefore,
-    // formattedFavorites,
-    // sonosFavorites,
   });
 };

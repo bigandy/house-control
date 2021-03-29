@@ -1,5 +1,5 @@
-const { Sonos } = require("sonos");
-const { getFavorites } = require("../utils/sonos");
+import { Sonos } from "sonos";
+import { getFavorites } from "../utils/sonos";
 
 export default async (req, res) => {
   const { room } = req.query;

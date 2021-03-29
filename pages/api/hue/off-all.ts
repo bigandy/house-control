@@ -1,5 +1,5 @@
-const { Sonos } = require("sonos");
-const { handleAll } = require("../utils/hue");
+import { Sonos } from "sonos";
+import { handleAll } from "../utils/hue";
 
 export default async (req, res) => {
   try {

@@ -1,20 +1,20 @@
-const v3 = require("node-hue-api").v3;
+import { v3 } from "node-hue-api";
 const LightState = v3.lightStates.LightState;
 
-const { statusLight } = require("../utils/hue");
+import { statusLight } from "../utils/hue";
 
 export default async function handler(req, res) {
-	try {
-		const { state } = await statusLight();
+  try {
+    const { state } = await statusLight();
 
-		res.status(200).json({
-			name: "Hue status-room",
-			state,
-		});
-	} catch (e) {
-		res.status(400).json({
-			name: "Hue status-room-error",
-			e,
-		});
-	}
+    res.status(200).json({
+      name: "Hue status-room",
+      state,
+    });
+  } catch (e) {
+    res.status(400).json({
+      name: "Hue status-room-error",
+      e,
+    });
+  }
 }

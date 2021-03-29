@@ -1,5 +1,5 @@
-const v3 = require("node-hue-api").v3,
-  discovery = v3.discovery,
+import { v3 } from "node-hue-api";
+const discovery = v3.discovery,
   hueApi = v3.api;
 const appName = "node-hue-api";
 const deviceName = "example-code";
@@ -48,7 +48,7 @@ async function discoverAndCreateUser() {
       .connect(createdUser.username);
 
     // Do something with the authenticated user/api
-    const bridgeConfig = await authenticatedApi.configuration.getConfiguration();
+    const bridgeConfig: any = await authenticatedApi.configuration.getConfiguration();
     console.log(
       `Connected to Hue Bridge: ${bridgeConfig.name} :: ${bridgeConfig.ipaddress}`
     );

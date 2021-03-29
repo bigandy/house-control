@@ -1,4 +1,4 @@
-const { getAllLights } = require("../utils/hue");
+import { getAllLights } from "../utils/hue";
 
 export default async function handler(req, res) {
   const lights = await getAllLights();

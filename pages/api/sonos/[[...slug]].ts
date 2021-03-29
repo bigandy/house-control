@@ -1,11 +1,11 @@
-const {
+import {
   playRoom,
   statusRoom,
   pauseRoom,
   toggleRoom,
   setRoomVolume,
   toggleMute,
-} = require("../utils/sonos");
+} from "../utils/sonos";
 
 export default async (req, res) => {
   const {
@@ -27,7 +27,8 @@ export default async (req, res) => {
       status = await toggleRoom(room);
       break;
     case "status":
-      status = await statusRoom(room).state;
+      const { state } = await statusRoom(room);
+      status = state;
       break;
 
     case "volume":

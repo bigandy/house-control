@@ -11,7 +11,7 @@ import { useDebouncedCallback } from "use-debounce";
 
 const pageTitle = "Music Room";
 
-const { getFavorites } = require("pages/api/utils/sonos");
+import { getFavorites } from "pages/api/utils/sonos";
 
 // AHTODO: move into a consts file for sharing
 const rooms = ["bedroom", "lounge", "kitchen", "kitchen-eating"];

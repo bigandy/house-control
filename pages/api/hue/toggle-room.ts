@@ -1,4 +1,4 @@
-const { toggleRoom } = require("../utils/hue");
+import { toggleRoom } from "../utils/hue";
 
 export default async function handler(req, res) {
   const roomId = 1; // Office is id 1

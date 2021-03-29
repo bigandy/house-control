@@ -282,16 +282,3 @@ export const handleAll = async (method = "pause") => {
 
   return statuses;
 };
-
-module.exports = {
-  playRoom,
-  statusRoom,
-  pauseRoom,
-  toggleRoom,
-  handleAll,
-  deviceDiscovery,
-  getFavorites,
-  playFavorite,
-  setRoomVolume,
-  toggleMute,
-};
