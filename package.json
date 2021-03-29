@@ -22,6 +22,7 @@
     "sass": "1.32.8",
     "sonos": "1.14.1",
     "spotify-web-api-node": "5.0.2",
+    "sqlite3": "5.0.2",
     "tp-link-tapo-connect": "1.0.3",
     "use-debounce": "6.0.0"
   },
