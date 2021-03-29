@@ -13,13 +13,16 @@ const pageTitle = "Music";
 export default function LightsPage() {
   const [lights, setLights] = useState(null);
 
-  useEffect(async () => {
-    await fetch(`/api/hue/getall-lights`)
-      .then((res) => res.json())
-      .then(({ lights }) => {
-        setLights(lights);
-      })
-      .catch((e) => console.error(e));
+  useEffect(() => {
+    const allLights = async () => {
+      await fetch(`/api/hue/getall-lights`)
+        .then((res) => res.json())
+        .then(({ lights }) => {
+          setLights(lights);
+        })
+        .catch((e) => console.error(e));
+    };
+    allLights();
   }, []);
 
   const toggleLight = async (light) => {
@@ -68,4 +71,3 @@ export default function LightsPage() {
     </DefaultLayout>
   );
 }
-

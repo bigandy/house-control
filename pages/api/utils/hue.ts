@@ -1,13 +1,13 @@
-const v3 = require("node-hue-api").v3;
+import { v3 } from "node-hue-api";
 const { LightState, GroupLightState } = v3.lightStates;
 
 const { HUE_BRIDGE_USER, HUE_BRIDGE_USER_CLIENT_KEY } = process.env;
 
 const USERNAME = HUE_BRIDGE_USER;
 
-const OFFICE_LIGHT = 5;
+export const OFFICE_LIGHT = 5;
 
-const getAllLights = async () => {
+export const getAllLights = async () => {
   const statuses = await v3.discovery
     .nupnpSearch()
     .then((searchResults) => {
@@ -33,7 +33,7 @@ const getAllLights = async () => {
   return statuses;
 };
 
-const handleAll = async (method = "off") => {
+export const handleAll = async (method = "off") => {
   const devices = await getAllLights();
 
   await devices.reduce(async (previousPromise, nextID) => {
@@ -54,7 +54,7 @@ const handleAll = async (method = "off") => {
   return statuses;
 };
 
-const toggleLight = async (lightId = OFFICE_LIGHT) => {
+export const toggleLight = async (lightId = OFFICE_LIGHT) => {
   return v3.discovery
     .nupnpSearch()
     .then((searchResults) => {
@@ -75,7 +75,7 @@ const toggleLight = async (lightId = OFFICE_LIGHT) => {
     });
 };
 
-const offLight = async (lightId = OFFICE_LIGHT) => {
+export const offLight = async (lightId = OFFICE_LIGHT) => {
   return v3.discovery
     .nupnpSearch()
     .then((searchResults) => {
@@ -93,14 +93,10 @@ const offLight = async (lightId = OFFICE_LIGHT) => {
     })
     .catch((e) => {
       throw new Error("lights failed");
-      res.send({
-        statusCode: 400,
-        body: JSON.stringify(e),
-      });
     });
 };
 
-const onLight = async (lightId = OFFICE_LIGHT) => {
+export const onLight = async (lightId = OFFICE_LIGHT) => {
   return v3.discovery
     .nupnpSearch()
     .then((searchResults) => {
@@ -115,27 +111,23 @@ const onLight = async (lightId = OFFICE_LIGHT) => {
     })
     .catch((e) => {
       throw new Error("lights failed");
-      res.send({
-        statusCode: 400,
-        body: JSON.stringify(e),
-      });
     });
 };
 
-const statusLight = async (lightId = OFFICE_LIGHT) => {
+export const statusLight = async (lightId = OFFICE_LIGHT) => {
   const allLights = await getAllLights();
   const light = allLights.find((light) => light.id === lightId);
   return light;
 };
 
-const getHueApi = async () => {
+export const getHueApi = async () => {
   return await v3.discovery.nupnpSearch().then((searchResults) => {
     const host = searchResults[0].ipaddress;
     return v3.api.createLocal(host).connect(USERNAME);
   });
 };
 
-const toggleRoom = async (roomId = 1) => {
+export const toggleRoom = async (roomId = 1) => {
   const api = await getHueApi();
   const room = await api.groups.getGroup(roomId);
   const roomState = room._data.state;
@@ -144,15 +136,4 @@ const toggleRoom = async (roomId = 1) => {
 
   await api.groups.setGroupState(roomId, { on });
   return on;
-};
-
-module.exports = {
-  OFFICE_LIGHT,
-  getAllLights,
-  toggleRoom,
-  toggleLight,
-  onLight,
-  offLight,
-  statusLight,
-  handleAll,
 };

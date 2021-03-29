@@ -17,13 +17,16 @@ export default function Home() {
   });
   const [status, setStatus] = useState(initialPlugState);
 
-  useEffect(async () => {
-    const plugs = await fetch(`/api/plug/statuses`)
-      .then((res) => res.json())
-      .then((json) => {
-        setStatus(json.statuses);
-      })
-      .catch((e) => console.error(e));
+  useEffect(() => {
+    const getAllStatuses = async () => {
+      const plugs = await fetch(`/api/plug/statuses`)
+        .then((res) => res.json())
+        .then((json) => {
+          setStatus(json.statuses);
+        })
+        .catch((e) => console.error(e));
+    };
+    getAllStatuses();
   }, []);
 
   const togglePlug = async (plug) => {
@@ -32,7 +35,7 @@ export default function Home() {
       .then(({ statusOut }) => {
         setStatus((prevState) => {
           return {
-            ...prevState,
+            ...(prevState as any),
             [plug]: statusOut,
           };
         });

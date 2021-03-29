@@ -19,7 +19,7 @@ export const createUrl = ({ url, query = {} }) => {
       return;
     }
 
-    urlBuilder.searchParams.append(key, value);
+    urlBuilder.searchParams.append(key, value as string);
   });
 
   return urlBuilder.toString();

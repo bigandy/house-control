@@ -1,4 +1,4 @@
-const fetch = require("node-fetch");
+import fetch from "node-fetch";
 
 async function query({ query, variables = {} }) {
   const result = await fetch(process.env.HASURA_API_URL, {
@@ -16,4 +16,4 @@ async function query({ query, variables = {} }) {
   return result.data;
 }
 
-exports.query = query;
+export default query;

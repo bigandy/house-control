@@ -12,7 +12,6 @@ export default async (req, res) => {
   } catch (e) {
     res.status(400).json({
       name: "Hue All-Lights-On Error",
-      statuses,
       error: e,
     });
   }

@@ -8,7 +8,7 @@ import NavBar from "components/NavBar";
 
 import styles from "styles/Home.module.scss";
 
-export default function DefaultLayout({ children, title = "" }) {
+export default function NoPageTitleLayout({ children, title }) {
   return (
     <Fragment>
       <GoogleFonts href="https://fonts.googleapis.com/css2?family=Piazzolla:wght@400;700&display=swap" />
@@ -18,8 +18,6 @@ export default function DefaultLayout({ children, title = "" }) {
       <Head>
         <title>{title}</title>
       </Head>
-
-      {title && <h1 className={styles.pageTitle}>{title}</h1>}
 
       {children}
     </Fragment>
