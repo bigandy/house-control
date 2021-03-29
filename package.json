@@ -12,6 +12,7 @@
     "@material-ui/icons": "4.11.2",
     "classnames": "2.2.6",
     "next": "10.0.9",
+    "next-auth": "^3.13.3",
     "next-google-fonts": "2.1.0",
     "node-dht-sensor": "0.4.3",
     "node-fetch": "2.6.1",
@@ -20,6 +21,7 @@
     "react-dom": "17.0.2",
     "sass": "1.32.8",
     "sonos": "1.14.1",
+    "spotify-web-api-node": "^5.0.2",
     "tp-link-tapo-connect": "1.0.3",
     "use-debounce": "6.0.0"
   }
