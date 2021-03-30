@@ -30,6 +30,11 @@ const pages = [
     url: "/lights",
     title: "Lights",
   },
+  ,
+  {
+    url: "/spotify",
+    title: "Spotify",
+  },
 ];
 
 const NavBar = () => {

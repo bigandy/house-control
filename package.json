@@ -5,11 +5,13 @@
   "scripts": {
     "dev": "next dev -p 3333",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "generate": "./node_modules/.bin/prisma generate"
   },
   "dependencies": {
     "@material-ui/core": "4.11.3",
     "@material-ui/icons": "4.11.2",
+    "@prisma/client": "2.19.0",
     "classnames": "2.2.6",
     "next": "10.1.1",
     "next-auth": "3.13.3",
@@ -17,6 +19,7 @@
     "node-dht-sensor": "0.4.3",
     "node-fetch": "2.6.1",
     "node-hue-api": "4.0.10",
+    "prisma": "2.19.0",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "sass": "1.32.8",
