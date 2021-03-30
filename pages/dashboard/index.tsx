@@ -107,9 +107,9 @@ export default function Dashboard() {
 
   const getInsideTemperature = async () => {
     try {
-      const { temperature } = await fetch(
-        "/api/weather/get-pi-sensor"
-      ).then((response) => response.json());
+      const { temperature } = await fetch("/api/weather/get-pi-sensor")
+        .then((response) => response.json())
+        .catch((e) => console.error(e));
 
       setTemperatureInside(temperature);
     } catch (e) {
@@ -117,7 +117,6 @@ export default function Dashboard() {
       const { sensor_data } = await fetch("/api/hasura/get-weather?number=1")
         .then((response) => response.json())
         .catch((e) => console.error("error in getting weather from api"));
-      console.log(sensor_data);
       setTemperatureInside(sensor_data[0]?.temperature);
     }
   };

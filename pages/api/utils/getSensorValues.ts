@@ -1,5 +1,4 @@
-import nodeDHTSensor from "node-dht-sensor";
-const { sensor } = nodeDHTSensor.promises;
+const sensor = require("node-dht-sensor").promises;
 
 async function getSensorValues() {
   try {
