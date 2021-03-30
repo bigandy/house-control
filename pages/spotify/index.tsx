@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, Fragment } from "react";
 import { signIn, signOut, useSession } from "next-auth/client";
 import Head from "next/head";
 import classnames from "classnames";
@@ -13,7 +13,7 @@ import { useRouter } from "next/router";
 const pageTitle = "Music";
 
 export default function SpotifyPage() {
-  const [session, loading, ...rest] = useSession();
+  const [session, loading] = useSession();
 
   console.log({ session });
 
@@ -21,16 +21,17 @@ export default function SpotifyPage() {
     <DefaultLayout title="Spotify">
       <div className={styles.container}>
         {!session && (
-          <>
+          <Fragment>
             Not signed in <br />
-            <button onClick={() => signIn()}>Sign in</button>
-          </>
+            <button onClick={() => signIn("spotify")}>Sign in</button>
+          </Fragment>
         )}
         {session && (
-          <>
+          <Fragment>
             Signed in as {session.user.name} <br />
             <button onClick={() => signOut()}>Sign out</button>
-          </>
+            <div>{session?.user?.accessToken}</div>
+          </Fragment>
         )}
       </div>
     </DefaultLayout>
