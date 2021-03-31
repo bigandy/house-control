@@ -1,8 +1,5 @@
 import NextAuth from "next-auth";
 import Providers from "next-auth/providers";
-import Adapters from "next-auth/adapters";
-
-import prisma from "utils/database/prisma";
 
 export default NextAuth({
   // Configure one or more authentication providers
@@ -22,6 +19,11 @@ export default NextAuth({
     }),
     // ...add more providers here
   ],
+
+  session: {
+    jwt: true,
+  },
+
   callbacks: {
     async jwt(token, _, account) {
       if (account) {
@@ -35,6 +37,4 @@ export default NextAuth({
       return session;
     },
   },
-
-  adapter: Adapters.Prisma.Adapter({ prisma }),
 });

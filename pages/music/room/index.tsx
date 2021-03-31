@@ -18,6 +18,7 @@ const rooms = ["bedroom", "lounge", "kitchen", "kitchen-eating"];
 
 import VolumeOffIcon from "@material-ui/icons/VolumeOff";
 import VolumeUpIcon from "@material-ui/icons/VolumeUp";
+import SearchSpotify from "components/SearchSpotify";
 
 export default function MusicRoomPage({ favorites }) {
   const [musicPlaying, setMusicPlaying] = useState(false);
@@ -271,6 +272,7 @@ export default function MusicRoomPage({ favorites }) {
           </select>
         )}
       </div>
+      <SearchSpotify room={selectedRoom} />
     </DefaultLayout>
   );
 }

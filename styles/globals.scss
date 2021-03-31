@@ -94,8 +94,27 @@ label {
   margin-right: 1rem;
 }
 
-// @import "_range";
+.search-box {
+  padding: 2em;
+  width: 100%;
+  margin: 2rem 0;
+}
 
-// .input-range {
-//   width: 100px;
-// }
+.results-grid {
+  grid-column: -1 / 1;
+
+  display: grid;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  grid-template-columns: repeat(auto-fit, minmax(222px, 1fr));
+  grid-gap: 1em;
+
+  img {
+    max-width: 100%;
+  }
+
+  li {
+    border: 1px solid black;
+  }
+}

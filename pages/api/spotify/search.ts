@@ -1,4 +1,5 @@
 import { getSession } from "adapters/sessions";
+import { Resolver } from "node:dns";
 
 import SpotifyWebApi from "spotify-web-api-node";
 
@@ -9,7 +10,7 @@ export enum SpotifySearch {
   TRACKS = "tracks",
 }
 
-export default async (req, res) => {
+const resolver = async (req, res) => {
   const session = await getSession({ req });
   if (!session) {
     console.error("no session");
@@ -21,7 +22,7 @@ export default async (req, res) => {
   const { searchText, type } = req.query;
 
   var spotifyApi = new SpotifyWebApi();
-  spotifyApi.setAccessToken(session.accessToken);
+  spotifyApi.setAccessToken(session.user.accessToken);
 
   // //   const tracks = await spotifyApi
   // //     // .getArtistAlbums("43ZHCT0cAZBISjO8DG9PnE")
@@ -40,6 +41,8 @@ export default async (req, res) => {
   const searchType: SpotifySearch =
     type === SpotifySearch.ALBUMS ? SpotifySearch.ALBUMS : SpotifySearch.TRACKS;
 
+  console.log({ searchType, type });
+
   const searchResults =
     searchType === SpotifySearch.ALBUMS
       ? await spotifyApi.searchAlbums(searchText).then((data) => {
@@ -50,13 +53,16 @@ export default async (req, res) => {
         });
 
   const results =
-    searchResults[searchType]?.items?.map(({ name, type, id }) => {
-      return {
-        name,
-        type,
-        id,
-      };
-    }) || [];
+    searchResults[searchType]?.items?.map(
+      ({ name, type, id, album, images }) => {
+        return {
+          name,
+          type,
+          id,
+          images: album?.images || images,
+        };
+      }
+    ) || [];
 
   // AHTODO want to do this on the search results page.
 
@@ -73,7 +79,10 @@ export default async (req, res) => {
   res.status(200).json({
     name: "Spotify Search",
     searchText,
-    // results,
+    // searchResults,
+    results,
     type,
   });
 };
+
+export default resolver;
