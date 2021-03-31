@@ -10,16 +10,13 @@ generate-schema:
 setup: npm-setup docker-setups
 
 npm-setup:
-	npm install; typedoc
+	npm install
 
 docker-setup:
 	docker-compose pull
 
 run-docker:
 	docker-compose up
-
-run-truenorth:
-	npm run dev
 
 init: run-migration generate-schema
 

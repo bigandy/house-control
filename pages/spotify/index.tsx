@@ -15,7 +15,28 @@ const pageTitle = "Music";
 export default function SpotifyPage() {
   const [session, loading] = useSession();
 
-  console.log({ session });
+  const [value, setValue] = useState("");
+  const [results, setResults] = useState(null);
+
+  const handleInputChange = (e) => {
+    setValue(e.target.value);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const type = "albums";
+
+    if (value !== "") {
+      const searchResults = await fetch(
+        `/api/spotify/search?searchText=${value}&type=${type}`
+      ).then((res) => res.json());
+
+      setResults(searchResults);
+    }
+  };
+
+  console.log({ results });
 
   return (
     <DefaultLayout title="Spotify">
@@ -31,6 +52,11 @@ export default function SpotifyPage() {
             Signed in as {session.user.name} <br />
             <button onClick={() => signOut()}>Sign out</button>
             <div>{session?.user?.accessToken}</div>
+            <form onSubmit={handleSubmit}>
+              <input type="text" value={value} onChange={handleInputChange} />
+
+              <input type="submit" value="Submit Search" />
+            </form>
           </Fragment>
         )}
       </div>

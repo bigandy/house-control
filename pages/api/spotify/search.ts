@@ -4,6 +4,11 @@ import SpotifyWebApi from "spotify-web-api-node";
 
 import { playFavorite } from "../utils/sonos";
 
+export enum SpotifySearch {
+  ALBUMS = "albums",
+  TRACKS = "tracks",
+}
+
 export default async (req, res) => {
   const session = await getSession({ req });
   if (!session) {
@@ -16,26 +21,27 @@ export default async (req, res) => {
   const { searchText, type } = req.query;
 
   var spotifyApi = new SpotifyWebApi();
-  spotifyApi.setAccessToken(session.user.accessToken);
+  spotifyApi.setAccessToken(session.accessToken);
 
-  //   const tracks = await spotifyApi
-  //     // .getArtistAlbums("43ZHCT0cAZBISjO8DG9PnE")
-  //     .searchTracks(searchText)
-  //     .then(
-  //       function (data) {
-  //         // console.log("Artist albums", data.body);
+  // //   const tracks = await spotifyApi
+  // //     // .getArtistAlbums("43ZHCT0cAZBISjO8DG9PnE")
+  // //     .searchTracks(searchText)
+  // //     .then(
+  // //       function (data) {
+  // //         // console.log("Artist albums", data.body);
 
-  //         return data.body.tracks.items;
-  //       },
-  //       function (err) {
-  //         console.error(err);
-  //       }
-  //     );
+  // //         return data.body.tracks.items;
+  // //       },
+  // //       function (err) {
+  // //         console.error(err);
+  // //       }
+  // //     );
 
-  const searchType = type === "albums" ? "albums" : "tracks";
+  const searchType: SpotifySearch =
+    type === SpotifySearch.ALBUMS ? SpotifySearch.ALBUMS : SpotifySearch.TRACKS;
 
   const searchResults =
-    searchType === "albums"
+    searchType === SpotifySearch.ALBUMS
       ? await spotifyApi.searchAlbums(searchText).then((data) => {
           return data.body;
         })
@@ -67,7 +73,7 @@ export default async (req, res) => {
   res.status(200).json({
     name: "Spotify Search",
     searchText,
-    results,
+    // results,
     type,
   });
 };

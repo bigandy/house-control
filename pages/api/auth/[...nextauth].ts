@@ -22,11 +22,6 @@ export default NextAuth({
     }),
     // ...add more providers here
   ],
-
-  session: {
-    jwt: true,
-  },
-
   callbacks: {
     async jwt(token, _, account) {
       if (account) {
