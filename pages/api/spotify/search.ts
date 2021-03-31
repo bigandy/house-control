@@ -34,7 +34,7 @@ export default async (req, res) => {
 
   const searchType = type === "albums" ? "albums" : "tracks";
 
-  const results =
+  const searchResults =
     searchType === "albums"
       ? await spotifyApi.searchAlbums(searchText).then((data) => {
           return data.body;
@@ -43,16 +43,14 @@ export default async (req, res) => {
           return data.body;
         });
 
-  const resultsRefined =
-    results && results[searchType].items.length > 0
-      ? results[searchType].items.map(({ name, type, id }) => {
-          return {
-            name,
-            type,
-            id,
-          };
-        })
-      : [];
+  const results =
+    searchResults[searchType]?.items?.map(({ name, type, id }) => {
+      return {
+        name,
+        type,
+        id,
+      };
+    }) || [];
 
   // AHTODO want to do this on the search results page.
 
@@ -69,7 +67,7 @@ export default async (req, res) => {
   res.status(200).json({
     name: "Spotify Search",
     searchText,
-    resultsRefined,
+    results,
     type,
   });
 };
