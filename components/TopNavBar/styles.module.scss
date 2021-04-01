@@ -30,3 +30,17 @@
     border-bottom-color: hotpink;
   }
 }
+
+.list {
+  display: flex;
+
+  li {
+    flex: 1 1 auto;
+    justify-content: flex-start;
+
+    &:last-child {
+      align-self: flex-end;
+      text-align: right;
+    }
+  }
+}

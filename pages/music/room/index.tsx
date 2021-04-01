@@ -226,7 +226,9 @@ export default function MusicRoomPage({ favorites }) {
         )}
       </div>
 
-      <h2>Selected Room is : {selectedRoom}</h2>
+      <h2 style={{ marginLeft: "0.75rem" }}>
+        Selected Room is : {selectedRoom}
+      </h2>
       <div className={styles.container}>
         {rooms.map((room) => {
           return (
@@ -272,6 +274,8 @@ export default function MusicRoomPage({ favorites }) {
           </select>
         )}
       </div>
+
+      <h2 style={{ marginLeft: "0.75rem" }}>Search Spotify</h2>
       <SearchSpotify room={selectedRoom} />
     </DefaultLayout>
   );

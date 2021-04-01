@@ -9,6 +9,7 @@ import playFavorite from "pages/api/sonos/play-favorite";
 const defaultType = SpotifySearch.ALBUMS;
 
 import styles from "styles/Home.module.scss";
+import spotifyStyles from "./style.module.scss";
 
 const SearchSpotify = ({ room }) => {
   const [session, loading] = useSession();
@@ -48,23 +49,14 @@ const SearchSpotify = ({ room }) => {
   };
 
   const handleSelect = (e) => {
-    console.log(e.target.value);
-
     setType(e.target.value);
   };
+
   return (
     <div className={styles.container}>
-      {!session && (
-        <Fragment>
-          Not signed in <br />
-          <button onClick={() => signIn("spotify")}>Sign in</button>
-        </Fragment>
-      )}
       {!loading && session && (
         <Fragment>
-          Signed in as {session.user.name} <br />
-          <button onClick={() => signOut()}>Sign out</button>
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit} className={spotifyStyles.form}>
             <select onChange={handleSelect} value={type}>
               <option value={SpotifySearch.TRACKS}>Tracks</option>
               <option value={SpotifySearch.ALBUMS}>Albums</option>
@@ -78,7 +70,11 @@ const SearchSpotify = ({ room }) => {
               placeholder={`Search for ${type}`}
             />
 
-            <input type="submit" value="Submit Search" />
+            <input
+              type="submit"
+              value="Submit Search"
+              className={spotifyStyles.submit}
+            />
           </form>
           <ul className="results-grid">
             {results &&
