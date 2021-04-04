@@ -83,6 +83,29 @@ export default function MusicRoomPage({ favorites }) {
     getAllStatuses();
   }, [selectedRoom]);
 
+  // useEffect(() => {
+  //   const getCurrentTrack = async () => {
+  //     try {
+  //       const statuses = await fetch(`/api/sonos/status-room?room=${currentRoom}`)
+  //         .then((res) => res.json())
+  //         .then((json) => {
+  //           const roomsObj: any = {};
+  //           const soundObj = {};
+  //           json.statuses.forEach(({ room, state, volume }) => {
+  //             roomsObj[room] = state !== "paused" && state !== "stopped";
+  //             soundObj[room] = volume;
+  //           });
+  //           setRoomVolumes(soundObj);
+  //           setMusicPlaying(roomsObj);
+  //         })
+  //         .catch((e) => console.error(e));
+  //     } catch (e) {
+  //       console.error("error in useEffect", e);
+  //     }
+  //   };
+  //   getCurrentTrack();
+  // }, [selectedRoom]);
+
   const playFavorite = async () => {
     // update state fast.
     // setPlaying((prevState) => !prevState);

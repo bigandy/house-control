@@ -27,12 +27,15 @@ select {
 button {
   border: 2px solid black;
   cursor: pointer;
-  font-size: 200%;
   font-weight: bold;
   outline: none;
-
+  
   &.active {
     border-color: green;
+  }
+  
+  @media (min-width: 600px) {
+    font-size: 200%;
   }
 }
 
