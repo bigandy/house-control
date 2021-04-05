@@ -9,6 +9,8 @@ import fetch from "node-fetch";
 
 import { useDebouncedCallback } from "use-debounce";
 
+import useInterval from "hooks/useInterval";
+
 const pageTitle = "Music Room";
 
 import { getFavorites } from "pages/api/utils/sonos";
@@ -28,6 +30,23 @@ export default function MusicRoomPage({ favorites }) {
   const [selectedRoom, setSelectedRoom] = useState("bedroom");
 
   const [currentFavorite, setCurrentFavorite] = useState(null);
+  const [currentTrackPlaying, setCurrentTrackPlaying] = useState(null);
+
+  const getCurrentTrack = async () => {
+    try {
+      const statuses = await fetch(`/api/sonos/status-room?room=${selectedRoom}`)
+        .then((res) => res.json())
+        .then(({currentTrack}) => {
+          console.log({currentTrack})
+
+          setCurrentTrackPlaying(currentTrack);
+        //  return currentTrack;
+        })
+        .catch((e) => console.error(e));
+    } catch (e) {
+      console.error("error in useEffect", e);
+    }
+  };
 
   useEffect(() => {
     const room = localStorage.getItem("room");
@@ -83,28 +102,23 @@ export default function MusicRoomPage({ favorites }) {
     getAllStatuses();
   }, [selectedRoom]);
 
-  // useEffect(() => {
-  //   const getCurrentTrack = async () => {
-  //     try {
-  //       const statuses = await fetch(`/api/sonos/status-room?room=${currentRoom}`)
-  //         .then((res) => res.json())
-  //         .then((json) => {
-  //           const roomsObj: any = {};
-  //           const soundObj = {};
-  //           json.statuses.forEach(({ room, state, volume }) => {
-  //             roomsObj[room] = state !== "paused" && state !== "stopped";
-  //             soundObj[room] = volume;
-  //           });
-  //           setRoomVolumes(soundObj);
-  //           setMusicPlaying(roomsObj);
-  //         })
-  //         .catch((e) => console.error(e));
-  //     } catch (e) {
-  //       console.error("error in useEffect", e);
-  //     }
-  //   };
-  //   getCurrentTrack();
-  // }, [selectedRoom]);
+  useEffect(() => {
+    if (musicPlaying[selectedRoom]) {
+      // 1. Get currently playing track
+      getCurrentTrack();
+    }
+    
+  }, [selectedRoom, musicPlaying]);
+
+
+  useInterval(async () => {
+    if (musicPlaying[selectedRoom]) {
+      // 1. Get currently playing track
+      getCurrentTrack();
+
+      // 2. Use an interval to check this regularly when playing.
+    }
+  }, 1000);
 
   const playFavorite = async () => {
     // update state fast.
@@ -117,7 +131,12 @@ export default function MusicRoomPage({ favorites }) {
       .then((res) => res.json())
       .then(({ status }) => {
         // if the status is different, need to update the state then.
-        // setPlaying(status === "transitioning");
+        setMusicPlaying((prevState) => {
+          return {
+            ...(prevState as any),
+            [selectedRoom]: status === "transitioning",
+          };
+        });
       })
       .catch((e) => console.error(e));
   };
@@ -157,10 +176,6 @@ export default function MusicRoomPage({ favorites }) {
       })
       .catch((e) => console.error(e));
   };
-
-  // AHTODO:
-  //   1. How to persist state to localStorage so that when I refresh the page, the room is pre-selected
-  //   2. How to list the favorites from Sonos? Could be Spotify Playlists or something too
 
   const icon = useMemo(() => {
     const playIcon = "M11,10 L17,10 17,26 11,26 M20,10 L26,10 26,26 20,26";
@@ -300,6 +315,19 @@ export default function MusicRoomPage({ favorites }) {
 
       <h2 style={{ marginLeft: "0.75rem" }}>Search Spotify</h2>
       <SearchSpotify room={selectedRoom} />
+
+      {currentTrackPlaying && (
+        <div>
+          <h2>Current Track Info</h2>
+          <div>Title: {currentTrackPlaying.title}</div>
+          <div>Album: {currentTrackPlaying.album}</div>
+          <div>Artist: {currentTrackPlaying.artist}</div>
+          <div>Uri: {currentTrackPlaying.uri}</div>
+          <div>Position: {currentTrackPlaying.position}</div>
+          <div><img src={currentTrackPlaying.albumArtURL} loading="lazy" alt="" height="100" width="100" /></div>
+        </div>
+      )}
+
     </DefaultLayout>
   );
 }

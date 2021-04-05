@@ -41,5 +41,5 @@ export default NextAuth({
       return session;
     },
   },
-  database: "sqlite:///Users/andrew/Sites/house-control/prisma/dev.db",
+  database: process.env.DB_PATH,
 });
