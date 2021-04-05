@@ -1,5 +1,8 @@
 import NextAuth from "next-auth";
 import Providers from "next-auth/providers";
+import Adapters from 'next-auth/adapters';
+
+import prisma from 'utils/database/prisma';
 
 export default NextAuth({
   // Configure one or more authentication providers
@@ -8,7 +11,6 @@ export default NextAuth({
       clientId: process.env.SPOTIFY_CLIENT_ID,
       clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
       profile(profile) {
-        console.log({ profile });
         return {
           id: profile.id,
           name: profile.display_name,
@@ -19,6 +21,7 @@ export default NextAuth({
     }),
     // ...add more providers here
   ],
+  adapter: Adapters.Prisma.Adapter({ prisma }),
 
   session: {
     jwt: true,
@@ -37,4 +40,6 @@ export default NextAuth({
       return session;
     },
   },
+  database: "sqlite:///Users/andrew/Sites/house-control/prisma/dev.db"
+
 });

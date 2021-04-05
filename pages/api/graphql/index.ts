@@ -1,10 +1,30 @@
+// @ts-nocheck
 import { ApolloServer } from "apollo-server-micro";
 import { makeSchema, objectType, extendType } from "nexus";
 import { nexusSchemaPrisma } from "nexus-plugin-prisma/schema";
 import prisma from "utils/database/prisma";
 
+const User = objectType({
+  name: "User",
+  definition(t) {
+    t.model.id();
+    t.model.createdAt();
+    t.model.email();
+    t.model.name();
+  },
+});
+
+const userQuery = extendType({
+  type: "Query",
+  definition(t) {
+    t.crud.users();
+  },
+});
+
+
+
 const schema = makeSchema({
-  types: [],
+  types: [User, userQuery],
   plugins: [nexusSchemaPrisma({ experimentalCRUD: true })],
 });
 
@@ -23,3 +43,4 @@ export const config = {
 };
 
 export default handler;
+
