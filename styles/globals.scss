@@ -101,6 +101,20 @@ label {
   padding: 2em;
   width: 100%;
   margin: 1rem 0;
+  border: 3px solid grey;
+
+  font-size: 125%;
+  background: black;
+  color: white;
+
+  &::placeholder {
+    color: white;
+  }
+
+  &:focus {
+    border-color: green;
+  }
+
 }
 
 .results-grid {

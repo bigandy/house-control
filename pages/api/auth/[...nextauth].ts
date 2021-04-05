@@ -1,8 +1,8 @@
 import NextAuth from "next-auth";
 import Providers from "next-auth/providers";
-import Adapters from 'next-auth/adapters';
+import Adapters from "next-auth/adapters";
 
-import prisma from 'utils/database/prisma';
+import prisma from "utils/database/prisma";
 
 export default NextAuth({
   // Configure one or more authentication providers
@@ -32,6 +32,7 @@ export default NextAuth({
       if (account) {
         token.id = account.id;
         token.accessToken = account.accessToken;
+        token.accessTokenExpires = account.expires_in;
       }
       return token;
     },
@@ -40,6 +41,5 @@ export default NextAuth({
       return session;
     },
   },
-  database: "sqlite:///Users/andrew/Sites/house-control/prisma/dev.db"
-
+  database: "sqlite:///Users/andrew/Sites/house-control/prisma/dev.db",
 });
