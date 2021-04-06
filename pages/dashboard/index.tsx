@@ -30,7 +30,7 @@ const Temperature = ({ temperature, type = "in" }) => {
   return (
     <div>
       <div>Temp. {type}:</div>
-      {temperature !== undefined && (
+      {temperature && (
         <Fragment>
           {temperature.toFixed(1)}
           <sup>&deg;</sup>C
