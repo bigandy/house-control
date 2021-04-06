@@ -2,10 +2,11 @@
 
 ## TODO
 
-- [ ] Track data with SQLite and Prisma (the latter is a damn PITA to install so not doing that yet)
+- [x] Track data with SQLite and Prisma (the latter is a damn PITA to install so not doing that yet)
 - [ ] Graph of Temperature and Humidity over time
 - [x] Dashboard that shows the time/date/weather
 - [ ] Google Home API to connect to `anything` in the Home i.e. my Tapo P100 plugs (no current JS API available)
+- [ ] Sonos / Spotify so can search on a page (/music/room) and play that in the room selected.
 
 ## DONE
 
