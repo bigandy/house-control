@@ -2,29 +2,28 @@ import { extendType, objectType } from "nexus";
 import { getSession } from "adapters/sessions";
 import prisma from "utils/database/prisma";
 
-export const User = objectType({
-  name: "User",
+export const SensorValue = objectType({
+  name: "SensorValue",
   definition(t) {
     t.model.id();
     t.model.createdAt();
     t.model.updatedAt();
-    t.model.image();
-    t.model.email();
-    t.model.name();
+    t.model.temperature();
+    t.model.humidity();
   },
 });
 
-export const userQueryType = extendType({
+export const sensorQueryType = extendType({
   type: "Query",
   definition(t) {
-    t.crud.user();
-    t.int("userCount", {
-      args: { where: "UserWhereInput" },
-      async resolve(root, args, context, info) {
-        return await prisma.user.count({ where: args.where });
-      },
-    });
-    t.crud.users({
+    t.crud.sensorValue();
+    // t.int("userCount", {
+    //   args: { where: "UserWhereInput" },
+    //   async resolve(root, args, context, info) {
+    //     return await prisma.user.count({ where: args.where });
+    //   },
+    // });
+    t.crud.sensorValues({
       pagination: true,
       filtering: true,
       ordering: true,
@@ -39,12 +38,12 @@ export const userQueryType = extendType({
   },
 });
 
-export const userMutations = extendType({
+export const sensorValueMutations = extendType({
   type: "Mutation",
   definition(t) {
-    t.crud.updateOneUser();
-    t.crud.deleteOneUser();
-    t.crud.updateOneUser({
+    t.crud.updateOneSensorValue();
+    t.crud.deleteOneSensorValue();
+    t.crud.updateOneSensorValue({
       async resolve(root, args, ctx, info, originalResolve) {
         const session = await getSession(ctx);
         if (!session) {
@@ -53,7 +52,7 @@ export const userMutations = extendType({
         return await originalResolve(root, args, ctx, info);
       },
     });
-    t.crud.createOneUser({
+    t.crud.createOneSensorValue({
       async resolve(root, args, ctx, info, originalResolve) {
         const session = await getSession(ctx);
         if (!session) {

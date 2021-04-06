@@ -1,36 +1,16 @@
-// @ts-nocheck
 import { ApolloServer } from "apollo-server-micro";
-import { makeSchema, objectType, extendType } from "nexus";
-import { nexusSchemaPrisma } from "nexus-plugin-prisma/schema";
-import prisma from "utils/database/prisma";
+import { schema } from "utils/database/schema";
+import { createContext } from "utils/database/context";
+import { ApolloLogPlugin } from "apollo-log";
 
-const User = objectType({
-  name: "User",
-  definition(t) {
-    t.model.id();
-    t.model.createdAt();
-    t.model.email();
-    t.model.name();
-  },
-});
-
-const userQuery = extendType({
-  type: "Query",
-  definition(t) {
-    t.crud.users();
-  },
-});
-
-
-
-const schema = makeSchema({
-  types: [User, userQuery],
-  plugins: [nexusSchemaPrisma({ experimentalCRUD: true })],
-});
+// const schema = makeSchema({
+//   types: [User, userQuery],
+//   plugins: [nexusSchemaPrisma({ experimentalCRUD: true })],
+// });
 
 let server = new ApolloServer({
   schema,
-  context: { prisma },
+  context: createContext,
   tracing: process.env.NODE_ENV === "development",
 });
 
@@ -43,4 +23,3 @@ export const config = {
 };
 
 export default handler;
-
