@@ -37,10 +37,7 @@ export default function MusicRoomPage({ favorites }) {
       const statuses = await fetch(`/api/sonos/status-room?room=${selectedRoom}`)
         .then((res) => res.json())
         .then(({currentTrack}) => {
-          console.log({currentTrack})
-
           setCurrentTrackPlaying(currentTrack);
-        //  return currentTrack;
         })
         .catch((e) => console.error(e));
     } catch (e) {
@@ -113,10 +110,10 @@ export default function MusicRoomPage({ favorites }) {
 
   useInterval(async () => {
     if (musicPlaying[selectedRoom]) {
-      // 1. Get currently playing track
+      // 2. Use an interval to check this regularly when playing.
       getCurrentTrack();
 
-      // 2. Use an interval to check this regularly when playing.
+      // 3. Is it possible to do this only when the component is in the viewport?
     }
   }, 1000);
 

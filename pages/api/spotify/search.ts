@@ -5,7 +5,7 @@ import SpotifyWebApi from "spotify-web-api-node";
 
 import { playFavorite } from "../utils/sonos";
 
-// import prisma from "utils/database/prisma";
+import prisma from "utils/database/prisma";
 
 export enum SpotifySearch {
   ALBUMS = "albums",
@@ -79,6 +79,15 @@ const resolver = async (req, res) => {
     spotifyApi.setAccessToken(session.user.accessToken);
     const results = await getSearchResults(type, searchText);
 
+    console.log({ session });
+
+    // await prisma.account.update({
+    //   where: {
+    //     id: 1,
+    //   },
+    //   data: { accessToken: "blah" },
+    // });
+
     res.status(200).json({
       name: "Spotify Search",
       // searchText,
@@ -86,6 +95,7 @@ const resolver = async (req, res) => {
       // type,
     });
   } catch (error) {
+    console.error("error in using stored token");
     await spotifyApi.clientCredentialsGrant().then(
       async function (data) {
         console.log("The access token expires in " + data.body["expires_in"]);
@@ -96,12 +106,12 @@ const resolver = async (req, res) => {
 
         // AHTODO SAVE TO DB SO DON't HAVE TO DO THIS EVERY TIME!
 
-        // await prisma.account.update({
-        //   where: {
-        //     id: session.user.userId,
-        //   },
-        //   data: { accessToken: accessToken },
-        // });
+        await prisma.account.update({
+          where: {
+            id: 1, // AHTODO GET THIS PROPERLY!
+          },
+          data: { accessToken: accessToken },
+        });
       },
       function (err) {
         console.log(
@@ -111,6 +121,13 @@ const resolver = async (req, res) => {
       }
     );
     const results = await getSearchResults(type, searchText);
+
+    res.status(200).json({
+      name: "Spotify Search",
+      // searchText,
+      results,
+      // type,
+    });
   }
 };
 

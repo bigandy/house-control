@@ -1,0 +1,8 @@
+generates:
+  housecontrol-graphql.ts:
+    schema: ./schema.graphql
+    plugins:
+      - typescript
+    config:
+      namingConvention:
+        enumValues: upper-case#upperCase

@@ -3,4 +3,4 @@ import { extendType, objectType } from "nexus";
 import { getSession } from "adapters/sessions";
 import prisma from "utils/database/prisma";
 
-export default {}
+export default {};

@@ -5,7 +5,7 @@ run-migration:
 	npx prisma migrate deploy --preview-feature
 
 generate-schema:
-	npm run generate
+	npm run generate && npx graphql-codegen --config ./codegen.yml
 
 setup: npm-setup docker-setups
 
