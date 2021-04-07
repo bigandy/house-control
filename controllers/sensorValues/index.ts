@@ -1,6 +1,5 @@
 import { extendType, objectType } from "nexus";
 import { getSession } from "adapters/sessions";
-import prisma from "utils/database/prisma";
 
 export const SensorValue = objectType({
   name: "SensorValue",
@@ -17,12 +16,6 @@ export const sensorQueryType = extendType({
   type: "Query",
   definition(t) {
     t.crud.sensorValue();
-    // t.int("userCount", {
-    //   args: { where: "UserWhereInput" },
-    //   async resolve(root, args, context, info) {
-    //     return await prisma.user.count({ where: args.where });
-    //   },
-    // });
     t.crud.sensorValues({
       pagination: true,
       filtering: true,

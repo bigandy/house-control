@@ -28,22 +28,6 @@ const resolver = async (req, res) => {
     clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
   });
 
-  // Retrieve an access token
-
-  // //   const tracks = await spotifyApi
-  // //     // .getArtistAlbums("43ZHCT0cAZBISjO8DG9PnE")
-  // //     .searchTracks(searchText)
-  // //     .then(
-  // //       function (data) {
-  // //         // console.log("Artist albums", data.body);
-
-  // //         return data.body.tracks.items;
-  // //       },
-  // //       function (err) {
-  // //         console.error(err);
-  // //       }
-  // //     );
-
   const getSearchResults = async (type, searchText) => {
     const searchType: SpotifySearch =
       type === SpotifySearch.ALBUMS
@@ -79,20 +63,9 @@ const resolver = async (req, res) => {
     spotifyApi.setAccessToken(session.user.accessToken);
     const results = await getSearchResults(type, searchText);
 
-    console.log({ session });
-
-    // await prisma.account.update({
-    //   where: {
-    //     id: 1,
-    //   },
-    //   data: { accessToken: "blah" },
-    // });
-
     res.status(200).json({
       name: "Spotify Search",
-      // searchText,
       results,
-      // type,
     });
   } catch (error) {
     console.error("error in using stored token");
@@ -124,9 +97,7 @@ const resolver = async (req, res) => {
 
     res.status(200).json({
       name: "Spotify Search",
-      // searchText,
       results,
-      // type,
     });
   }
 };
