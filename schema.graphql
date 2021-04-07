@@ -140,7 +140,6 @@ type Query {
   sensorValue(where: SensorValueWhereUniqueInput!): SensorValue
   sensorValues(cursor: SensorValueWhereUniqueInput, orderBy: [SensorValueOrderByInput!], skip: Int, take: Int, where: SensorValueWhereInput): [SensorValue!]!
   user(where: UserWhereUniqueInput!): User
-  userCount(where: UserWhereInput): Int
   users(cursor: UserWhereUniqueInput, orderBy: [UserOrderByInput!], skip: Int, take: Int, where: UserWhereInput): [User!]!
 }
 

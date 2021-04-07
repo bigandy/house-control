@@ -18,12 +18,6 @@ export const userQueryType = extendType({
   type: "Query",
   definition(t) {
     t.crud.user();
-    t.int("userCount", {
-      args: { where: "UserWhereInput" },
-      async resolve(root, args, context, info) {
-        return await prisma.user.count({ where: args.where });
-      },
-    });
     t.crud.users({
       pagination: true,
       filtering: true,

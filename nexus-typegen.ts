@@ -272,7 +272,6 @@ export interface NexusGenFieldTypes {
     sensorValue: NexusGenRootTypes['SensorValue'] | null; // SensorValue
     sensorValues: NexusGenRootTypes['SensorValue'][]; // [SensorValue!]!
     user: NexusGenRootTypes['User'] | null; // User
-    userCount: number | null; // Int
     users: NexusGenRootTypes['User'][]; // [User!]!
   }
   SensorValue: { // field return type
@@ -305,7 +304,6 @@ export interface NexusGenFieldTypeNames {
     sensorValue: 'SensorValue'
     sensorValues: 'SensorValue'
     user: 'User'
-    userCount: 'Int'
     users: 'User'
   }
   SensorValue: { // field return type name
@@ -361,9 +359,6 @@ export interface NexusGenArgTypes {
     }
     user: { // args
       where: NexusGenInputs['UserWhereUniqueInput']; // UserWhereUniqueInput!
-    }
-    userCount: { // args
-      where?: NexusGenInputs['UserWhereInput'] | null; // UserWhereInput
     }
     users: { // args
       cursor?: NexusGenInputs['UserWhereUniqueInput'] | null; // UserWhereUniqueInput
