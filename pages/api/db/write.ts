@@ -5,8 +5,8 @@ const saveData = async (temperature: number, humidity: number) => {
   try {
     const result = await prisma.sensorValue.create({
       data: {
-        humidity: Math.floor(humidity),
-        temperature: Math.floor(temperature),
+        humidity,
+        temperature,
       },
     });
 
@@ -33,6 +33,7 @@ export default async (req, res) => {
         result,
       });
     } catch (e) {
+      console.error("error in saving data", e);
       res.status(400).json({
         name: "DB Sensor Save",
         error: e,

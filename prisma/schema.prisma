@@ -53,8 +53,8 @@ model User {
 
 model SensorValue {
   id          Int      @id @default(autoincrement())
-  temperature Int?
-  humidity    Int?
+  temperature Float?
+  humidity    Float?
   createdAt   DateTime @default(now()) @map(name: "created_at")
   updatedAt   DateTime @default(now()) @map(name: "updated_at")
 
