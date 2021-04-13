@@ -14,7 +14,7 @@ const readData = async () => {
   try {
     // open the database
     const db = await open({
-      filename: "./database.db",
+      filename: "./sensor.db",
       driver: sqlite3.Database,
     });
 

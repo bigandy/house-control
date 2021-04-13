@@ -61,5 +61,5 @@ export default NextAuth({
       return session;
     },
   },
-  database: process.env.DB_PATH,
+  database: "file:../prisma.db",
 });

@@ -17,7 +17,7 @@ enum SensorType {
 const saveData = async (value: number, type: SensorType) => {
   try {
     const db = await open({
-      filename: "./database.db",
+      filename: "./sensor.db",
       driver: sqlite3.Database,
     });
 
