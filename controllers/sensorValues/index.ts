@@ -21,10 +21,10 @@ export const sensorQueryType = extendType({
       filtering: true,
       ordering: true,
       async resolve(root, args, ctx, info, originalResolve) {
-        const session = await getSession(ctx);
-        if (!session) {
-          return [];
-        }
+        // const session = await getSession(ctx);
+        // if (!session) {
+        //   return [];
+        // }
         return await originalResolve(root, args, ctx, info);
       },
     });
@@ -34,23 +34,23 @@ export const sensorQueryType = extendType({
 export const sensorValueMutations = extendType({
   type: "Mutation",
   definition(t) {
-    t.crud.updateOneSensorValue();
-    t.crud.deleteOneSensorValue();
-    t.crud.updateOneSensorValue({
-      async resolve(root, args, ctx, info, originalResolve) {
-        const session = await getSession(ctx);
-        if (!session) {
-          return;
-        }
-        return await originalResolve(root, args, ctx, info);
-      },
-    });
+    // t.crud.updateOneSensorValue();
+    // t.crud.deleteOneSensorValue();
+    // t.crud.updateOneSensorValue({
+    //   async resolve(root, args, ctx, info, originalResolve) {
+    //     const session = await getSession(ctx);
+    //     if (!session) {
+    //       return;
+    //     }
+    //     return await originalResolve(root, args, ctx, info);
+    //   },
+    // });
     t.crud.createOneSensorValue({
       async resolve(root, args, ctx, info, originalResolve) {
-        const session = await getSession(ctx);
-        if (!session) {
-          return;
-        }
+        // const session = await getSession(ctx);
+        // if (!session) {
+        //   return;
+        // }
         return await originalResolve(root, args, ctx, info);
       },
     });

@@ -56,9 +56,7 @@ input IntNullableFilter {
 type Mutation {
   createOneSensorValue(data: SensorValueCreateInput!): SensorValue!
   createOneUser(data: UserCreateInput!): User!
-  deleteOneSensorValue(where: SensorValueWhereUniqueInput!): SensorValue
   deleteOneUser(where: UserWhereUniqueInput!): User
-  updateOneSensorValue(data: SensorValueUpdateInput!, where: SensorValueWhereUniqueInput!): SensorValue
   updateOneUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
 }
 
@@ -124,14 +122,6 @@ input NullableDateTimeFieldUpdateOperationsInput {
   set: DateTime
 }
 
-input NullableIntFieldUpdateOperationsInput {
-  decrement: Int
-  divide: Int
-  increment: Int
-  multiply: Int
-  set: Int
-}
-
 input NullableStringFieldUpdateOperationsInput {
   set: String
 }
@@ -164,13 +154,6 @@ input SensorValueOrderByInput {
   id: SortOrder
   temperature: SortOrder
   updatedAt: SortOrder
-}
-
-input SensorValueUpdateInput {
-  createdAt: DateTimeFieldUpdateOperationsInput
-  humidity: NullableIntFieldUpdateOperationsInput
-  temperature: NullableIntFieldUpdateOperationsInput
-  updatedAt: DateTimeFieldUpdateOperationsInput
 }
 
 input SensorValueWhereInput {

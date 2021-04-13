@@ -1,30 +1,9 @@
-import sqlite3 from "sqlite3";
-import { open } from "sqlite";
+import prisma from "utils/database/prisma";
+import { SensorValue } from "./../../../housecontrol-graphql";
 
-// Turn on verbose mode of sqlite3
-sqlite3.verbose();
-
-const randomIntFromInterval = (min, max) => {
-  // min and max included
-  return Math.floor(Math.random() * (max - min + 1) + min);
-};
-
-// this is a top-level await
 const readData = async () => {
   try {
-    // open the database
-    const db = await open({
-      filename: "./sensor.db",
-      driver: sqlite3.Database,
-    });
-
-    await db.exec(
-      "CREATE TABLE IF NOT EXISTS sensor (created_at TEXT, value INTEGER, type TEXT)"
-    );
-
-    const result = await db.all("SELECT * FROM sensor");
-
-    await db.close();
+    const result = await prisma.sensorValue.findMany();
 
     return result;
   } catch (error) {

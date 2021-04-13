@@ -118,13 +118,6 @@ export interface NexusGenInputs {
   NullableDateTimeFieldUpdateOperationsInput: { // input type
     set?: NexusGenScalars['DateTime'] | null; // DateTime
   }
-  NullableIntFieldUpdateOperationsInput: { // input type
-    decrement?: number | null; // Int
-    divide?: number | null; // Int
-    increment?: number | null; // Int
-    multiply?: number | null; // Int
-    set?: number | null; // Int
-  }
   NullableStringFieldUpdateOperationsInput: { // input type
     set?: string | null; // String
   }
@@ -140,12 +133,6 @@ export interface NexusGenInputs {
     id?: NexusGenEnums['SortOrder'] | null; // SortOrder
     temperature?: NexusGenEnums['SortOrder'] | null; // SortOrder
     updatedAt?: NexusGenEnums['SortOrder'] | null; // SortOrder
-  }
-  SensorValueUpdateInput: { // input type
-    createdAt?: NexusGenInputs['DateTimeFieldUpdateOperationsInput'] | null; // DateTimeFieldUpdateOperationsInput
-    humidity?: NexusGenInputs['NullableIntFieldUpdateOperationsInput'] | null; // NullableIntFieldUpdateOperationsInput
-    temperature?: NexusGenInputs['NullableIntFieldUpdateOperationsInput'] | null; // NullableIntFieldUpdateOperationsInput
-    updatedAt?: NexusGenInputs['DateTimeFieldUpdateOperationsInput'] | null; // DateTimeFieldUpdateOperationsInput
   }
   SensorValueWhereInput: { // input type
     AND?: NexusGenInputs['SensorValueWhereInput'][] | null; // [SensorValueWhereInput!]
@@ -263,9 +250,7 @@ export interface NexusGenFieldTypes {
   Mutation: { // field return type
     createOneSensorValue: NexusGenRootTypes['SensorValue']; // SensorValue!
     createOneUser: NexusGenRootTypes['User']; // User!
-    deleteOneSensorValue: NexusGenRootTypes['SensorValue'] | null; // SensorValue
     deleteOneUser: NexusGenRootTypes['User'] | null; // User
-    updateOneSensorValue: NexusGenRootTypes['SensorValue'] | null; // SensorValue
     updateOneUser: NexusGenRootTypes['User'] | null; // User
   }
   Query: { // field return type
@@ -295,9 +280,7 @@ export interface NexusGenFieldTypeNames {
   Mutation: { // field return type name
     createOneSensorValue: 'SensorValue'
     createOneUser: 'User'
-    deleteOneSensorValue: 'SensorValue'
     deleteOneUser: 'User'
-    updateOneSensorValue: 'SensorValue'
     updateOneUser: 'User'
   }
   Query: { // field return type name
@@ -331,15 +314,8 @@ export interface NexusGenArgTypes {
     createOneUser: { // args
       data: NexusGenInputs['UserCreateInput']; // UserCreateInput!
     }
-    deleteOneSensorValue: { // args
-      where: NexusGenInputs['SensorValueWhereUniqueInput']; // SensorValueWhereUniqueInput!
-    }
     deleteOneUser: { // args
       where: NexusGenInputs['UserWhereUniqueInput']; // UserWhereUniqueInput!
-    }
-    updateOneSensorValue: { // args
-      data: NexusGenInputs['SensorValueUpdateInput']; // SensorValueUpdateInput!
-      where: NexusGenInputs['SensorValueWhereUniqueInput']; // SensorValueWhereUniqueInput!
     }
     updateOneUser: { // args
       data: NexusGenInputs['UserUpdateInput']; // UserUpdateInput!

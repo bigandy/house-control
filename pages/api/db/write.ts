@@ -1,44 +1,14 @@
-import sqlite3 from "sqlite3";
-import { open } from "sqlite";
+import prisma from "utils/database/prisma";
+import { SensorValue } from "./../../../housecontrol-graphql";
 
-// Turn on verbose mode of sqlite3
-sqlite3.verbose();
-
-const randomIntFromInterval = (min, max) => {
-  // min and max included
-  return Math.floor(Math.random() * (max - min + 1) + min);
-};
-
-enum SensorType {
-  "humidity",
-  "temperature",
-}
-
-const saveData = async (value: number, type: SensorType) => {
+const saveData = async (temperature: number, humidity: number) => {
   try {
-    const db = await open({
-      filename: "./sensor.db",
-      driver: sqlite3.Database,
+    const result = await prisma.sensorValue.create({
+      data: {
+        humidity: Math.floor(humidity),
+        temperature: Math.floor(temperature),
+      },
     });
-
-    await db.exec(
-      `CREATE TABLE IF NOT EXISTS sensor (
-        id integer primary key autoincrement,
-        timestamp DATE DEFAULT (datetime('now','localtime')),
-        value INTEGER,
-        type TEXT
-      )`
-    );
-
-    await db.run(`INSERT INTO sensor VALUES (?, :timestamp, :value, :type)`, {
-      ":timestamp": new Date(),
-      ":value": value,
-      ":type": type,
-    });
-
-    const result = await db.all("SELECT * FROM sensor");
-
-    await db.close();
 
     return result;
   } catch (error) {
@@ -48,17 +18,16 @@ const saveData = async (value: number, type: SensorType) => {
 };
 
 export default async (req, res) => {
-  const { value, type } = req.query;
+  const { temperature, humidity } = req.query;
 
-  if (!value || !type) {
+  if (!temperature || !humidity) {
     res.status(400).json({
       name: "DB Sensor Save",
-      error: "need type and value",
+      error: "need humidity and temperature",
     });
   } else {
     try {
-      const result = await saveData(value, type);
-      result.reverse();
+      const result = await saveData(temperature, humidity);
       res.status(200).json({
         name: "DB Sensor Save",
         result,

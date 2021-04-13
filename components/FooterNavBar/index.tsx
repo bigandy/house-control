@@ -14,10 +14,13 @@ const pages = [
     url: "/lights",
     title: "Lights",
   },
-  ,
   {
     url: "/spotify",
     title: "Spotify",
+  },
+  {
+    url: "/sensor",
+    title: "Sensor",
   },
 ];
 
