@@ -22,11 +22,16 @@ const saveData = async (value: number, type: SensorType) => {
     });
 
     await db.exec(
-      "CREATE TABLE IF NOT EXISTS sensor (created_at TEXT, value INTEGER, type TEXT)"
+      `CREATE TABLE IF NOT EXISTS sensor (
+        id integer primary key autoincrement,
+        timestamp DATE DEFAULT (datetime('now','localtime')),
+        value INTEGER,
+        type TEXT
+      )`
     );
 
-    await db.run(`INSERT INTO sensor VALUES (:created_at, :value, :type)`, {
-      ":created_at": Date.now(),
+    await db.run(`INSERT INTO sensor VALUES (?, :timestamp, :value, :type)`, {
+      ":timestamp": new Date(),
       ":value": value,
       ":type": type,
     });
@@ -45,18 +50,24 @@ const saveData = async (value: number, type: SensorType) => {
 export default async (req, res) => {
   const { value, type } = req.query;
 
-  if (!value && !type) {
+  if (!value || !type) {
     res.status(400).json({
       name: "DB Sensor Save",
       error: "need type and value",
     });
   } else {
-    const result = await saveData(value, type);
-
-    result.reverse();
-    res.status(200).json({
-      name: "DB Sensor Save",
-      result,
-    });
+    try {
+      const result = await saveData(value, type);
+      result.reverse();
+      res.status(200).json({
+        name: "DB Sensor Save",
+        result,
+      });
+    } catch (e) {
+      res.status(400).json({
+        name: "DB Sensor Save",
+        error: e,
+      });
+    }
   }
 };
