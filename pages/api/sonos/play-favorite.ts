@@ -1,4 +1,4 @@
-import { getFavorites, playFavorite } from "../utils/sonos";
+import { getFavorites, playFavoriteWithStatuses } from "../utils/sonos";
 
 export default async (req, res) => {
   const { room } = req.query;
@@ -11,7 +11,7 @@ export default async (req, res) => {
     return res.status(400).json({ error: "no favorite selected" });
   }
 
-  const { currentTrack, status, statusBefore } = await playFavorite(
+  const { currentTrack, status, statusBefore } = await playFavoriteWithStatuses(
     favorite,
     roomToPlay
   );

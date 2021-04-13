@@ -30,7 +30,7 @@ const Temperature = ({ temperature, type = "in" }) => {
   return (
     <div>
       <div>Temp. {type}:</div>
-      {temperature !== undefined && (
+      {temperature && (
         <Fragment>
           {temperature.toFixed(1)}
           <sup>&deg;</sup>C
@@ -155,14 +155,16 @@ export default function Dashboard() {
   return (
     <DefaultLayout title="">
       <div className={styles.container}>
+        <Temperature temperature={temperatureInside} />
+        <Temperature temperature={temperatureOutside} type="out" />
+        
+        <Clock hours={hours} minutes={minutes} />
         <DayOfWeek day={day} />
         <DateOfMonth date={date} />
         <Month month={month} />
         <Year year={year} />
         <Season season={season} />
-        <Clock hours={hours} minutes={minutes} />
-        <Temperature temperature={temperatureInside} />
-        <Temperature temperature={temperatureOutside} type="out" />
+        
       </div>
     </DefaultLayout>
   );

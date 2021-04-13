@@ -196,8 +196,6 @@ export const playFavorite = async (favorite, roomToPlay = "") => {
 
   device.setSpotifyRegion(Regions.EU);
 
-  const statusBefore = await device.getCurrentState(roomToPlay);
-
   let currentTrack = null;
 
   if (favorite.type === "tunein") {
@@ -246,6 +244,17 @@ export const playFavorite = async (favorite, roomToPlay = "") => {
   } else {
     console.log("you didn't choose an available option");
   }
+
+  return currentTrack;
+};
+
+export const playFavoriteWithStatuses = async (favorite, roomToPlay = "") => {
+  const ipAddress = getRoomIpAddress(roomToPlay);
+  const device = new Sonos(ipAddress);
+
+  const statusBefore = await device.getCurrentState(roomToPlay);
+
+  const currentTrack = await playFavorite(favorite, roomToPlay);
 
   const status = await device.getCurrentState(roomToPlay);
 

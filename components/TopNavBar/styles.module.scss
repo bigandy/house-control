@@ -8,11 +8,11 @@
   ul {
     margin: 0;
     padding-left: 1em;
+    padding-left: 0;
   }
 
   li {
     display: inline-block;
-    margin-right: 2em;
   }
 
   a {
@@ -28,5 +28,28 @@
 
   .active {
     border-bottom-color: hotpink;
+  }
+}
+
+.list {
+  display: flex;
+
+  li {
+    flex: 1 1 auto;
+    justify-content: flex-start;
+
+    &:last-child {
+      justify-self: center;
+      align-self: center;
+      text-align: center;
+    }
+  }
+}
+
+@media (min-width: 600px) {
+  .wrapper {
+    ul {
+      padding-left: 1em;
+    }
   }
 }

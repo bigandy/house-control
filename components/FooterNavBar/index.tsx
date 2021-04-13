@@ -3,36 +3,25 @@ import { useRouter } from "next/router";
 
 import classNames from "classnames";
 
-import styles from "./styles.module.scss";
+import styles from "../TopNavBar/styles.module.scss";
 
 const pages = [
-  {
-    url: "/",
-    title: "Home",
-  },
-  {
-    url: "/dashboard",
-    title: "Dashboard",
-  },
   {
     url: "/plugs",
     title: "Plugs",
   },
   {
-    url: "/music",
-    title: "Music",
-  },
-  {
-    url: "/music/room",
-    title: "Music Room",
-  },
-  {
     url: "/lights",
     title: "Lights",
   },
+  ,
+  {
+    url: "/spotify",
+    title: "Spotify",
+  },
 ];
 
-const NavBar = () => {
+const FooterNavBar = () => {
   const router = useRouter();
 
   return (
@@ -58,4 +47,4 @@ const NavBar = () => {
   );
 };
 
-export default NavBar;
+export default FooterNavBar;
