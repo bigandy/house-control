@@ -5,8 +5,8 @@ const saveData = async (temperature: number, humidity: number) => {
   try {
     const result = await prisma.sensorValue.create({
       data: {
-        humidity,
-        temperature,
+        humidity: Number(humidity),
+        temperature: Number(temperature),
       },
     });
 
