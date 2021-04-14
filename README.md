@@ -2,14 +2,14 @@
 
 ## TODO
 
-- [x] Track data with SQLite and Prisma (the latter is a damn PITA to install so not doing that yet)
 - [ ] Graph of Temperature and Humidity over time
-- [x] Dashboard that shows the time/date/weather
-- [ ] Google Home API to connect to `anything` in the Home i.e. my Tapo P100 plugs (no current JS API available)
-- [ ] Sonos / Spotify so can search on a page (/music/room) and play that in the room selected.
+- [ ] Better track of spotify accessToken
+- [ ] Better design of music/room page
 
 ## DONE
-
+- [x] Dashboard that shows the time/date/weather
+- [x] Sonos / Spotify so can search on a page (/music/room) and play that in the room selected.
+- [x] Track data with SQLite and Prisma
 - [x] node-cron to get measurement every 1 minute. in external folder.
 - [x] Track data in DB (e.g. Hasura) and access via GraphQL endpoint
 - [x] Temperature and Weather tracking using Raspberry Pi + sensor
@@ -19,6 +19,9 @@
 - [x] Discovery of all lights
 - [x] Status of all lights
 - [x] Turn all lights off/on
+
+## Future Ideas
+- [ ] Google Home API to connect to `anything` in the Home i.e. my Tapo P100 plugs (no current JS API available)
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
