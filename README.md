@@ -21,7 +21,11 @@
 - [x] Turn all lights off/on
 
 ## Future Ideas
+
+- [ ] Radio Search / Favorite on Sonos with TuneIn / BBC
+- [ ] Download each new Gilles Peterson show on a Sunday morning and save to Dropbox or SD card or SSD
 - [ ] Google Home API to connect to `anything` in the Home i.e. my Tapo P100 plugs (no current JS API available)
+
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
@@ -62,12 +66,3 @@ I am going to try out ClimaCell.
 
 I'm running this on the raspberry pi: [https://www.npmjs.com/package/node-dht-sensor]()
 
-## Future Ideas
-
-1. Music Search / Favorite on Sonos using Spotify API
-2. Radio Search / Favorite on Sonos with TuneIn / BBC
-3. Download each new Gilles Peterson show on a Sunday morning and save to Dropbox or SD card or SSD
-4. Login / Save favorites to user with Next-Auth and DB
-5. Fix Temperature Sensor. Record temperature / Humidity to local DB
-6. Record Ctemperature / Humidity to local DB
-7. Graph temperature over time from data in DB
