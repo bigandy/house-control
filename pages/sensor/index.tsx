@@ -49,7 +49,7 @@ export default function SensorPage() {
                 return (
                   <tr key={d.id}>
                     <td>
-                      {format(date, "hh:mm")} - {format(date, "do-MMM-yyyy")}
+                      {format(date, "H:mm")} - {format(date, "do-MMM-yyyy")}
                     </td>
                     <td>{d.temperature}</td>
                     <td>{d.humidity}</td>
