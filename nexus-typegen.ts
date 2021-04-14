@@ -42,6 +42,16 @@ export interface NexusGenInputs {
     not?: NexusGenInputs['NestedDateTimeNullableFilter'] | null; // NestedDateTimeNullableFilter
     notIn?: NexusGenScalars['DateTime'][] | null; // [DateTime!]
   }
+  FloatNullableFilter: { // input type
+    equals?: number | null; // Float
+    gt?: number | null; // Float
+    gte?: number | null; // Float
+    in?: number[] | null; // [Float!]
+    lt?: number | null; // Float
+    lte?: number | null; // Float
+    not?: NexusGenInputs['NestedFloatNullableFilter'] | null; // NestedFloatNullableFilter
+    notIn?: number[] | null; // [Float!]
+  }
   IntFilter: { // input type
     equals?: number | null; // Int
     gt?: number | null; // Int
@@ -50,16 +60,6 @@ export interface NexusGenInputs {
     lt?: number | null; // Int
     lte?: number | null; // Int
     not?: NexusGenInputs['NestedIntFilter'] | null; // NestedIntFilter
-    notIn?: number[] | null; // [Int!]
-  }
-  IntNullableFilter: { // input type
-    equals?: number | null; // Int
-    gt?: number | null; // Int
-    gte?: number | null; // Int
-    in?: number[] | null; // [Int!]
-    lt?: number | null; // Int
-    lte?: number | null; // Int
-    not?: NexusGenInputs['NestedIntNullableFilter'] | null; // NestedIntNullableFilter
     notIn?: number[] | null; // [Int!]
   }
   NestedDateTimeFilter: { // input type
@@ -82,6 +82,16 @@ export interface NexusGenInputs {
     not?: NexusGenInputs['NestedDateTimeNullableFilter'] | null; // NestedDateTimeNullableFilter
     notIn?: NexusGenScalars['DateTime'][] | null; // [DateTime!]
   }
+  NestedFloatNullableFilter: { // input type
+    equals?: number | null; // Float
+    gt?: number | null; // Float
+    gte?: number | null; // Float
+    in?: number[] | null; // [Float!]
+    lt?: number | null; // Float
+    lte?: number | null; // Float
+    not?: NexusGenInputs['NestedFloatNullableFilter'] | null; // NestedFloatNullableFilter
+    notIn?: number[] | null; // [Float!]
+  }
   NestedIntFilter: { // input type
     equals?: number | null; // Int
     gt?: number | null; // Int
@@ -90,16 +100,6 @@ export interface NexusGenInputs {
     lt?: number | null; // Int
     lte?: number | null; // Int
     not?: NexusGenInputs['NestedIntFilter'] | null; // NestedIntFilter
-    notIn?: number[] | null; // [Int!]
-  }
-  NestedIntNullableFilter: { // input type
-    equals?: number | null; // Int
-    gt?: number | null; // Int
-    gte?: number | null; // Int
-    in?: number[] | null; // [Int!]
-    lt?: number | null; // Int
-    lte?: number | null; // Int
-    not?: NexusGenInputs['NestedIntNullableFilter'] | null; // NestedIntNullableFilter
     notIn?: number[] | null; // [Int!]
   }
   NestedStringNullableFilter: { // input type
@@ -123,8 +123,8 @@ export interface NexusGenInputs {
   }
   SensorValueCreateInput: { // input type
     createdAt?: NexusGenScalars['DateTime'] | null; // DateTime
-    humidity?: number | null; // Int
-    temperature?: number | null; // Int
+    humidity?: number | null; // Float
+    temperature?: number | null; // Float
     updatedAt?: NexusGenScalars['DateTime'] | null; // DateTime
   }
   SensorValueOrderByInput: { // input type
@@ -139,9 +139,9 @@ export interface NexusGenInputs {
     NOT?: NexusGenInputs['SensorValueWhereInput'][] | null; // [SensorValueWhereInput!]
     OR?: NexusGenInputs['SensorValueWhereInput'][] | null; // [SensorValueWhereInput!]
     createdAt?: NexusGenInputs['DateTimeFilter'] | null; // DateTimeFilter
-    humidity?: NexusGenInputs['IntNullableFilter'] | null; // IntNullableFilter
+    humidity?: NexusGenInputs['FloatNullableFilter'] | null; // FloatNullableFilter
     id?: NexusGenInputs['IntFilter'] | null; // IntFilter
-    temperature?: NexusGenInputs['IntNullableFilter'] | null; // IntNullableFilter
+    temperature?: NexusGenInputs['FloatNullableFilter'] | null; // FloatNullableFilter
     updatedAt?: NexusGenInputs['DateTimeFilter'] | null; // DateTimeFilter
   }
   SensorValueWhereUniqueInput: { // input type
@@ -221,9 +221,9 @@ export interface NexusGenObjects {
   Query: {};
   SensorValue: { // root type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
-    humidity?: number | null; // Int
+    humidity?: number | null; // Float
     id: number; // Int!
-    temperature?: number | null; // Int
+    temperature?: number | null; // Float
     updatedAt: NexusGenScalars['DateTime']; // DateTime!
   }
   User: { // root type
@@ -261,9 +261,9 @@ export interface NexusGenFieldTypes {
   }
   SensorValue: { // field return type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
-    humidity: number | null; // Int
+    humidity: number | null; // Float
     id: number; // Int!
-    temperature: number | null; // Int
+    temperature: number | null; // Float
     updatedAt: NexusGenScalars['DateTime']; // DateTime!
   }
   User: { // field return type
@@ -291,9 +291,9 @@ export interface NexusGenFieldTypeNames {
   }
   SensorValue: { // field return type name
     createdAt: 'DateTime'
-    humidity: 'Int'
+    humidity: 'Float'
     id: 'Int'
-    temperature: 'Int'
+    temperature: 'Float'
     updatedAt: 'DateTime'
   }
   User: { // field return type name

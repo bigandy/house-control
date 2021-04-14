@@ -14,5 +14,5 @@
 		"statusBarItem.hoverBackground": "#85018a50",
 		"statusBar.foreground": "#15202b"
 	},
-	"window.zoomLevel": 1.75
+	// "window.zoomLevel": 1
 }

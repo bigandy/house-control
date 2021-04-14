@@ -15,6 +15,7 @@
     "apollo-log": "^1.0.1",
     "apollo-server-micro": "2.22.2",
     "classnames": "2.3.1",
+    "date-fns": "2.20.3",
     "graphql": "15.5.0",
     "graphql-middleware": "6.0.7",
     "next": "10.1.3",

@@ -31,6 +31,17 @@ input DateTimeNullableFilter {
   notIn: [DateTime!]
 }
 
+input FloatNullableFilter {
+  equals: Float
+  gt: Float
+  gte: Float
+  in: [Float!]
+  lt: Float
+  lte: Float
+  not: NestedFloatNullableFilter
+  notIn: [Float!]
+}
+
 input IntFilter {
   equals: Int
   gt: Int
@@ -39,17 +50,6 @@ input IntFilter {
   lt: Int
   lte: Int
   not: NestedIntFilter
-  notIn: [Int!]
-}
-
-input IntNullableFilter {
-  equals: Int
-  gt: Int
-  gte: Int
-  in: [Int!]
-  lt: Int
-  lte: Int
-  not: NestedIntNullableFilter
   notIn: [Int!]
 }
 
@@ -82,6 +82,17 @@ input NestedDateTimeNullableFilter {
   notIn: [DateTime!]
 }
 
+input NestedFloatNullableFilter {
+  equals: Float
+  gt: Float
+  gte: Float
+  in: [Float!]
+  lt: Float
+  lte: Float
+  not: NestedFloatNullableFilter
+  notIn: [Float!]
+}
+
 input NestedIntFilter {
   equals: Int
   gt: Int
@@ -90,17 +101,6 @@ input NestedIntFilter {
   lt: Int
   lte: Int
   not: NestedIntFilter
-  notIn: [Int!]
-}
-
-input NestedIntNullableFilter {
-  equals: Int
-  gt: Int
-  gte: Int
-  in: [Int!]
-  lt: Int
-  lte: Int
-  not: NestedIntNullableFilter
   notIn: [Int!]
 }
 
@@ -135,16 +135,16 @@ type Query {
 
 type SensorValue {
   createdAt: DateTime!
-  humidity: Int
+  humidity: Float
   id: Int!
-  temperature: Int
+  temperature: Float
   updatedAt: DateTime!
 }
 
 input SensorValueCreateInput {
   createdAt: DateTime
-  humidity: Int
-  temperature: Int
+  humidity: Float
+  temperature: Float
   updatedAt: DateTime
 }
 
@@ -161,9 +161,9 @@ input SensorValueWhereInput {
   NOT: [SensorValueWhereInput!]
   OR: [SensorValueWhereInput!]
   createdAt: DateTimeFilter
-  humidity: IntNullableFilter
+  humidity: FloatNullableFilter
   id: IntFilter
-  temperature: IntNullableFilter
+  temperature: FloatNullableFilter
   updatedAt: DateTimeFilter
 }
 

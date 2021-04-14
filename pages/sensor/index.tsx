@@ -8,6 +8,10 @@ import DefaultLayout from "layouts/default";
 import SearchSpotify from "components/SearchSpotify";
 import { useSensorValuesQuery } from "controllers/sensorValues/hooks";
 
+import { compareAsc, format } from "date-fns";
+
+import classes from "./styles.module.scss";
+
 export default function SensorPage() {
   const { data } = useSensorValuesQuery();
 
@@ -26,14 +30,36 @@ export default function SensorPage() {
         </li>
       </ul>
 
-      {data?.sensorValues?.length > 0 &&
-        data.sensorValues.map((d) => {
-          return (
-            <li key={d.id}>
-              {d.temperature}&deg;C - {d.humidity}%
-            </li>
-          );
-        })}
+      {data?.sensorValues?.length > 0 && (
+        <table className={classes.table}>
+          <thead>
+            <tr>
+              <th>Created</th>
+              <th>Temp (&deg;C)</th>
+              <th>Humidity (%)</th>
+            </tr>
+          </thead>
+          <tbody>
+            {data.sensorValues
+              .map((d) => {
+                const date = new Date(d.createdAt);
+
+                console.log(date);
+
+                return (
+                  <tr key={d.id}>
+                    <td>
+                      {format(date, "hh:mm")} - {format(date, "do-MMM-yyyy")}
+                    </td>
+                    <td>{d.temperature}</td>
+                    <td>{d.humidity}</td>
+                  </tr>
+                );
+              })
+              .reverse()}
+          </tbody>
+        </table>
+      )}
     </DefaultLayout>
   );
 }

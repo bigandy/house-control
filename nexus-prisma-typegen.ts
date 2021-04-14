@@ -124,8 +124,8 @@ interface NexusPrismaOutputs {
   }
   SensorValue: {
     id: 'Int'
-    temperature: 'Int'
-    humidity: 'Int'
+    temperature: 'Float'
+    humidity: 'Float'
     createdAt: 'DateTime'
     updatedAt: 'DateTime'
   }
