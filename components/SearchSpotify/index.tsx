@@ -1,4 +1,4 @@
-import { useState, useEffect, Fragment } from "react";
+import { useState, useEffect, Fragment, useMemo } from "react";
 import { signIn, signOut, useSession } from "next-auth/client";
 import Head from "next/head";
 import classnames from "classnames";
@@ -6,10 +6,9 @@ import classnames from "classnames";
 import { SpotifySearch } from "pages/api/spotify/search";
 import playFavorite from "pages/api/sonos/play-favorite";
 
-const defaultType = SpotifySearch.ALBUMS;
+const defaultType = SpotifySearch.PLAYLISTS;
 
-import styles from "styles/Home.module.scss";
-import spotifyStyles from "./style.module.scss";
+import styles from "./styles.module.scss";
 
 const SearchSpotify = ({ room }) => {
   const [session, loading] = useSession();
@@ -40,7 +39,7 @@ const SearchSpotify = ({ room }) => {
 
     await fetch(
       `/api/sonos/play-favorite?favorite=${JSON.stringify({
-        id: `${type.replace("s", "")}:${result.id}`,
+        id: `${result.uri}`,
         type: "spotify",
       })}&room=${room}`
     )
@@ -52,14 +51,48 @@ const SearchSpotify = ({ room }) => {
     setType(e.target.value);
   };
 
+  const resultsGrid = useMemo(() => {
+    return (
+      <ul className="results-grid">
+        {results &&
+          results?.map((result) => {
+            return (
+              <li key={result.id}>
+                <img
+                  src={
+                    result?.images[type === SpotifySearch.PLAYLISTS ? 0 : 1]
+                      ?.url
+                  }
+                  alt=""
+                  height={50}
+                  width={50}
+                />
+
+                <div>{result.name}</div>
+                <div>
+                  {result.artists?.map((artist) => {
+                    return <div>{artist.name}</div>;
+                  }) ?? "-"}
+                </div>
+                <button onClick={() => playResult(result)}>Play Now</button>
+              </li>
+            );
+          })}
+      </ul>
+    );
+  }, [results]);
+
   return (
-    <div className={styles.container}>
+    <div className="">
       {!loading && session && (
         <Fragment>
-          <form onSubmit={handleSubmit} className={spotifyStyles.form}>
+          <h2 style={{ margin: 0, marginLeft: "0.75rem" }}>Search Spotify</h2>
+
+          <form onSubmit={handleSubmit} className={styles.form}>
             <select onChange={handleSelect} value={type}>
               <option value={SpotifySearch.TRACKS}>Tracks</option>
               <option value={SpotifySearch.ALBUMS}>Albums</option>
+              <option value={SpotifySearch.PLAYLISTS}>Playlists</option>
             </select>
 
             <input
@@ -73,25 +106,10 @@ const SearchSpotify = ({ room }) => {
             <input
               type="submit"
               value="Submit Search"
-              className={spotifyStyles.submit}
+              className={styles.submit}
             />
           </form>
-          <ul className="results-grid">
-            {results &&
-              results?.map((result) => (
-                <li key={result.id} onClick={() => playResult(result)}>
-                  <div>{result.name}</div>
-                  <div>{result.type}</div>
-                  <div>{result.id}</div>
-                  <img
-                    src={result.images[1].url}
-                    alt=""
-                    height={result.images[1].height}
-                    width={result.images[1].width}
-                  />
-                </li>
-              ))}
-          </ul>
+          {resultsGrid}
         </Fragment>
       )}
     </div>

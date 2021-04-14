@@ -10,6 +10,7 @@ import prisma from "utils/database/prisma";
 export enum SpotifySearch {
   ALBUMS = "albums",
   TRACKS = "tracks",
+  PLAYLISTS = "playlists",
 }
 
 const resolver = async (req, res) => {
@@ -29,28 +30,40 @@ const resolver = async (req, res) => {
   });
 
   const getSearchResults = async (type, searchText) => {
-    const searchType: SpotifySearch =
-      type === SpotifySearch.ALBUMS
-        ? SpotifySearch.ALBUMS
-        : SpotifySearch.TRACKS;
-
-    const searchResults =
-      searchType === SpotifySearch.ALBUMS
-        ? await spotifyApi.searchAlbums(searchText).then((data) => {
-            return data.body;
-          })
-        : await spotifyApi.searchTracks(searchText).then((data) => {
+    const searchResults = async (type: SpotifySearch, searchText: string) => {
+      switch (type) {
+        case SpotifySearch.ALBUMS:
+          return await spotifyApi.searchAlbums(searchText).then((data) => {
             return data.body;
           });
+        case SpotifySearch.TRACKS:
+          return await spotifyApi.searchTracks(searchText).then((data) => {
+            return data.body;
+          });
+        case SpotifySearch.PLAYLISTS:
+          return await spotifyApi.searchPlaylists(searchText).then((data) => {
+            return data.body;
+          });
+        default:
+          console.log("no type selected");
+          return;
+      }
+    };
+
+    const search = await searchResults(type, searchText);
+
+    console.log(search[type]);
 
     const results =
-      searchResults[searchType]?.items?.map(
-        ({ name, type, id, album, images }) => {
+      search[type]?.items?.map(
+        ({ name, type, id, album, images, uri, artists }) => {
           return {
             name,
             type,
             id,
             images: album?.images || images,
+            uri,
+            artists,
           };
         }
       ) || [];

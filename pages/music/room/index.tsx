@@ -34,9 +34,11 @@ export default function MusicRoomPage({ favorites }) {
 
   const getCurrentTrack = async () => {
     try {
-      const statuses = await fetch(`/api/sonos/status-room?room=${selectedRoom}`)
+      const statuses = await fetch(
+        `/api/sonos/status-room?room=${selectedRoom}`
+      )
         .then((res) => res.json())
-        .then(({currentTrack}) => {
+        .then(({ currentTrack }) => {
           setCurrentTrackPlaying(currentTrack);
         })
         .catch((e) => console.error(e));
@@ -104,9 +106,7 @@ export default function MusicRoomPage({ favorites }) {
       // 1. Get currently playing track
       getCurrentTrack();
     }
-    
   }, [selectedRoom, musicPlaying]);
-
 
   useInterval(async () => {
     if (musicPlaying[selectedRoom]) {
@@ -120,6 +120,7 @@ export default function MusicRoomPage({ favorites }) {
   const playFavorite = async () => {
     // update state fast.
     // setPlaying((prevState) => !prevState);
+    console.log({ currentFavorite });
     await fetch(
       `/api/sonos/play-favorite?favorite=${JSON.stringify(
         currentFavorite
@@ -221,7 +222,29 @@ export default function MusicRoomPage({ favorites }) {
   };
 
   return (
-    <DefaultLayout title="Music Room">
+    <DefaultLayout title="">
+      <h1 style={{ marginLeft: "0.75rem", marginBottom: 0, lineHeight: 1 }}>
+        Music
+        <select
+          value={selectedRoom}
+          onChange={(e) => handleRoomChange(e.target.value)}
+          className="inline-select"
+        >
+          {rooms.map((room) => {
+            return (
+              <option
+                id={room}
+                key={room}
+                className={classnames({
+                  active: room === selectedRoom,
+                })}
+              >
+                {room}
+              </option>
+            );
+          })}
+        </select>
+      </h1>
       <div className="play-wrapper">
         <button
           onClick={() => toggleRoom()}
@@ -229,16 +252,10 @@ export default function MusicRoomPage({ favorites }) {
             active: musicPlaying[selectedRoom],
           })}
         >
-          <svg width="100px" height="100px" viewBox="0 0 36 36">
+          <svg width="24px" height="24px" viewBox="0 0 36 36">
             <path d={icon} />
           </svg>
         </button>
-
-        {currentFavorite && (
-          <button onClick={playFavoriteNext} className="playnext-button">
-            Play {currentFavorite?.title}
-          </button>
-        )}
 
         {roomsMuted && (
           <button onClick={handleRoomMute} className="mute-button">
@@ -259,31 +276,6 @@ export default function MusicRoomPage({ favorites }) {
             {roomVolumes[selectedRoom]}
           </Fragment>
         )}
-      </div>
-
-      <h2 style={{ marginLeft: "0.75rem" }}>
-        Selected Room is : {selectedRoom}
-      </h2>
-      <div className={styles.container}>
-        {rooms.map((room) => {
-          return (
-            <label
-              htmlFor={room}
-              key={room}
-              className={classnames({
-                active: room === selectedRoom,
-              })}
-            >
-              <input
-                id={room}
-                type="radio"
-                checked={room === selectedRoom}
-                onChange={() => handleRoomChange(room)}
-              />
-              {room}
-            </label>
-          );
-        })}
 
         {favorites && (
           <select
@@ -291,6 +283,7 @@ export default function MusicRoomPage({ favorites }) {
               setCurrentFavorite(favorites[e.target.value]);
             }}
             value={currentFavorite?.title}
+            className="inline-select"
           >
             {Object.keys(favorites).map((favorite) => {
               return (
@@ -308,23 +301,35 @@ export default function MusicRoomPage({ favorites }) {
             })}
           </select>
         )}
+
+        {currentFavorite && (
+          <button onClick={playFavoriteNext} className="playnext-button">
+            Play {currentFavorite?.title}
+          </button>
+        )}
       </div>
 
-      <h2 style={{ marginLeft: "0.75rem" }}>Search Spotify</h2>
       <SearchSpotify room={selectedRoom} />
 
       {currentTrackPlaying && (
-        <div>
+        <div style={{ marginLeft: "1rem" }}>
           <h2>Current Track Info</h2>
           <div>Title: {currentTrackPlaying.title}</div>
           <div>Album: {currentTrackPlaying.album}</div>
           <div>Artist: {currentTrackPlaying.artist}</div>
           <div>Uri: {currentTrackPlaying.uri}</div>
           <div>Position: {currentTrackPlaying.position}</div>
-          <div><img src={currentTrackPlaying.albumArtURL} loading="lazy" alt="" height="100" width="100" /></div>
+          {/* <div>
+            <img
+              src={currentTrackPlaying.albumArtURL}
+              loading="lazy"
+              alt=""
+              height="100"
+              width="100"
+            />
+          </div> */}
         </div>
       )}
-
     </DefaultLayout>
   );
 }

@@ -175,12 +175,10 @@ export const getFavorites = async (roomToPlay) => {
       const beforeQuestion = split[1]
         .split("?")[0]
         .replace(/%3a/g, ":")
-        // .replace("%3a", ":")
-        // .replace("%3a", ":")
         .split(":");
 
       // either spotify-album or spotify-playlist
-      returnObj.id = `${beforeQuestion[1]}:${beforeQuestion[2]}`;
+      returnObj.id = `spotify:${beforeQuestion[1]}:${beforeQuestion[2]}`;
       returnObj.type = "spotify";
     }
 
@@ -219,7 +217,7 @@ export const playFavorite = async (favorite, roomToPlay = "") => {
         console.log("Error occurred", e);
       });
   } else if (favorite.type === "spotify") {
-    const spotifyUri = `spotify:${favorite.id}`;
+    const spotifyUri = `${favorite.id}`;
 
     currentTrack = await device
       .play(spotifyUri)

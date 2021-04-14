@@ -29,11 +29,11 @@ button {
   cursor: pointer;
   font-weight: bold;
   outline: none;
-  
+
   &.active {
     border-color: green;
   }
-  
+
   @media (min-width: 600px) {
     font-size: 200%;
   }
@@ -80,7 +80,8 @@ label {
 }
 
 .play-wrapper {
-  padding: 1em;
+  padding: 0 1em;
+
   svg {
     path {
       transition: 300ms ease;
@@ -93,7 +94,7 @@ label {
 }
 
 .mute-button {
-  margin-left: 2rem;
+  margin-left: 1rem;
   margin-right: 1rem;
 }
 
@@ -114,17 +115,13 @@ label {
   &:focus {
     border-color: green;
   }
-
 }
 
 .results-grid {
-  grid-column: -1 / 1;
-
   display: grid;
   list-style: none;
   margin: 0;
-  padding: 0;
-  grid-template-columns: repeat(auto-fit, minmax(222px, 1fr));
+  padding: 1rem;
   grid-gap: 1em;
 
   img {
@@ -133,5 +130,24 @@ label {
 
   li {
     border: 1px solid black;
+    display: grid;
+    grid-template-columns: 50px 300px 300px 50px;
   }
+
+  button {
+    font-size: 13px;
+  }
+}
+
+.inline-select {
+  width: auto;
+  padding: 0;
+  display: inline-block;
+  border: 0;
+  position: relative;
+  bottom: 4px;
+  margin-left: 1rem;
+  background: lightyellow;
+  padding: 1rem;
+  padding-bottom: 0.5rem;
 }

@@ -1,0 +1,30 @@
+.submit {
+  width: 100%;
+  padding: 1rem;
+}
+
+.form {
+  display: grid;
+  margin-top: 1rem;
+  // grid-row-gap: 1rem;
+  padding: 0 1rem;
+
+  select {
+    margin: 0;
+    padding: 0.5rem;
+  }
+
+  :global(.search-box) {
+    width: auto;
+    padding: 0.4rem;
+  }
+
+  @media (min-width: 900px) {
+    grid-column-gap: 0.5rem;
+    grid-template-columns: 1fr 600px 1fr;
+
+    :global(.search-box) {
+      margin: 0;
+    }
+  }
+}
