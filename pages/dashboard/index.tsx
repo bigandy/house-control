@@ -94,31 +94,27 @@ export default function Dashboard() {
   }, []);
 
   const getOutsideTemperature = async () => {
-    try {
-      const result = await fetch("/api/weather/get-weather")
-        .then((response) => response.json())
-        .then((json) => json.result);
+    const { result } = await fetch("/api/db/read")
+      .then((response) => response.json())
+      .catch((e) => console.error("error in getting weather from api"));
 
-      setTemperatureOutside(result.temp.value);
-    } catch (e) {
-      console.error(e);
-    }
+    const getOutsideTemperature = result.find(
+      (result) => result.type === "outside"
+    );
+
+    setTemperatureOutside(getOutsideTemperature?.temperature);
   };
 
   const getInsideTemperature = async () => {
-    try {
-      const { temperature } = await fetch("/api/weather/get-pi-sensor")
-        .then((response) => response.json())
-        .catch((e) => console.error(e));
+    const { result } = await fetch("/api/db/read")
+      .then((response) => response.json())
+      .catch((e) => console.error("error in getting weather from api"));
 
-      setTemperatureInside(temperature);
-    } catch (e) {
-      console.error("error in getInsideTemperature", e);
-      const { sensor_data } = await fetch("/api/hasura/get-weather?number=1")
-        .then((response) => response.json())
-        .catch((e) => console.error("error in getting weather from api"));
-      setTemperatureInside(sensor_data[0]?.temperature);
-    }
+    const getInsideTemperature = result.find(
+      (result) => result.type === "inside"
+    );
+
+    setTemperatureInside(getInsideTemperature?.temperature);
   };
 
   useEffect(() => {
@@ -144,27 +140,26 @@ export default function Dashboard() {
     setYear(currentYear);
   }, 3000);
 
-  // Every 3 minutes, call Weather API to get the outside weather.
+  // Every 6 minutes, call our DB to get inside and ouside weather.
   useInterval(async () => {
     // GET THE TEMPERATURE FROM THE API
     await getOutsideTemperature();
 
     await getInsideTemperature();
-  }, 1000 * 3 * 60);
+  }, 1000 * 6 * 60);
 
   return (
     <DefaultLayout title="">
       <div className={styles.container}>
         <Temperature temperature={temperatureInside} />
         <Temperature temperature={temperatureOutside} type="out" />
-        
+
         <Clock hours={hours} minutes={minutes} />
         <DayOfWeek day={day} />
         <DateOfMonth date={date} />
         <Month month={month} />
         <Year year={year} />
         <Season season={season} />
-        
       </div>
     </DefaultLayout>
   );

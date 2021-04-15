@@ -4,7 +4,7 @@ import classnames from "classnames";
 
 import DefaultLayout from "layouts/default";
 
-import styles from "styles/Home.module.scss";
+import styles from "./styles.module.scss";
 import fetch from "node-fetch";
 
 import { useDebouncedCallback } from "use-debounce";
@@ -191,8 +191,7 @@ export default function MusicRoomPage({ favorites }) {
     localStorage.setItem("room", room);
   };
 
-  const handleVolumeChange = (e) => {
-    const volume = e.target.value;
+  const handleVolumeChange = (volume) => {
     setRoomVolumes((prevState) => {
       return {
         ...(prevState as any),
@@ -270,10 +269,22 @@ export default function MusicRoomPage({ favorites }) {
               min="0"
               max="40"
               value={roomVolumes[selectedRoom]}
-              onChange={(e) => handleVolumeChange(e)}
-              className="input-range"
+              onChange={(e) => handleVolumeChange(e.target.value)}
+              className={styles["input-range"]}
             />
             {roomVolumes[selectedRoom]}
+            <button
+              className={styles.volButton}
+              onClick={() => handleVolumeChange(roomVolumes[selectedRoom] + 5)}
+            >
+              Up
+            </button>
+            <button
+              className={styles.volButton}
+              onClick={() => handleVolumeChange(roomVolumes[selectedRoom] - 5)}
+            >
+              Down
+            </button>
           </Fragment>
         )}
 

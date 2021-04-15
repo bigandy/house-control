@@ -1,0 +1,20 @@
+.input-range {
+  width: 70px;
+  transform: rotate(-90deg);
+  display: none;
+}
+
+.volButton {
+  font-size: 15px;
+  padding: 0.5rem 1em;
+  margin: 0 1em;
+}
+
+@media (min-width: 600px) {
+  .input-range {
+    display: inline-block;
+  }
+  .volButton {
+    display: none;
+  }
+}
