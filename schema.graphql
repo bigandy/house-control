@@ -104,6 +104,20 @@ input NestedIntFilter {
   notIn: [Int!]
 }
 
+input NestedStringFilter {
+  contains: String
+  endsWith: String
+  equals: String
+  gt: String
+  gte: String
+  in: [String!]
+  lt: String
+  lte: String
+  not: NestedStringFilter
+  notIn: [String!]
+  startsWith: String
+}
+
 input NestedStringNullableFilter {
   contains: String
   endsWith: String
@@ -138,6 +152,7 @@ type SensorValue {
   humidity: Float
   id: Int!
   temperature: Float
+  type: String!
   updatedAt: DateTime!
 }
 
@@ -145,6 +160,7 @@ input SensorValueCreateInput {
   createdAt: DateTime
   humidity: Float
   temperature: Float
+  type: String
   updatedAt: DateTime
 }
 
@@ -153,6 +169,7 @@ input SensorValueOrderByInput {
   humidity: SortOrder
   id: SortOrder
   temperature: SortOrder
+  type: SortOrder
   updatedAt: SortOrder
 }
 
@@ -164,6 +181,7 @@ input SensorValueWhereInput {
   humidity: FloatNullableFilter
   id: IntFilter
   temperature: FloatNullableFilter
+  type: StringFilter
   updatedAt: DateTimeFilter
 }
 
@@ -174,6 +192,20 @@ input SensorValueWhereUniqueInput {
 enum SortOrder {
   asc
   desc
+}
+
+input StringFilter {
+  contains: String
+  endsWith: String
+  equals: String
+  gt: String
+  gte: String
+  in: [String!]
+  lt: String
+  lte: String
+  not: NestedStringFilter
+  notIn: [String!]
+  startsWith: String
 }
 
 input StringNullableFilter {

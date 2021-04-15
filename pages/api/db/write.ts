@@ -1,12 +1,22 @@
 import prisma from "utils/database/prisma";
 import { SensorValue } from "./../../../housecontrol-graphql";
 
-const saveData = async (temperature: number, humidity: number) => {
+enum SensorType {
+  INSIDE = "INSIDE",
+  OUTSIDE = "OUTSIDE",
+}
+
+const saveData = async (
+  temperature: number,
+  humidity: number,
+  type: SensorType
+) => {
   try {
     const result = await prisma.sensorValue.create({
       data: {
         humidity: Number(humidity),
         temperature: Number(temperature),
+        type,
       },
     });
 
@@ -18,16 +28,21 @@ const saveData = async (temperature: number, humidity: number) => {
 };
 
 export default async (req, res) => {
-  const { temperature, humidity } = req.query;
+  const { temperature, humidity, type } = req.query;
 
-  if (!temperature || !humidity) {
+  if (!temperature || !humidity || !type) {
     res.status(400).json({
       name: "DB Sensor Save",
-      error: "need humidity and temperature",
+      error: "need humidity, type, and temperature",
+    });
+  } else if (!Object.values(SensorType).includes(type.toUpperCase())) {
+    res.status(400).json({
+      name: "DB Sensor Save",
+      error: "please provide a valid type",
     });
   } else {
     try {
-      const result = await saveData(temperature, humidity);
+      const result = await saveData(temperature, humidity, type);
       res.status(200).json({
         name: "DB Sensor Save",
         result,

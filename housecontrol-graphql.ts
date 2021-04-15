@@ -40,6 +40,17 @@ export type DateTimeNullableFilter = {
   notIn?: Maybe<Array<Scalars['DateTime']>>;
 };
 
+export type FloatNullableFilter = {
+  equals?: Maybe<Scalars['Float']>;
+  gt?: Maybe<Scalars['Float']>;
+  gte?: Maybe<Scalars['Float']>;
+  in?: Maybe<Array<Scalars['Float']>>;
+  lt?: Maybe<Scalars['Float']>;
+  lte?: Maybe<Scalars['Float']>;
+  not?: Maybe<NestedFloatNullableFilter>;
+  notIn?: Maybe<Array<Scalars['Float']>>;
+};
+
 export type IntFilter = {
   equals?: Maybe<Scalars['Int']>;
   gt?: Maybe<Scalars['Int']>;
@@ -51,24 +62,11 @@ export type IntFilter = {
   notIn?: Maybe<Array<Scalars['Int']>>;
 };
 
-export type IntNullableFilter = {
-  equals?: Maybe<Scalars['Int']>;
-  gt?: Maybe<Scalars['Int']>;
-  gte?: Maybe<Scalars['Int']>;
-  in?: Maybe<Array<Scalars['Int']>>;
-  lt?: Maybe<Scalars['Int']>;
-  lte?: Maybe<Scalars['Int']>;
-  not?: Maybe<NestedIntNullableFilter>;
-  notIn?: Maybe<Array<Scalars['Int']>>;
-};
-
 export type Mutation = {
   __typename?: 'Mutation';
   createOneSensorValue: SensorValue;
   createOneUser: User;
-  deleteOneSensorValue?: Maybe<SensorValue>;
   deleteOneUser?: Maybe<User>;
-  updateOneSensorValue?: Maybe<SensorValue>;
   updateOneUser?: Maybe<User>;
 };
 
@@ -83,19 +81,8 @@ export type MutationCreateOneUserArgs = {
 };
 
 
-export type MutationDeleteOneSensorValueArgs = {
-  where: SensorValueWhereUniqueInput;
-};
-
-
 export type MutationDeleteOneUserArgs = {
   where: UserWhereUniqueInput;
-};
-
-
-export type MutationUpdateOneSensorValueArgs = {
-  data: SensorValueUpdateInput;
-  where: SensorValueWhereUniqueInput;
 };
 
 
@@ -126,6 +113,17 @@ export type NestedDateTimeNullableFilter = {
   notIn?: Maybe<Array<Scalars['DateTime']>>;
 };
 
+export type NestedFloatNullableFilter = {
+  equals?: Maybe<Scalars['Float']>;
+  gt?: Maybe<Scalars['Float']>;
+  gte?: Maybe<Scalars['Float']>;
+  in?: Maybe<Array<Scalars['Float']>>;
+  lt?: Maybe<Scalars['Float']>;
+  lte?: Maybe<Scalars['Float']>;
+  not?: Maybe<NestedFloatNullableFilter>;
+  notIn?: Maybe<Array<Scalars['Float']>>;
+};
+
 export type NestedIntFilter = {
   equals?: Maybe<Scalars['Int']>;
   gt?: Maybe<Scalars['Int']>;
@@ -134,17 +132,6 @@ export type NestedIntFilter = {
   lt?: Maybe<Scalars['Int']>;
   lte?: Maybe<Scalars['Int']>;
   not?: Maybe<NestedIntFilter>;
-  notIn?: Maybe<Array<Scalars['Int']>>;
-};
-
-export type NestedIntNullableFilter = {
-  equals?: Maybe<Scalars['Int']>;
-  gt?: Maybe<Scalars['Int']>;
-  gte?: Maybe<Scalars['Int']>;
-  in?: Maybe<Array<Scalars['Int']>>;
-  lt?: Maybe<Scalars['Int']>;
-  lte?: Maybe<Scalars['Int']>;
-  not?: Maybe<NestedIntNullableFilter>;
   notIn?: Maybe<Array<Scalars['Int']>>;
 };
 
@@ -164,14 +151,6 @@ export type NestedStringNullableFilter = {
 
 export type NullableDateTimeFieldUpdateOperationsInput = {
   set?: Maybe<Scalars['DateTime']>;
-};
-
-export type NullableIntFieldUpdateOperationsInput = {
-  decrement?: Maybe<Scalars['Int']>;
-  divide?: Maybe<Scalars['Int']>;
-  increment?: Maybe<Scalars['Int']>;
-  multiply?: Maybe<Scalars['Int']>;
-  set?: Maybe<Scalars['Int']>;
 };
 
 export type NullableStringFieldUpdateOperationsInput = {
@@ -217,16 +196,16 @@ export type QueryUsersArgs = {
 export type SensorValue = {
   __typename?: 'SensorValue';
   createdAt: Scalars['DateTime'];
-  humidity?: Maybe<Scalars['Int']>;
+  humidity?: Maybe<Scalars['Float']>;
   id: Scalars['Int'];
-  temperature?: Maybe<Scalars['Int']>;
+  temperature?: Maybe<Scalars['Float']>;
   updatedAt: Scalars['DateTime'];
 };
 
 export type SensorValueCreateInput = {
   createdAt?: Maybe<Scalars['DateTime']>;
-  humidity?: Maybe<Scalars['Int']>;
-  temperature?: Maybe<Scalars['Int']>;
+  humidity?: Maybe<Scalars['Float']>;
+  temperature?: Maybe<Scalars['Float']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
@@ -238,21 +217,14 @@ export type SensorValueOrderByInput = {
   updatedAt?: Maybe<SortOrder>;
 };
 
-export type SensorValueUpdateInput = {
-  createdAt?: Maybe<DateTimeFieldUpdateOperationsInput>;
-  humidity?: Maybe<NullableIntFieldUpdateOperationsInput>;
-  temperature?: Maybe<NullableIntFieldUpdateOperationsInput>;
-  updatedAt?: Maybe<DateTimeFieldUpdateOperationsInput>;
-};
-
 export type SensorValueWhereInput = {
   AND?: Maybe<Array<SensorValueWhereInput>>;
   NOT?: Maybe<Array<SensorValueWhereInput>>;
   OR?: Maybe<Array<SensorValueWhereInput>>;
   createdAt?: Maybe<DateTimeFilter>;
-  humidity?: Maybe<IntNullableFilter>;
+  humidity?: Maybe<FloatNullableFilter>;
   id?: Maybe<IntFilter>;
-  temperature?: Maybe<IntNullableFilter>;
+  temperature?: Maybe<FloatNullableFilter>;
   updatedAt?: Maybe<DateTimeFilter>;
 };
 

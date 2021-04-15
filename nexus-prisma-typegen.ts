@@ -35,8 +35,8 @@ interface NexusPrismaInputs {
       ordering: 'id' | 'name' | 'email' | 'emailVerified' | 'image' | 'createdAt' | 'updatedAt'
     }
     sensorValues: {
-      filtering: 'AND' | 'OR' | 'NOT' | 'id' | 'temperature' | 'humidity' | 'createdAt' | 'updatedAt'
-      ordering: 'id' | 'temperature' | 'humidity' | 'createdAt' | 'updatedAt'
+      filtering: 'AND' | 'OR' | 'NOT' | 'id' | 'temperature' | 'humidity' | 'createdAt' | 'updatedAt' | 'type'
+      ordering: 'id' | 'temperature' | 'humidity' | 'createdAt' | 'updatedAt' | 'type'
     }
   },
   Account: {
@@ -128,6 +128,7 @@ interface NexusPrismaOutputs {
     humidity: 'Float'
     createdAt: 'DateTime'
     updatedAt: 'DateTime'
+    type: 'String'
   }
 }
 

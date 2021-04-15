@@ -58,5 +58,7 @@ model SensorValue {
   createdAt   DateTime @default(now()) @map(name: "created_at")
   updatedAt   DateTime @default(now()) @map(name: "updated_at")
 
+  type        String @default("inside")
+
   @@map(name: "sensor_values")
 }

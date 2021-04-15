@@ -102,6 +102,19 @@ export interface NexusGenInputs {
     not?: NexusGenInputs['NestedIntFilter'] | null; // NestedIntFilter
     notIn?: number[] | null; // [Int!]
   }
+  NestedStringFilter: { // input type
+    contains?: string | null; // String
+    endsWith?: string | null; // String
+    equals?: string | null; // String
+    gt?: string | null; // String
+    gte?: string | null; // String
+    in?: string[] | null; // [String!]
+    lt?: string | null; // String
+    lte?: string | null; // String
+    not?: NexusGenInputs['NestedStringFilter'] | null; // NestedStringFilter
+    notIn?: string[] | null; // [String!]
+    startsWith?: string | null; // String
+  }
   NestedStringNullableFilter: { // input type
     contains?: string | null; // String
     endsWith?: string | null; // String
@@ -125,6 +138,7 @@ export interface NexusGenInputs {
     createdAt?: NexusGenScalars['DateTime'] | null; // DateTime
     humidity?: number | null; // Float
     temperature?: number | null; // Float
+    type?: string | null; // String
     updatedAt?: NexusGenScalars['DateTime'] | null; // DateTime
   }
   SensorValueOrderByInput: { // input type
@@ -132,6 +146,7 @@ export interface NexusGenInputs {
     humidity?: NexusGenEnums['SortOrder'] | null; // SortOrder
     id?: NexusGenEnums['SortOrder'] | null; // SortOrder
     temperature?: NexusGenEnums['SortOrder'] | null; // SortOrder
+    type?: NexusGenEnums['SortOrder'] | null; // SortOrder
     updatedAt?: NexusGenEnums['SortOrder'] | null; // SortOrder
   }
   SensorValueWhereInput: { // input type
@@ -142,10 +157,24 @@ export interface NexusGenInputs {
     humidity?: NexusGenInputs['FloatNullableFilter'] | null; // FloatNullableFilter
     id?: NexusGenInputs['IntFilter'] | null; // IntFilter
     temperature?: NexusGenInputs['FloatNullableFilter'] | null; // FloatNullableFilter
+    type?: NexusGenInputs['StringFilter'] | null; // StringFilter
     updatedAt?: NexusGenInputs['DateTimeFilter'] | null; // DateTimeFilter
   }
   SensorValueWhereUniqueInput: { // input type
     id?: number | null; // Int
+  }
+  StringFilter: { // input type
+    contains?: string | null; // String
+    endsWith?: string | null; // String
+    equals?: string | null; // String
+    gt?: string | null; // String
+    gte?: string | null; // String
+    in?: string[] | null; // [String!]
+    lt?: string | null; // String
+    lte?: string | null; // String
+    not?: NexusGenInputs['NestedStringFilter'] | null; // NestedStringFilter
+    notIn?: string[] | null; // [String!]
+    startsWith?: string | null; // String
   }
   StringNullableFilter: { // input type
     contains?: string | null; // String
@@ -224,6 +253,7 @@ export interface NexusGenObjects {
     humidity?: number | null; // Float
     id: number; // Int!
     temperature?: number | null; // Float
+    type: string; // String!
     updatedAt: NexusGenScalars['DateTime']; // DateTime!
   }
   User: { // root type
@@ -264,6 +294,7 @@ export interface NexusGenFieldTypes {
     humidity: number | null; // Float
     id: number; // Int!
     temperature: number | null; // Float
+    type: string; // String!
     updatedAt: NexusGenScalars['DateTime']; // DateTime!
   }
   User: { // field return type
@@ -294,6 +325,7 @@ export interface NexusGenFieldTypeNames {
     humidity: 'Float'
     id: 'Int'
     temperature: 'Float'
+    type: 'String'
     updatedAt: 'DateTime'
   }
   User: { // field return type name

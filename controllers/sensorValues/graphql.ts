@@ -7,6 +7,7 @@ export const SENSOR_QUERY = gql`
       temperature
       humidity
       createdAt
+      type
     }
   }
 `;

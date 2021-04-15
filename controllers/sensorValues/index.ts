@@ -9,6 +9,7 @@ export const SensorValue = objectType({
     t.model.updatedAt();
     t.model.temperature();
     t.model.humidity();
+    t.model.type();
   },
 });
 

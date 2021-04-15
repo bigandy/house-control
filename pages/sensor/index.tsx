@@ -37,14 +37,13 @@ export default function SensorPage() {
               <th>Created</th>
               <th>Temp (&deg;C)</th>
               <th>Humidity (%)</th>
+              <th>Type</th>
             </tr>
           </thead>
           <tbody>
             {data.sensorValues
               .map((d) => {
                 const date = new Date(d.createdAt);
-
-                console.log(date);
 
                 return (
                   <tr key={d.id}>
@@ -53,6 +52,7 @@ export default function SensorPage() {
                     </td>
                     <td>{d.temperature}</td>
                     <td>{d.humidity}</td>
+                    <td>{d.type}</td>
                   </tr>
                 );
               })
