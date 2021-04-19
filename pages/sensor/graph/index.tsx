@@ -36,28 +36,30 @@ const CustomSymbol = ({ size, color, borderWidth, borderColor }) => (
 export default function SensorGraphPage() {
   const { data } = useSensorValuesQuery();
 
-  const insideReadings = useMemo(() => {
+  const internal = useMemo(() => {
     if (data?.sensorValues) {
       return data.sensorValues
         .filter(({ type }) => type === "inside")
-        .map((value) => {
+        .map(({ createdAt, temperature, humidity }) => {
           return {
-            ...value,
-            createdAt: new Date(value.createdAt),
+            temperature,
+            humidity,
+            createdAt: new Date(createdAt),
           };
         });
     }
     return [];
   }, [data]);
 
-  const outsideReadings = useMemo(() => {
+  const external = useMemo(() => {
     if (data?.sensorValues) {
       return data.sensorValues
-        .filter(({ type }) => type === "inside")
-        .map((value) => {
+        .filter(({ type }) => type === "outside")
+        .map(({ createdAt, temperature, humidity }) => {
           return {
-            ...value,
-            createdAt: new Date(value.createdAt),
+            temperature,
+            humidity,
+            createdAt: new Date(createdAt),
           };
         });
     }
@@ -82,41 +84,33 @@ export default function SensorGraphPage() {
           {...commonProperties}
           data={[
             {
-              id: "Temperature Inside",
-              data: insideReadings.map((d) => {
-                return {
-                  x: d.createdAt,
-                  y: d.temperature.toFixed(0),
-                };
-              }),
+              id: "IN Humidity",
+              data: internal.map((d) => ({
+                x: d.createdAt,
+                y: d.humidity.toFixed(0),
+              })),
             },
             {
-              id: "Humidity Inside",
-              data: insideReadings.map((d) => {
-                return {
-                  x: d.createdAt,
-                  y: d.humidity.toFixed(0),
-                };
-              }),
+              id: "IN Temperature",
+              data: internal.map((d) => ({
+                x: d.createdAt,
+                y: d.temperature.toFixed(0),
+              })),
             },
 
             {
-              id: "Temperature Outside",
-              data: outsideReadings.map((d) => {
-                return {
-                  x: d.createdAt,
-                  y: d.temperature?.toFixed(0) || null,
-                };
-              }),
+              id: "Out Temperature",
+              data: external.map((d) => ({
+                x: d.createdAt,
+                y: d?.temperature?.toFixed(0) || null,
+              })),
             },
             {
-              id: "Humidity Outside",
-              data: outsideReadings.map((d) => {
-                return {
-                  x: d.createdAt,
-                  y: d.humidity?.toFixed(0) || null,
-                };
-              }),
+              id: "Out Humidity",
+              data: external.map((d) => ({
+                x: d.createdAt,
+                y: d?.humidity?.toFixed(0) || null,
+              })),
             },
           ]}
           xScale={{
