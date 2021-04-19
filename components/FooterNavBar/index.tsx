@@ -22,6 +22,10 @@ const pages = [
     url: "/sensor",
     title: "Sensor",
   },
+  {
+    url: "/sensor/graph",
+    title: "Graph",
+  },
 ];
 
 const FooterNavBar = () => {
