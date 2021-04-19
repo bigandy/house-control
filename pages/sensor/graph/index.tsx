@@ -3,7 +3,7 @@ import { useState, useEffect, Fragment, useMemo } from "react";
 import DefaultLayout from "layouts/default";
 
 import { useSensorValuesQuery } from "controllers/sensorValues/hooks";
-import { ScatterPlot } from "@nivo/scatterplot";
+import { ScatterPlotCanvas } from "@nivo/scatterplot";
 
 const commonProperties = {
   width: 900,
@@ -80,7 +80,7 @@ export default function SensorGraphPage() {
       </ul>
 
       {data?.sensorValues?.length > 0 && (
-        <ScatterPlot
+        <ScatterPlotCanvas
           {...commonProperties}
           data={[
             {
