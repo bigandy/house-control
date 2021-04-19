@@ -13,26 +13,6 @@ const commonProperties = {
   enableSlices: "x",
 };
 
-const curveOptions = ["linear", "monotoneX", "step", "stepBefore", "stepAfter"];
-
-const CustomSymbol = ({ size, color, borderWidth, borderColor }) => (
-  <g>
-    <circle
-      fill="#fff"
-      r={size / 2}
-      strokeWidth={borderWidth}
-      stroke={borderColor}
-    />
-    <circle
-      r={size / 5}
-      strokeWidth={borderWidth}
-      stroke={borderColor}
-      fill={color}
-      fillOpacity={0.35}
-    />
-  </g>
-);
-
 export default function SensorGraphPage() {
   const { data } = useSensorValuesQuery();
 
@@ -68,17 +48,6 @@ export default function SensorGraphPage() {
 
   return (
     <DefaultLayout title="Sensor Graph">
-      <ul>
-        <li>
-          A graph showing the results of the temp (internal and external) over
-          time
-        </li>
-        <li>
-          A graph showing the results of the humidiy (internal and external)
-          over time
-        </li>
-      </ul>
-
       {data?.sensorValues?.length > 0 && (
         <ScatterPlotCanvas
           {...commonProperties}
