@@ -1,4 +1,4 @@
-import { getFavorites, playFavoriteWithStatuses } from "../utils/sonos";
+import { playFavoriteWithStatuses } from "../utils/sonos";
 
 export default async (req, res) => {
   const { room } = req.query;

@@ -1,4 +1,3 @@
-import { Sonos } from "sonos";
 import { handleAll } from "../utils/hue";
 
 export default async (req, res) => {
@@ -8,7 +7,7 @@ export default async (req, res) => {
     res.status(200).json({
       name: "Hue All-Lights-Toggle",
       statuses: statuses.map((item) => {
-        status: item.status.on;
+        item.status.on;
       }),
     });
   } catch (e) {

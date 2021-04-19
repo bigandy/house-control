@@ -1,10 +1,7 @@
-import { useState, useEffect, Fragment, useMemo } from "react";
-import { signIn, signOut, useSession } from "next-auth/client";
-import Head from "next/head";
-import classnames from "classnames";
+import { useState, Fragment, useMemo } from "react";
+import { useSession } from "next-auth/client";
 
 import { SpotifySearch } from "pages/api/spotify/search";
-import playFavorite from "pages/api/sonos/play-favorite";
 
 const defaultType = SpotifySearch.PLAYLISTS;
 
@@ -34,7 +31,7 @@ const SearchSpotify = ({ room }) => {
     }
   };
 
-  const playResult = async (result) => {
+  const playResult = async (result: any) => {
     console.log("i want to play this next", result);
 
     await fetch(

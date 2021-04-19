@@ -32,7 +32,7 @@ if (typeof window === "undefined") {
       });
       connect(global.prisma);
     }
-    prisma = global.prisma;
+    ({ prisma } = global);
   }
 }
 

@@ -1,0 +1,73 @@
+{
+	"env": {
+	  "node": true,
+	  "browser": true,
+	  "es2020": true
+	},
+	"extends": [
+	  "eslint:recommended",
+	  "plugin:react/recommended",
+	  // PLEASE UNCOMMENT the below when running the autoformat.
+	  // "prettier",
+	  "plugin:@typescript-eslint/recommended"
+	],
+	"parser": "@typescript-eslint/parser",
+	"parserOptions": {
+	  "ecmaFeatures": {
+		"jsx": true
+	  },
+	  "ecmaVersion": 11,
+	  "sourceType": "module"
+	},
+	"plugins": [
+	  // "prettier",
+	  "react",
+	  "@typescript-eslint"
+	],
+	"ignorePatterns": ["*.js"],
+	"rules": {
+	  "react/jsx-fragments": [2, "element"],
+	  "react/jsx-boolean-value": 2,
+	  // PLEASE UNCOMMENT the below when running the autoformat.
+	  // "prettier/prettier": [
+	  // 	"error",
+	  // 	{
+	  // 		"singleQuote": false,
+	  // 		"trailingComma": "all"
+	  // 	}
+	  // ],
+	  // This isn't an issue for us. It'd also be super annoying to try to resolve
+	  "react/no-unescaped-entities": 0,
+	  // We can't avoid using any with the speee-jsx and bolt combination. It's literally in the speee docs.
+	  "@typescript-eslint/no-explicit-any": 0,
+	  // We don't have access to the types for deconstructed bolt app objects. We'd need a type generator
+	  "@typescript-eslint/explicit-module-boundary-types": 0,
+	  // Being explicit is better, I don't care what eslint says!
+	  "@typescript-eslint/no-inferrable-types": 0,
+	  // Useful in our case to differentiate different usgaes of the same effective interface
+	  "@typescript-eslint/no-empty-interface": 0,
+	  // Don't assume jsx === react, ESLINT!
+	  "react/react-in-jsx-scope": 0,
+	  // We don't have a DOM
+	  "react/jsx-key": 0,
+	  // Empty constructors are required to implement singletons
+	  "@typescript-eslint/no-empty-function": 0,
+	  // Nothing wrong with adding our own custom namespaces
+	  "@typescript-eslint/no-namespace": 0,
+	  // Necessary for certain dayjs features
+	  "@typescript-eslint/no-var-requires": 0,
+	  // Not really an issue for us
+	  "react/prop-types": 0,
+	  // We should avoid non-null assertions but it shouldn't be a critical error
+	  "@typescript-eslint/no-non-null-assertion": 1,
+	  // ts-ignore comments are necessary at the moment, and maintaining them as warnings just produces lots of noise
+	  "@typescript-eslint/ban-ts-comment": 0,
+	  "@typescript-eslint/ban-types": 0,
+	  "prefer-destructuring": 1
+	},
+	"settings": {
+	  "react": {
+		"version": "detect"
+	  }
+	}
+  }

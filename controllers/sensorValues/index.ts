@@ -1,5 +1,4 @@
 import { extendType, objectType } from "nexus";
-import { getSession } from "adapters/sessions";
 
 export const SensorValue = objectType({
   name: "SensorValue",

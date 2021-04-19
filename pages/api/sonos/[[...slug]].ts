@@ -26,11 +26,11 @@ export default async (req, res) => {
     case "toggle":
       status = await toggleRoom(room);
       break;
-    case "status":
+    case "status": {
       const { state } = await statusRoom(room);
       status = state;
       break;
-
+    }
     case "volume":
       status = await setRoomVolume(room, req.query.volume);
       break;

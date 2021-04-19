@@ -6,7 +6,7 @@ export default async function handler(req, res) {
     const plugs = await getAllPlugs();
 
     Object.keys(plugs).forEach(async (plug) => {
-      const token = plugs[plug].token;
+      const {token} = plugs[plug];
       await turnOff(token);
     });
 

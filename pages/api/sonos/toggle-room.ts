@@ -1,4 +1,3 @@
-import { Sonos } from "sonos";
 import { toggleRoom } from "../utils/sonos";
 
 export default async (req, res) => {

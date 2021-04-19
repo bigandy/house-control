@@ -4,7 +4,7 @@ import Adapters from "next-auth/adapters";
 
 import prisma from "utils/database/prisma";
 
-const refreshAccessToken = async (token) => {
+const refreshAccessToken = async () => {
   console.log("i want a new token please");
 };
 

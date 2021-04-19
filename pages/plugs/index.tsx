@@ -19,7 +19,7 @@ export default function Home() {
 
   useEffect(() => {
     const getAllStatuses = async () => {
-      const plugs = await fetch(`/api/plug/statuses`)
+      await fetch(`/api/plug/statuses`)
         .then((res) => res.json())
         .then((json) => {
           setStatus(json.statuses);
@@ -43,7 +43,7 @@ export default function Home() {
       .catch((e) => console.error(e));
   };
 
-  const offAllPlugs = async (plug) => {
+  const offAllPlugs = async () => {
     await fetch(`/api/plug/plug-all-off`)
       .then((res) => res.json())
       .then(({ statusesOut }) => {

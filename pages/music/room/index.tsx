@@ -1,5 +1,4 @@
 import { Fragment, useState, useEffect, useMemo } from "react";
-import Head from "next/head";
 import classnames from "classnames";
 
 import DefaultLayout from "layouts/default";
@@ -10,8 +9,6 @@ import fetch from "node-fetch";
 import { useDebouncedCallback } from "use-debounce";
 
 import useInterval from "hooks/useInterval";
-
-const pageTitle = "Music Room";
 
 import { getFavorites } from "pages/api/utils/sonos";
 
@@ -34,9 +31,7 @@ export default function MusicRoomPage({ favorites }) {
 
   const getCurrentTrack = async () => {
     try {
-      const statuses = await fetch(
-        `/api/sonos/status-room?room=${selectedRoom}`
-      )
+      await fetch(`/api/sonos/status-room?room=${selectedRoom}`)
         .then((res) => res.json())
         .then(({ currentTrack }) => {
           setCurrentTrackPlaying(currentTrack);
@@ -81,7 +76,7 @@ export default function MusicRoomPage({ favorites }) {
   useEffect(() => {
     const getAllStatuses = async () => {
       try {
-        const statuses = await fetch(`/api/sonos/status-all`)
+        await fetch(`/api/sonos/status-all`)
           .then((res) => res.json())
           .then((json) => {
             const roomsObj: any = {};
@@ -201,7 +196,7 @@ export default function MusicRoomPage({ favorites }) {
     updateVolume(volume, selectedRoom);
   };
 
-  const updateVolume = useDebouncedCallback(async (volume, room) => {
+  const updateVolume = useDebouncedCallback(async (volume) => {
     await fetch(`/api/sonos/volume/${selectedRoom}?volume=${volume}`)
       .then((res) => res.json())
       .catch((e) => console.error(e));
@@ -345,7 +340,7 @@ export default function MusicRoomPage({ favorites }) {
   );
 }
 
-export async function getStaticProps(context) {
+export async function getStaticProps() {
   const { formattedFavorites: favorites } = await getFavorites("bedroom");
   return {
     props: { favorites }, // will be passed to the page component as props

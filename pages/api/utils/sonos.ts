@@ -1,9 +1,4 @@
-import {
-  DeviceDiscovery,
-  Sonos,
-  AsyncDeviceDiscovery,
-  SpotifyRegion as Regions,
-} from "sonos";
+import { Sonos, AsyncDeviceDiscovery, SpotifyRegion as Regions } from "sonos";
 
 // find one device
 // Useful for finding all the IP addresses of devices.
@@ -118,39 +113,6 @@ export const getFavorites = async (roomToPlay) => {
       console.log("Error occurred %j", e);
     });
 
-  // // This assumes you have the Spotify music service connected to
-  // // your Sonos system.
-
-  // const favorites = {
-  //   "6music": {
-  //     type: "tunein",
-  //     title: "BBC Radio 6 Music",
-  //     id: "s44491",
-  //   },
-  //   fip: {
-  //     type: "mp3",
-  //     title: "fip",
-  //     url: "http://icecast.radiofrance.fr/fip-midfi.mp3",
-  //   },
-  //   earthtones: {
-  //     type: "spotify",
-  //     title: "earthtones",
-  //     id: "album:2mn50aOZXBLAf66gZVuFAo",
-  //   },
-  //   "70s-Disco": {
-  //     type: "spotify",
-  //     title: "70s disco",
-  //     id: "playlist:3AtFItPTNrmxqREWOWZV6e",
-  //   },
-  //   somafm: {
-  //     type: "mp3",
-  //     title: "somafm",
-  //     url:
-  //       "x-rincon-mp3radio://http://www.abc.net.au/res/streaming/audio/aac/dig_music.pls",
-  //   },
-  // };
-
-  // // get random property from an object.
   const favoriteItems = sonosFavorites.items.filter((item) => item.uri);
 
   const formattedFavorites = {};
@@ -164,7 +126,7 @@ export const getFavorites = async (roomToPlay) => {
 
     if (split[0] === "x-sonosapi-stream") {
       returnObj.type = "tunein";
-      returnObj.id = split[1].split("?")[0];
+      [returnObj.id] = split[1].split("?");
     } else if (split[0] === "x-rincon-mp3radio") {
       returnObj.type = "mp3";
       returnObj.url = type;
@@ -199,7 +161,7 @@ export const playFavorite = async (favorite, roomToPlay = "") => {
   if (favorite.type === "tunein") {
     currentTrack = await device
       .playTuneinRadio(favorite.id, favorite.title)
-      .then((success) => {
+      .then(() => {
         // console.log("Yeay tunein playing", favorite.title);
         return device.currentTrack();
       })
@@ -209,7 +171,7 @@ export const playFavorite = async (favorite, roomToPlay = "") => {
   } else if (favorite.type === "mp3") {
     currentTrack = await device
       .play(favorite.url)
-      .then((success) => {
+      .then(() => {
         // console.log("Yeay mp3 playing", favorite.title);
         return device.currentTrack();
       })
@@ -221,7 +183,7 @@ export const playFavorite = async (favorite, roomToPlay = "") => {
 
     currentTrack = await device
       .play(spotifyUri)
-      .then((success) => {
+      .then(() => {
         // console.log("Yeay, spotify album playing", favorite.title);
         return device.currentTrack();
       })
@@ -232,7 +194,7 @@ export const playFavorite = async (favorite, roomToPlay = "") => {
     const spotifyUri = `spotify:playlist:${favorite.id}`;
     currentTrack = await device
       .play(spotifyUri)
-      .then((success) => {
+      .then(() => {
         // console.log("Yeay, spotify Playlist playing", favorite.title);
         return device.currentTrack();
       })

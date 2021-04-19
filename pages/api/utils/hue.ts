@@ -1,7 +1,6 @@
 import { v3 } from "node-hue-api";
-const { LightState, GroupLightState } = v3.lightStates;
 
-const { HUE_BRIDGE_USER, HUE_BRIDGE_USER_CLIENT_KEY } = process.env;
+const { HUE_BRIDGE_USER } = process.env;
 
 const USERNAME = HUE_BRIDGE_USER;
 
@@ -65,13 +64,13 @@ export const toggleLight = async (lightId = OFFICE_LIGHT) => {
       // Using a basic object to set the state
       const state = await api.lights.getLightState(lightId);
 
-      const result = await api.lights.setLightState(lightId, {
+      await api.lights.setLightState(lightId, {
         on: !state.on,
       });
       return !state.on;
     })
     .catch((e) => {
-      throw new Error("lights failed");
+      throw new Error("lights failed", e);
     });
 };
 
@@ -84,15 +83,13 @@ export const offLight = async (lightId = OFFICE_LIGHT) => {
     })
     .then(async (api) => {
       // Using a basic object to set the state
-      const state = await api.lights.getLightState(lightId);
-
       const result = await api.lights.setLightState(lightId, {
         on: false,
       });
       return result;
     })
     .catch((e) => {
-      throw new Error("lights failed");
+      throw new Error("lights failed", e);
     });
 };
 
@@ -109,7 +106,7 @@ export const onLight = async (lightId = OFFICE_LIGHT) => {
       });
       return result;
     })
-    .catch((e) => {
+    .catch(() => {
       throw new Error("lights failed");
     });
 };

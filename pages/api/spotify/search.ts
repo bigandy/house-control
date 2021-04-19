@@ -1,9 +1,6 @@
 import { getSession } from "adapters/sessions";
-import { Resolver } from "node:dns";
 
 import SpotifyWebApi from "spotify-web-api-node";
-
-import { playFavorite } from "../utils/sonos";
 
 import prisma from "utils/database/prisma";
 
@@ -24,7 +21,7 @@ const resolver = async (req, res) => {
   }
   const { searchText, type } = req.query;
 
-  var spotifyApi = new SpotifyWebApi({
+  const spotifyApi = new SpotifyWebApi({
     clientId: process.env.SPOTIFY_CLIENT_ID,
     clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
   });
