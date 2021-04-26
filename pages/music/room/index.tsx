@@ -20,6 +20,7 @@ import VolumeUpIcon from "@material-ui/icons/VolumeUp";
 import SearchSpotify from "components/SearchSpotify";
 
 export default function MusicRoomPage({ favorites }) {
+  const [isTouch, setIsTouch] = useState<boolean>(false);
   const [musicPlaying, setMusicPlaying] = useState(false);
   const [roomVolumes, setRoomVolumes] = useState(null);
   const [roomsMuted, setRoomsMuted] = useState(null);
@@ -47,6 +48,11 @@ export default function MusicRoomPage({ favorites }) {
     if (room) {
       setSelectedRoom(room);
     }
+
+    const isTouchDevice =
+      "ontouchstart" in window || navigator.msMaxTouchPoints;
+
+    setIsTouch(isTouchDevice as boolean);
   }, []);
 
   useEffect(() => {
@@ -193,7 +199,7 @@ export default function MusicRoomPage({ favorites }) {
         [selectedRoom]: volume,
       };
     });
-    updateVolume(volume, selectedRoom);
+    updateVolume(volume);
   };
 
   const updateVolume = useDebouncedCallback(async (volume) => {
@@ -259,27 +265,37 @@ export default function MusicRoomPage({ favorites }) {
 
         {roomVolumes && (
           <Fragment>
-            <input
-              type="range"
-              min="0"
-              max="40"
-              value={roomVolumes[selectedRoom]}
-              onChange={(e) => handleVolumeChange(e.target.value)}
-              className={styles["input-range"]}
-            />
             {roomVolumes[selectedRoom]}
-            <button
-              className={styles.volButton}
-              onClick={() => handleVolumeChange(roomVolumes[selectedRoom] + 5)}
-            >
-              Up
-            </button>
-            <button
-              className={styles.volButton}
-              onClick={() => handleVolumeChange(roomVolumes[selectedRoom] - 5)}
-            >
-              Down
-            </button>
+
+            {isTouch ? (
+              <Fragment>
+                <button
+                  className={styles.volButton}
+                  onClick={() =>
+                    handleVolumeChange(roomVolumes[selectedRoom] + 5)
+                  }
+                >
+                  Up
+                </button>
+                <button
+                  className={styles.volButton}
+                  onClick={() =>
+                    handleVolumeChange(roomVolumes[selectedRoom] - 5)
+                  }
+                >
+                  Down
+                </button>
+              </Fragment>
+            ) : (
+              <input
+                type="range"
+                min="0"
+                max="40"
+                value={roomVolumes[selectedRoom]}
+                onChange={(e) => handleVolumeChange(e.target.value)}
+                className={styles["input-range"]}
+              />
+            )}
           </Fragment>
         )}
 

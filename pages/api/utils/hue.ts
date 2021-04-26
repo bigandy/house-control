@@ -69,8 +69,8 @@ export const toggleLight = async (lightId = OFFICE_LIGHT) => {
       });
       return !state.on;
     })
-    .catch((e) => {
-      throw new Error("lights failed", e);
+    .catch(() => {
+      throw new Error("lights failed");
     });
 };
 
@@ -88,8 +88,8 @@ export const offLight = async (lightId = OFFICE_LIGHT) => {
       });
       return result;
     })
-    .catch((e) => {
-      throw new Error("lights failed", e);
+    .catch(() => {
+      throw new Error("lights failed");
     });
 };
 

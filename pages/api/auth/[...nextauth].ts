@@ -4,8 +4,8 @@ import Adapters from "next-auth/adapters";
 
 import prisma from "utils/database/prisma";
 
-const refreshAccessToken = async () => {
-  console.log("i want a new token please");
+const refreshAccessToken = async (token) => {
+  console.log("i want a new token please", token);
 };
 
 export default NextAuth({
@@ -33,12 +33,15 @@ export default NextAuth({
   },
 
   callbacks: {
+    // @ts-ignore
     async jwt(token, user, account) {
       // Initial sign in
       if (account && user) {
+        const accessTokenExpires =
+          Date.now() + Number(account.expires_in) * 1000;
         return {
           accessToken: account.accessToken,
-          accessTokenExpires: Date.now() + account.expires_in * 1000,
+          accessTokenExpires,
           refreshToken: account.refresh_token,
           user,
         };
@@ -55,8 +58,9 @@ export default NextAuth({
       // Access token has expired, try to update it
       return refreshAccessToken(token);
     },
+    // @ts-ignore
     async session(session, user) {
-      // console.log("SESSION", { session, user });
+      // @ts-ignore
       session.user = user;
       return session;
     },

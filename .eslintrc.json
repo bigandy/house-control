@@ -28,13 +28,6 @@
 	"rules": {
 	  "react/jsx-fragments": [2, "element"],
 	  "react/jsx-boolean-value": 2,
-	  "prettier/prettier": [
-	  	"error",
-	  	{
-	  		"singleQuote": false,
-	  		"trailingComma": "all"
-	  	}
-	  ],
 	  "react/no-unescaped-entities": 0,
 	  "@typescript-eslint/no-explicit-any": 0,
 	  "@typescript-eslint/explicit-module-boundary-types": 0,

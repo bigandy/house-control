@@ -20,6 +20,7 @@ export default function SensorGraphPage() {
     if (data?.sensorValues) {
       return data.sensorValues
         .filter(({ type }) => type === "inside")
+        .filter((d, i) => i % 9 === 0)
         .map(({ createdAt, temperature, humidity }) => {
           return {
             temperature,
@@ -31,10 +32,13 @@ export default function SensorGraphPage() {
     return [];
   }, [data]);
 
+  console.log(internal.length);
+
   const external = useMemo(() => {
     if (data?.sensorValues) {
       return data.sensorValues
         .filter(({ type }) => type === "outside")
+        .filter((d, i) => i % 9 === 0)
         .map(({ createdAt, temperature, humidity }) => {
           return {
             temperature,
@@ -45,6 +49,8 @@ export default function SensorGraphPage() {
     }
     return [];
   }, [data]);
+
+  console.log(external.length);
 
   return (
     <DefaultLayout title="Sensor Graph">
