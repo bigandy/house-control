@@ -19,7 +19,7 @@ export default function SensorGraphPage() {
   const internal = useMemo(() => {
     if (data?.sensorValues) {
       return data?.sensorValues
-        .filter(({ type }, i) => type === "inside")
+        .filter(({ type }, i) => type === "inside" && i % 5 === 0)
         .map(({ createdAt, temperature, humidity }) => {
           return {
             temperature,
@@ -34,7 +34,7 @@ export default function SensorGraphPage() {
   const external = useMemo(() => {
     if (data?.sensorValues) {
       return data?.sensorValues
-        .filter(({ type }, i) => type === "outside")
+        .filter(({ type }, i) => type === "outside" && i % 5 === 0)
         .map(({ createdAt, temperature, humidity }) => {
           return {
             temperature,
@@ -58,14 +58,14 @@ export default function SensorGraphPage() {
                 id: "Out Temperature",
                 data: external.map((d) => ({
                   x: d.createdAt,
-                  y: d?.temperature?.toFixed(0) || null,
+                  y: d?.temperature || null,
                 })),
               },
               {
                 id: "IN Temperature",
                 data: internal.map((d) => ({
                   x: d.createdAt,
-                  y: d.temperature.toFixed(0),
+                  y: d.temperature,
                 })),
               },
             ]}
@@ -90,7 +90,7 @@ export default function SensorGraphPage() {
                 id: "IN Humidity",
                 data: internal.map((d) => ({
                   x: d.createdAt,
-                  y: d.humidity.toFixed(0),
+                  y: d.humidity,
                 })),
               },
 
@@ -98,7 +98,7 @@ export default function SensorGraphPage() {
                 id: "Out Humidity",
                 data: external.map((d) => ({
                   x: d.createdAt,
-                  y: d?.humidity?.toFixed(0) || null,
+                  y: d?.humidity || null,
                 })),
               },
             ]}
