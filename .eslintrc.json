@@ -1,0 +1,52 @@
+{
+	"env": {
+	  "node": true,
+	  "browser": true,
+	  "es2020": true
+	},
+	"extends": [
+	  "eslint:recommended",
+	  "plugin:react/recommended",
+	  // PLEASE UNCOMMENT the below when running the autoformat.
+	  // "prettier",
+	  "plugin:@typescript-eslint/recommended"
+	],
+	"parser": "@typescript-eslint/parser",
+	"parserOptions": {
+	  "ecmaFeatures": {
+		"jsx": true
+	  },
+	  "ecmaVersion": 11,
+	  "sourceType": "module"
+	},
+	"plugins": [
+	  // "prettier",
+	  "react",
+	  "@typescript-eslint"
+	],
+	"ignorePatterns": ["*.js"],
+	"rules": {
+	  "react/jsx-fragments": [2, "element"],
+	  "react/jsx-boolean-value": 2,
+	  "react/no-unescaped-entities": 0,
+	  "@typescript-eslint/no-explicit-any": 0,
+	  "@typescript-eslint/explicit-module-boundary-types": 0,
+	  "@typescript-eslint/no-inferrable-types": 0,
+	  "@typescript-eslint/no-empty-interface": 0,
+	  "react/react-in-jsx-scope": 0,
+	  "react/jsx-key": 0,
+	  "@typescript-eslint/no-empty-function": 0,
+	  "@typescript-eslint/no-namespace": 0,
+	  "@typescript-eslint/no-var-requires": 0,
+	  "react/prop-types": 0,
+	  "@typescript-eslint/no-non-null-assertion": 1,
+	  "@typescript-eslint/ban-ts-comment": 0,
+	  "@typescript-eslint/ban-types": 0,
+	  "prefer-destructuring": 1
+	},
+	"settings": {
+	  "react": {
+		"version": "detect"
+	  }
+	}
+  }

@@ -1,16 +1,16 @@
-import { useState, useEffect, Fragment, useMemo } from "react";
+import { useMemo } from "react";
 
 import DefaultLayout from "layouts/default";
 
 import { useSensorValuesQuery } from "controllers/sensorValues/hooks";
-import { ScatterPlotCanvas } from "@nivo/scatterplot";
+// import { ScatterPlotCanvas } from "@nivo/scatterplot";
+import { LineCanvas } from "@nivo/line";
 
 const commonProperties = {
   width: 900,
   height: 400,
   margin: { top: 20, right: 20, bottom: 60, left: 40 },
   animate: false,
-  enableSlices: "x",
 };
 
 export default function SensorGraphPage() {
@@ -18,8 +18,8 @@ export default function SensorGraphPage() {
 
   const internal = useMemo(() => {
     if (data?.sensorValues) {
-      return data.sensorValues
-        .filter(({ type }) => type === "inside")
+      return data?.sensorValues
+        .filter(({ type }, i) => type === "inside" && i % 5 === 0)
         .map(({ createdAt, temperature, humidity }) => {
           return {
             temperature,
@@ -33,8 +33,8 @@ export default function SensorGraphPage() {
 
   const external = useMemo(() => {
     if (data?.sensorValues) {
-      return data.sensorValues
-        .filter(({ type }) => type === "outside")
+      return data?.sensorValues
+        .filter(({ type }, i) => type === "outside" && i % 5 === 0)
         .map(({ createdAt, temperature, humidity }) => {
           return {
             temperature,
@@ -49,50 +49,71 @@ export default function SensorGraphPage() {
   return (
     <DefaultLayout title="Sensor Graph">
       {data?.sensorValues?.length > 0 && (
-        <ScatterPlotCanvas
-          {...commonProperties}
-          data={[
-            {
-              id: "IN Humidity",
-              data: internal.map((d) => ({
-                x: d.createdAt,
-                y: d.humidity.toFixed(0),
-              })),
-            },
-            {
-              id: "IN Temperature",
-              data: internal.map((d) => ({
-                x: d.createdAt,
-                y: d.temperature.toFixed(0),
-              })),
-            },
+        <div style={{ padding: "0 1rem" }}>
+          <h2>Temperature</h2>
+          <LineCanvas
+            {...commonProperties}
+            data={[
+              {
+                id: "Out Temperature",
+                data: external.map((d) => ({
+                  x: d.createdAt,
+                  y: d?.temperature || null,
+                })),
+              },
+              {
+                id: "IN Temperature",
+                data: internal.map((d) => ({
+                  x: d.createdAt,
+                  y: d.temperature,
+                })),
+              },
+            ]}
+            xScale={{
+              type: "time",
+              format: "native",
+              precision: "day",
+            }}
+            xFormat="time:%Y-%m-%d"
+            axisBottom={{
+              format: "%b %d",
+              tickValues: "every 2 days",
+            }}
+          />
 
-            {
-              id: "Out Temperature",
-              data: external.map((d) => ({
-                x: d.createdAt,
-                y: d?.temperature?.toFixed(0) || null,
-              })),
-            },
-            {
-              id: "Out Humidity",
-              data: external.map((d) => ({
-                x: d.createdAt,
-                y: d?.humidity?.toFixed(0) || null,
-              })),
-            },
-          ]}
-          xScale={{
-            type: "time",
-            format: "native",
-            precision: "day",
-          }}
-          xFormat="time:%Y-%m-%d"
-          axisBottom={{
-            format: "%b %d",
-            tickValues: "every 2 days",
-          }}
-        />
+          <h2>Humidity</h2>
+
+          <LineCanvas
+            {...commonProperties}
+            data={[
+              {
+                id: "IN Humidity",
+                data: internal.map((d) => ({
+                  x: d.createdAt,
+                  y: d.humidity,
+                })),
+              },
+
+              {
+                id: "Out Humidity",
+                data: external.map((d) => ({
+                  x: d.createdAt,
+                  y: d?.humidity || null,
+                })),
+              },
+            ]}
+            xScale={{
+              type: "time",
+              format: "native",
+              precision: "day",
+            }}
+            xFormat="time:%Y-%m-%d"
+            axisBottom={{
+              format: "%b %d",
+              tickValues: "every 2 days",
+            }}
+          />
+        </div>
       )}
     </DefaultLayout>
   );

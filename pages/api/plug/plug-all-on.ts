@@ -6,7 +6,7 @@ export default async function handler(req, res) {
     const statuses = await getAllPlugs();
 
     Object.keys(statuses).forEach(async (status) => {
-      const token = statuses[status].token;
+      const {token} = statuses[status];
       await turnOn(token);
     });
 

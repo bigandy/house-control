@@ -1,5 +1,4 @@
 import { Fragment, useState, useEffect, useMemo } from "react";
-import Head from "next/head";
 import classnames from "classnames";
 
 import DefaultLayout from "layouts/default";
@@ -11,8 +10,6 @@ import { useDebouncedCallback } from "use-debounce";
 
 import useInterval from "hooks/useInterval";
 
-const pageTitle = "Music Room";
-
 import { getFavorites } from "pages/api/utils/sonos";
 
 // AHTODO: move into a consts file for sharing
@@ -23,6 +20,7 @@ import VolumeUpIcon from "@material-ui/icons/VolumeUp";
 import SearchSpotify from "components/SearchSpotify";
 
 export default function MusicRoomPage({ favorites }) {
+  const [isTouch, setIsTouch] = useState<boolean>(false);
   const [musicPlaying, setMusicPlaying] = useState(false);
   const [roomVolumes, setRoomVolumes] = useState(null);
   const [roomsMuted, setRoomsMuted] = useState(null);
@@ -34,9 +32,7 @@ export default function MusicRoomPage({ favorites }) {
 
   const getCurrentTrack = async () => {
     try {
-      const statuses = await fetch(
-        `/api/sonos/status-room?room=${selectedRoom}`
-      )
+      await fetch(`/api/sonos/status-room?room=${selectedRoom}`)
         .then((res) => res.json())
         .then(({ currentTrack }) => {
           setCurrentTrackPlaying(currentTrack);
@@ -52,6 +48,11 @@ export default function MusicRoomPage({ favorites }) {
     if (room) {
       setSelectedRoom(room);
     }
+
+    const isTouchDevice =
+      "ontouchstart" in window || navigator.msMaxTouchPoints;
+
+    setIsTouch(isTouchDevice as boolean);
   }, []);
 
   useEffect(() => {
@@ -81,7 +82,7 @@ export default function MusicRoomPage({ favorites }) {
   useEffect(() => {
     const getAllStatuses = async () => {
       try {
-        const statuses = await fetch(`/api/sonos/status-all`)
+        await fetch(`/api/sonos/status-all`)
           .then((res) => res.json())
           .then((json) => {
             const roomsObj: any = {};
@@ -198,10 +199,10 @@ export default function MusicRoomPage({ favorites }) {
         [selectedRoom]: volume,
       };
     });
-    updateVolume(volume, selectedRoom);
+    updateVolume(volume);
   };
 
-  const updateVolume = useDebouncedCallback(async (volume, room) => {
+  const updateVolume = useDebouncedCallback(async (volume) => {
     await fetch(`/api/sonos/volume/${selectedRoom}?volume=${volume}`)
       .then((res) => res.json())
       .catch((e) => console.error(e));
@@ -264,27 +265,37 @@ export default function MusicRoomPage({ favorites }) {
 
         {roomVolumes && (
           <Fragment>
-            <input
-              type="range"
-              min="0"
-              max="40"
-              value={roomVolumes[selectedRoom]}
-              onChange={(e) => handleVolumeChange(e.target.value)}
-              className={styles["input-range"]}
-            />
             {roomVolumes[selectedRoom]}
-            <button
-              className={styles.volButton}
-              onClick={() => handleVolumeChange(roomVolumes[selectedRoom] + 5)}
-            >
-              Up
-            </button>
-            <button
-              className={styles.volButton}
-              onClick={() => handleVolumeChange(roomVolumes[selectedRoom] - 5)}
-            >
-              Down
-            </button>
+
+            {isTouch ? (
+              <Fragment>
+                <button
+                  className={styles.volButton}
+                  onClick={() =>
+                    handleVolumeChange(roomVolumes[selectedRoom] + 5)
+                  }
+                >
+                  Up
+                </button>
+                <button
+                  className={styles.volButton}
+                  onClick={() =>
+                    handleVolumeChange(roomVolumes[selectedRoom] - 5)
+                  }
+                >
+                  Down
+                </button>
+              </Fragment>
+            ) : (
+              <input
+                type="range"
+                min="0"
+                max="40"
+                value={roomVolumes[selectedRoom]}
+                onChange={(e) => handleVolumeChange(e.target.value)}
+                className={styles["input-range"]}
+              />
+            )}
           </Fragment>
         )}
 
@@ -345,7 +356,7 @@ export default function MusicRoomPage({ favorites }) {
   );
 }
 
-export async function getStaticProps(context) {
+export async function getStaticProps() {
   const { formattedFavorites: favorites } = await getFavorites("bedroom");
   return {
     props: { favorites }, // will be passed to the page component as props

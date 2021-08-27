@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import Head from "next/head";
 import classnames from "classnames";
 
 import DefaultLayout from "layouts/default";
@@ -7,8 +6,6 @@ import DefaultLayout from "layouts/default";
 import styles from "styles/Home.module.scss";
 
 import fetch from "node-fetch";
-
-const pageTitle = "Music";
 
 export default function LightsPage() {
   const [lights, setLights] = useState(null);
@@ -30,7 +27,7 @@ export default function LightsPage() {
       .then((res) => res.json())
       .then(({ result }) => {
         setLights((prevState) => {
-          let newState = [...prevState];
+          const newState = [...prevState];
           const updatedLightIndex = prevState.findIndex(
             ({ id }) => id === light.id
           );

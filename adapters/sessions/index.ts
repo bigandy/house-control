@@ -1,5 +1,5 @@
 import {
-  Session as _Session,
+  session as _Session,
   useSession as _useSession,
   getSession as _getSession,
 } from "next-auth/client";
@@ -24,7 +24,7 @@ export interface User {
  *
  * This should be used in place of the regular next-auth session type.
  */
-export type Session = _Session & {
+export type Session = typeof _Session & {
   user: _User & User;
 };
 
@@ -47,5 +47,6 @@ export function getSession(
   if ((context as any).req.session) {
     return Promise.resolve((context as any).req.session);
   }
+  // @ts-ignore
   return _getSession(context) as Promise<Session>;
 }

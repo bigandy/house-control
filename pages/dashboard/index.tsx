@@ -1,6 +1,5 @@
 import { useState, useEffect, Fragment } from "react";
 
-import Head from "next/head";
 import styles from "./styles.module.scss";
 
 import DefaultLayout from "layouts/default";
@@ -96,7 +95,7 @@ export default function Dashboard() {
   const getOutsideTemperature = async () => {
     const { result } = await fetch("/api/db/read")
       .then((response) => response.json())
-      .catch((e) => console.error("error in getting weather from api"));
+      .catch((e) => console.error("error in getting weather from api", e));
 
     const getOutsideTemperature = result.find(
       (result) => result.type === "outside"
@@ -108,7 +107,7 @@ export default function Dashboard() {
   const getInsideTemperature = async () => {
     const { result } = await fetch("/api/db/read")
       .then((response) => response.json())
-      .catch((e) => console.error("error in getting weather from api"));
+      .catch((e) => console.error("error in getting weather from api", e));
 
     const getInsideTemperature = result.find(
       (result) => result.type === "inside"

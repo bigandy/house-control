@@ -1,4 +1,3 @@
-import { Fragment } from "react";
 import Head from "next/head";
 
 import { Provider } from "next-auth/client";

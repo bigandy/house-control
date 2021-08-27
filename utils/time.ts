@@ -1,5 +1,5 @@
 export const getTimeValues = () => {
-  var d = new Date();
+  const d = new Date();
   const currentHour = d.getHours();
   const currentMinute = d.getMinutes();
   const currentMonth = d.getUTCMonth() + 1;

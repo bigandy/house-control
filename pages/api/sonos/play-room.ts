@@ -1,4 +1,3 @@
-import { Sonos } from "sonos";
 import { playRoom } from "../utils/sonos";
 
 export default async (req, res) => {
@@ -6,7 +5,7 @@ export default async (req, res) => {
 
   const roomToPlay = room || "lounge";
 
-  const state = await playRoom(roomToPlay);
+  const status = await playRoom(roomToPlay);
 
   res.status(200).json({
     name: "Sonos play-room",

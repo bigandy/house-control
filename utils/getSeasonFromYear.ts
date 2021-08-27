@@ -5,11 +5,11 @@ const getSeasonFromYear = (currentYearNumber) => {
   // https://stackoverflow.com/a/5671172
   Date.fromJulian = function (j) {
     j = +j + 30.0 / (24 * 60 * 60);
-    var A = Date.julianArray(j, true);
+    const A = Date.julianArray(j, true);
     return new Date(Date.UTC.apply(Date, A));
   };
   Date.julianArray = function (j, n) {
-    var F = Math.floor;
+    const F = Math.floor;
     var j2, JA, a, b, c, d, e, f, g, h, z;
     j += 0.5;
     j2 = (j - F(j)) * 86400.0;
@@ -30,7 +30,7 @@ const getSeasonFromYear = (currentYearNumber) => {
       h - 1,
       F(b - d - F(30.6001 * e) + f),
     ];
-    var JB = [F(j2 / 3600), F((j2 / 60) % 60), Math.round(j2 % 60)];
+    const JB = [F(j2 / 3600), F((j2 / 60) % 60), Math.round(j2 % 60)];
     JA = JA.concat(JB);
     if (typeof n == "number") return JA.slice(0, n);
     return JA;
@@ -38,7 +38,7 @@ const getSeasonFromYear = (currentYearNumber) => {
   Date.getSeasons = function (y, wch) {
     y = y || new Date().getFullYear();
     if (y < 1000 || y > 3000) throw y + " is out of range";
-    var Y1 = (y - 2000) / 1000,
+    const Y1 = (y - 2000) / 1000,
       Y2 = Y1 * Y1,
       Y3 = Y2 * Y1,
       Y4 = Y3 * Y1;
@@ -167,7 +167,7 @@ const getSeasonFromYear = (currentYearNumber) => {
         w = 35999.373 * t - 2.47,
         d = 1 + 0.0334 * Cos(w) + 0.0007 * Cos(2 * w);
       est = 0;
-      for (var n = 0; n < 24; n++) {
+      for (let n = 0; n < 24; n++) {
         est += e1[n] * Cos(e2[n] + e3[n] * t);
       }
       jd += (0.00001 * est) / d;

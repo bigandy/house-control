@@ -36,7 +36,7 @@ export default function HomePage() {
   const toggleLight = async () => {
     await fetch("/api/hue/toggle-light")
       .then((res) => res.json())
-      .then((json) => {
+      .then(() => {
         setLightsOn((prevState) => !prevState);
       })
       .catch((e) => console.error(e));

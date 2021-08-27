@@ -1,5 +1,4 @@
 import prisma from "utils/database/prisma";
-import { SensorValue } from "./../../../housecontrol-graphql";
 
 enum SensorType {
   INSIDE = "INSIDE",
