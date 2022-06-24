@@ -1,14 +1,14 @@
-import { v3 } from "node-hue-api";
-const { LightState, GroupLightState } = v3.lightStates;
+import { v3, discovery } from "node-hue-api";
 
-const { HUE_BRIDGE_USER, HUE_BRIDGE_USER_CLIENT_KEY } = process.env;
+const { HUE_BRIDGE_USER } = process.env;
 
 const USERNAME = HUE_BRIDGE_USER;
 
 export const OFFICE_LIGHT = 5;
 
 export const getAllLights = async () => {
-  const statuses = await v3.discovery
+  try {
+    const statuses = await discovery
     .nupnpSearch()
     .then((searchResults) => {
       const host = searchResults[0].ipaddress;
@@ -28,9 +28,14 @@ export const getAllLights = async () => {
       return lights;
     })
     .catch((e) => {
-      console.error(e);
+      console.error('bad things in catch', e);
+      throw new Error('bad things in getAllLights')
     });
   return statuses;
+  } catch (e) {
+    console.error(e);
+  }
+  
 };
 
 export const handleAll = async (method = "off") => {
@@ -55,7 +60,7 @@ export const handleAll = async (method = "off") => {
 };
 
 export const toggleLight = async (lightId = OFFICE_LIGHT) => {
-  return v3.discovery
+  return discovery
     .nupnpSearch()
     .then((searchResults) => {
       const host = searchResults[0].ipaddress;
@@ -65,18 +70,20 @@ export const toggleLight = async (lightId = OFFICE_LIGHT) => {
       // Using a basic object to set the state
       const state = await api.lights.getLightState(lightId);
 
-      const result = await api.lights.setLightState(lightId, {
-        on: !state.on,
-      });
+      // const result = await api.lights.setLightState(lightId, {
+      //   on: !state.on,
+      // });
+      // @ts-ignore
       return !state.on;
     })
     .catch((e) => {
+      console.error('error in toggleLight', e)
       throw new Error("lights failed");
     });
 };
 
 export const offLight = async (lightId = OFFICE_LIGHT) => {
-  return v3.discovery
+  return discovery
     .nupnpSearch()
     .then((searchResults) => {
       const host = searchResults[0].ipaddress;
@@ -97,7 +104,7 @@ export const offLight = async (lightId = OFFICE_LIGHT) => {
 };
 
 export const onLight = async (lightId = OFFICE_LIGHT) => {
-  return v3.discovery
+  return discovery
     .nupnpSearch()
     .then((searchResults) => {
       const host = searchResults[0].ipaddress;
@@ -115,25 +122,46 @@ export const onLight = async (lightId = OFFICE_LIGHT) => {
 };
 
 export const statusLight = async (lightId = OFFICE_LIGHT) => {
-  const allLights = await getAllLights();
-  const light = allLights.find((light) => light.id === lightId);
-  return light;
+  try {
+    const allLights = await getAllLights();
+    console.log({allLights})
+    const light = allLights?.find((light) => light.id === lightId);
+    return light;
+  } catch (e) {
+    console.error(e);
+    throw new Error('bad things in Status Light')
+  }
 };
 
 export const getHueApi = async () => {
-  return await v3.discovery.nupnpSearch().then((searchResults) => {
-    const host = searchResults[0].ipaddress;
-    return v3.api.createLocal(host).connect(USERNAME);
-  });
+  try {
+    const thing = await discovery.nupnpSearch().then((searchResults) => {
+      const host = searchResults[0].ipaddress;
+      return v3.api.createLocal(host).connect(USERNAME);
+    })
+    .catch(e => console.error(e));  
+
+    console.log({thing : await discovery.nupnpSearch()})
+
+    return thing;
+  } catch (error) {
+    console.error('BAD THING', error)
+  }
 };
 
 export const toggleRoom = async (roomId = 1) => {
-  const api = await getHueApi();
-  const room = await api.groups.getGroup(roomId);
-  const roomState = room._data.state;
+  try {
+    const api: any = await getHueApi();
+    console.log({api}) 
+    const room = await api.groups.getGroup(roomId);
+    const roomState = room._data.state;
 
-  const on = !roomState.all_on;
+    const on = !roomState.all_on;
 
-  await api.groups.setGroupState(roomId, { on });
-  return on;
+    await api.groups.setGroupState(roomId, { on });
+  return on;  
+  } catch (error) {
+    console.error(error)
+  }
+  
 };

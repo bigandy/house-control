@@ -1,5 +1,4 @@
 import { Fragment, useState, useEffect, useMemo } from "react";
-import Head from "next/head";
 import classnames from "classnames";
 
 import DefaultLayout from "layouts/default";
@@ -11,12 +10,10 @@ import { useDebouncedCallback } from "use-debounce";
 
 import useInterval from "hooks/useInterval";
 
-const pageTitle = "Music Room";
-
 import { getFavorites } from "pages/api/utils/sonos";
 
 // AHTODO: move into a consts file for sharing
-const rooms = ["bedroom", "lounge", "kitchen", "kitchen-eating"];
+const rooms = ["bedroom", "kitchen"];
 
 import VolumeOffIcon from "@material-ui/icons/VolumeOff";
 import VolumeUpIcon from "@material-ui/icons/VolumeUp";

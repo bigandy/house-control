@@ -48,7 +48,7 @@ export default function SensorGraphPage() {
 
   return (
     <DefaultLayout title="Sensor Graph">
-      {data?.sensorValues?.length > 0 && (
+      {/* {data?.sensorValues?.length > 0 && (
         <ScatterPlotCanvas
           {...commonProperties}
           data={[
@@ -93,7 +93,7 @@ export default function SensorGraphPage() {
             tickValues: "every 2 days",
           }}
         />
-      )}
+      )} */}
     </DefaultLayout>
   );
 }

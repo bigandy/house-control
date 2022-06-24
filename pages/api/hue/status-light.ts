@@ -1,9 +1,6 @@
-import { v3 } from "node-hue-api";
-const LightState = v3.lightStates.LightState;
-
 import { statusLight } from "../utils/hue";
 
-export default async function handler(req, res) {
+export default async function handler(_, res) {
   try {
     const { state } = await statusLight();
 

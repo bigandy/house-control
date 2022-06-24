@@ -63,7 +63,7 @@ export default function MusicPage() {
       <div className={styles.container}>
         <button onClick={() => turnOffAllSonos()}>Off All</button>
 
-        {["bedroom", "lounge", "kitchen", "kitchen-eating"].map((room) => {
+        {["bedroom", "kitchen"].map((room) => {
           return (
             <button
               key={room}

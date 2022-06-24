@@ -29,7 +29,7 @@
     "nexus-plugin-prisma": "0.33.0",
     "node-dht-sensor": "0.4.3",
     "node-fetch": "2.6.1",
-    "node-hue-api": "4.0.10",
+    "node-hue-api": "5.0.0-beta.13",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "sass": "1.32.8",

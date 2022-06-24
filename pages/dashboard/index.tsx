@@ -94,27 +94,35 @@ export default function Dashboard() {
   }, []);
 
   const getOutsideTemperature = async () => {
-    const { result } = await fetch("/api/db/read")
-      .then((response) => response.json())
-      .catch((e) => console.error("error in getting weather from api"));
+    try {
+      const { result } = await fetch("/api/db/read")
+        .then((response) => response.json())
+        .catch((e) => console.error("error in getting weather from api", e));
 
-    const getOutsideTemperature = result.find(
-      (result) => result.type === "outside"
-    );
+      const getOutsideTemperature = result.find(
+        (result) => result.type === "outside"
+      );
 
-    setTemperatureOutside(getOutsideTemperature?.temperature);
+      setTemperatureOutside(getOutsideTemperature?.temperature);
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   const getInsideTemperature = async () => {
-    const { result } = await fetch("/api/db/read")
-      .then((response) => response.json())
-      .catch((e) => console.error("error in getting weather from api"));
+    try {
+      const { result } = await fetch("/api/db/read")
+        .then((response) => response.json())
+        .catch((e) => console.error("error in getting weather from api", e));
 
-    const getInsideTemperature = result.find(
-      (result) => result.type === "inside"
-    );
+      const getOutsideTemperature = result.find(
+        (result) => result.type === "inside"
+      );
 
-    setTemperatureInside(getInsideTemperature?.temperature);
+      setTemperatureInside(getOutsideTemperature?.temperature);
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   useEffect(() => {
@@ -149,7 +157,7 @@ export default function Dashboard() {
   }, 1000 * 6 * 60);
 
   return (
-    <DefaultLayout title="">
+    <DefaultLayout title="Dashboard">
       <div className={styles.container}>
         <Temperature temperature={temperatureInside} />
         <Temperature temperature={temperatureOutside} type="out" />
