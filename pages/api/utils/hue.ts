@@ -59,7 +59,11 @@ export const toggleLight = async (lightId = OFFICE_LIGHT) => {
       on: !state.on,
     });
 
-    return !state.on;
+    const newState: State = await api.lights.getLightState(lightId);
+
+    console.log({ newState });
+
+    return newState.on;
   } catch (e) {
     console.error(e);
     throw new Error("bad things in toggleLight");
@@ -146,7 +150,7 @@ export const colorLight = async (lightId = 2, hue = null) => {
     //   // ct: 153 // min:153 max: 500
     // };
 
-    await api.lights.setLightState(2, lightState);
+    await api.lights.setLightState(lightId, lightState);
     const state: State = await api.lights.getLightState(lightId);
     return state;
   } catch (error) {

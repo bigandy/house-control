@@ -29,22 +29,9 @@ export default function ColorPage() {
   const toggleLight = async () => {
     const colorString = hue ? `&color=${(hue / 360) * 65535}` : "";
 
-    await fetch(`/api/hue/color-light/?lightId=${lightId}${colorString}`)
-      //   .then((res) => res.json())
-      //   .then((json) => {
-      //     console.log({ json });
-      //     // setLights((prevState) => {
-      //     //   let newState = [...prevState];
-      //     //   const updatedLightIndex = prevState.findIndex(
-      //     //     ({ id }) => id === light.id
-      //     //   );
-
-      //     //   newState[updatedLightIndex].state.on = result;
-
-      //     //   return newState;
-      //     // });
-      //   })
-      .catch((e) => console.error(e));
+    await fetch(`/api/hue/color-light?lightId=${lightId}${colorString}`).catch(
+      (e) => console.error(e)
+    );
   };
 
   const [hue, setHue] = useState(0);
