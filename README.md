@@ -7,6 +7,7 @@
 - [ ] Better design of music/room page
 
 ## DONE
+
 - [x] Dashboard that shows the time/date/weather
 - [x] Sonos / Spotify so can search on a page (/music/room) and play that in the room selected.
 - [x] Track data with SQLite and Prisma
@@ -26,7 +27,6 @@
 - [ ] Download each new Gilles Peterson show on a Sunday morning and save to Dropbox or SD card or SSD
 - [ ] Google Home API to connect to `anything` in the Home i.e. my Tapo P100 plugs (no current JS API available)
 
-
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
@@ -36,6 +36,7 @@ make an .env file with the following
 ```bash
 HUE_BRIDGE_USER=""
 HUE_BRIDGE_USER_CLIENT_KEY=""
+HUE_BRIDGE_USER_IP=""
 
 SONOS_KITCHEN_IP=""
 SONOS_KITCHEN_EATING_IP=""
@@ -65,4 +66,3 @@ I am going to try out ClimaCell.
 ## Inside Temperature with DHT22 sensor
 
 I'm running this on the raspberry pi: [https://www.npmjs.com/package/node-dht-sensor]()
-
