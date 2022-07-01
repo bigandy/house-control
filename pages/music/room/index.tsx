@@ -10,7 +10,7 @@ import { useDebouncedCallback } from "use-debounce";
 
 import useInterval from "hooks/useInterval";
 
-import { getFavorites } from "pages/api/utils/sonos";
+// import { getFavorites } from "pages/api/utils/sonos";
 
 // AHTODO: move into a consts file for sharing
 const rooms = ["bedroom", "kitchen"];
@@ -19,7 +19,7 @@ import VolumeOffIcon from "@material-ui/icons/VolumeOff";
 import VolumeUpIcon from "@material-ui/icons/VolumeUp";
 import SearchSpotify from "components/SearchSpotify";
 
-export default function MusicRoomPage({ favorites }) {
+export default function MusicRoomPage() {
   const [musicPlaying, setMusicPlaying] = useState(false);
   const [roomVolumes, setRoomVolumes] = useState(null);
   const [roomsMuted, setRoomsMuted] = useState(null);
@@ -31,9 +31,7 @@ export default function MusicRoomPage({ favorites }) {
 
   const getCurrentTrack = async () => {
     try {
-      const statuses = await fetch(
-        `/api/sonos/status-room?room=${selectedRoom}`
-      )
+      await fetch(`/api/sonos/status-room?room=${selectedRoom}`)
         .then((res) => res.json())
         .then(({ currentTrack }) => {
           setCurrentTrackPlaying(currentTrack);
@@ -78,7 +76,7 @@ export default function MusicRoomPage({ favorites }) {
   useEffect(() => {
     const getAllStatuses = async () => {
       try {
-        const statuses = await fetch(`/api/sonos/status-all`)
+        await fetch(`/api/sonos/status-all`)
           .then((res) => res.json())
           .then((json) => {
             const roomsObj: any = {};
@@ -285,7 +283,7 @@ export default function MusicRoomPage({ favorites }) {
           </Fragment>
         )}
 
-        {favorites && (
+        {/* {favorites && (
           <select
             onChange={(e) => {
               setCurrentFavorite(favorites[e.target.value]);
@@ -308,7 +306,7 @@ export default function MusicRoomPage({ favorites }) {
               );
             })}
           </select>
-        )}
+        )} */}
 
         {currentFavorite && (
           <button onClick={playFavoriteNext} className="playnext-button">
@@ -342,9 +340,9 @@ export default function MusicRoomPage({ favorites }) {
   );
 }
 
-export async function getStaticProps(context) {
-  const { formattedFavorites: favorites } = await getFavorites("bedroom");
-  return {
-    props: { favorites }, // will be passed to the page component as props
-  };
-}
+// export async function getStaticProps(context) {
+//   const { formattedFavorites: favorites } = await getFavorites("bedroom");
+//   return {
+//     props: { favorites }, // will be passed to the page component as props
+//   };
+// }
