@@ -62,7 +62,3 @@ If you want to run this continually you'll need `pm2`.
 ## Weather API
 
 I am going to try out ClimaCell.
-
-## Inside Temperature with DHT22 sensor
-
-I'm running this on the raspberry pi: [https://www.npmjs.com/package/node-dht-sensor]()
