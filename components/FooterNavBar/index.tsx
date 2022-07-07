@@ -15,16 +15,12 @@ const pages = [
     title: "Lights",
   },
   {
+    url: "/lights/color",
+    title: "Lights / Color",
+  },
+  {
     url: "/spotify",
     title: "Spotify",
-  },
-  {
-    url: "/sensor",
-    title: "Sensor",
-  },
-  {
-    url: "/sensor/graph",
-    title: "Graph",
   },
 ];
 
@@ -40,7 +36,8 @@ const FooterNavBar = () => {
               <Link href={page.url}>
                 <a
                   className={classNames({
-                    [styles.active]: router.pathname === page.url,
+                    [styles.active]:
+                      router.pathname === page.url,
                   })}
                 >
                   {page.title}

@@ -9,6 +9,15 @@ export default function ColorPage() {
 
   const [lightIds, setLightIds] = useState([]);
 
+  const [hue, setHue] = useState(0);
+  const [color, setColor] = useState("#ff0000");
+
+  const [backgroundColor, setBackgroundColor] = useState({
+    hue: 123,
+    sat: 50,
+    bri: 50,
+  });
+
   useEffect(() => {
     const getLights = async () => {
       await fetch(`/api/hue/getall-lights`)
@@ -26,16 +35,30 @@ export default function ColorPage() {
     getLights();
   }, []);
 
+  console.log({ hue });
+
   const toggleLight = async () => {
-    const colorString = hue ? `&color=${(hue / 360) * 65535}` : "";
+    const colorString = "";
+    // hue !== null
+    //   ? `&color=${Math.floor((hue / 360) * 65535)}`
+    //   : "";
 
-    await fetch(`/api/hue/color-light?lightId=${lightId}${colorString}`).catch(
-      (e) => console.error(e)
-    );
+    const {
+      result: { hue, sat, bri },
+    } = await fetch(
+      `/api/hue/color-light?lightId=${lightId}${colorString}`
+    )
+      .then((result) => result.json())
+      .catch((e) => console.error(e));
+
+    // console.log({ hue, sat, bri });
+
+    setBackgroundColor({
+      hue,
+      sat,
+      bri,
+    });
   };
-
-  const [hue, setHue] = useState(0);
-  const [color, setColor] = useState("#ff0000");
 
   const clearColor = () => {
     setColor("transparent");
@@ -49,7 +72,6 @@ export default function ColorPage() {
     const g = parseInt(color.substr(3, 2), 16);
     const b = parseInt(color.substr(5, 2), 16);
 
-    console.log({ r, g, b });
     const { hue } = RGBToHSL(r, g, b);
 
     setHue(hue);
@@ -70,14 +92,31 @@ export default function ColorPage() {
       : 0;
     return {
       hue: 60 * h < 0 ? 60 * h + 360 : 60 * h,
-      sat: 100 * (s ? (l <= 0.5 ? s / (2 * l - s) : s / (2 - (2 * l - s))) : 0),
+      sat:
+        100 *
+        (s
+          ? l <= 0.5
+            ? s / (2 * l - s)
+            : s / (2 - (2 * l - s))
+          : 0),
       lightness: (100 * (2 * l - s)) / 2,
     };
   };
 
   return (
-    <DefaultLayout title="Color Light">
-      <select value={lightId} onChange={(e) => setLightId(e.target.value)}>
+    <DefaultLayout
+      title="Color Light"
+      style={{
+        // backgroundColor: `hsl(0, 1050%, 100%)`,
+        backgroundColor: `hsl(${
+          (backgroundColor.hue / 65535) * 360
+        }deg, 100%, 50%)`,
+      }}
+    >
+      <select
+        value={lightId}
+        onChange={(e) => setLightId(e.target.value)}
+      >
         {lightIds.map((light) => {
           return (
             <option value={light.id} key={light.id}>
@@ -93,7 +132,11 @@ export default function ColorPage() {
         Clear Color
       </button>
       {/* TODO: Replace with something like this: https://casesandberg.github.io/react-color/ */}
-      <input type="color" value={color} onChange={handleColorChange} />
+      <input
+        type="color"
+        value={color}
+        onChange={handleColorChange}
+      />
     </DefaultLayout>
   );
 }

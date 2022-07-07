@@ -1,6 +1,6 @@
 .container {
   padding: 0 0.5rem;
-  
+
   @media (min-width: 600px) {
     min-height: 100vh;
     display: grid;
@@ -20,6 +20,12 @@
       }
     }
   }
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 }
 
 .pageTitle {

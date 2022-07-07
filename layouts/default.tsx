@@ -9,7 +9,11 @@ import FooterNavBar from "components/FooterNavBar";
 
 import styles from "styles/Home.module.scss";
 
-export default function DefaultLayout({ children, title = "" }) {
+export default function DefaultLayout({
+  children,
+  title = "",
+  ...props
+}) {
   return (
     <Fragment>
       <GoogleFonts href="https://fonts.googleapis.com/css2?family=Piazzolla:wght@400;700&display=swap" />
@@ -20,10 +24,14 @@ export default function DefaultLayout({ children, title = "" }) {
 
       <TopNavBar />
 
-      <main className={styles.main}>
-        {title && <h1 className={styles.pageTitle}>{title}</h1>}
+      <main className={styles.main} {...props}>
+        <div>
+          {title && (
+            <h1 className={styles.pageTitle}>{title}</h1>
+          )}
 
-        {children}
+          {children}
+        </div>
       </main>
 
       <FooterNavBar />
