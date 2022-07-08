@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-
+import { HuePicker } from "react-color";
 import DefaultLayout from "layouts/default";
 
 import fetch from "node-fetch";
@@ -25,36 +25,37 @@ export default function ColorPage() {
         .then(({ lights }) => {
           const filteredLights = lights.filter((light) => {
             return light.state.reachable && light.state.hue;
+            // && light.state.on
           });
           setLightIds(filteredLights);
 
-          setLightId(filteredLights[0].id);
+          if (filteredLights.length > 0) {
+            setLightId(filteredLights[0].id);
+          } else {
+            console.log(filteredLights);
+          }
         });
     };
 
     getLights();
   }, []);
 
-  console.log({ hue });
-
   const toggleLight = async () => {
-    const colorString = "";
-    // hue !== null
-    //   ? `&color=${Math.floor((hue / 360) * 65535)}`
-    //   : "";
+    const colorString =
+      hue !== null
+        ? `&color=${Math.floor((hue / 360) * 65535)}`
+        : "";
 
-    const {
-      result: { hue, sat, bri },
-    } = await fetch(
+    const { result } = await fetch(
       `/api/hue/color-light?lightId=${lightId}${colorString}`
     )
       .then((result) => result.json())
       .catch((e) => console.error(e));
 
-    // console.log({ hue, sat, bri });
+    const { hue: h, sat, bri } = result;
 
     setBackgroundColor({
-      hue,
+      hue: h,
       sat,
       bri,
     });
@@ -103,14 +104,21 @@ export default function ColorPage() {
     };
   };
 
+  const handleColorChangeComplete = (color) => {
+    console.log(color);
+    setColor(color.hex);
+    setHue(color.hsl.h);
+    // toggleLight(); // This calls the API too much.
+  };
+
   return (
     <DefaultLayout
       title="Color Light"
       style={{
-        // backgroundColor: `hsl(0, 1050%, 100%)`,
         backgroundColor: `hsl(${
           (backgroundColor.hue / 65535) * 360
         }deg, 100%, 50%)`,
+        paddingInline: "3rem",
       }}
     >
       <select
@@ -126,17 +134,29 @@ export default function ColorPage() {
         })}
       </select>
 
-      <button onClick={toggleLight}>Toggle</button>
+      <Grid cols={2}>
+        <button onClick={toggleLight}>Toggle</button>
 
-      <button onClick={clearColor} disabled={!hue}>
-        Clear Color
-      </button>
-      {/* TODO: Replace with something like this: https://casesandberg.github.io/react-color/ */}
-      <input
-        type="color"
-        value={color}
-        onChange={handleColorChange}
-      />
+        <button onClick={clearColor} disabled={!hue}>
+          Clear Color
+        </button>
+      </Grid>
+      <div style={{ marginBlock: "3rem" }}>
+        <HuePicker
+          color={color}
+          onChangeComplete={handleColorChangeComplete}
+        />
+      </div>
     </DefaultLayout>
   );
 }
+
+const Grid = ({ children, cols }) => {
+  const gridStyle = {
+    display: "grid",
+    gridTemplateColumns: `repeat(${cols}, 1fr)`,
+    gridGap: "1rem",
+  };
+
+  return <div style={gridStyle}>{children}</div>;
+};
