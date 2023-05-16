@@ -1,6 +1,5 @@
 import { useState, useEffect, Fragment } from "react";
 
-import Head from "next/head";
 import styles from "./styles.module.scss";
 
 import DefaultLayout from "layouts/default";

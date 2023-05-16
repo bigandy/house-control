@@ -42,9 +42,7 @@ export default function ColorPage() {
 
   const toggleLight = async () => {
     const colorString =
-      hue !== null
-        ? `&color=${Math.floor((hue / 360) * 65535)}`
-        : "";
+      hue !== null ? `&color=${Math.floor((hue / 360) * 65535)}` : "";
 
     const { result } = await fetch(
       `/api/hue/color-light?lightId=${lightId}${colorString}`
@@ -93,13 +91,7 @@ export default function ColorPage() {
       : 0;
     return {
       hue: 60 * h < 0 ? 60 * h + 360 : 60 * h,
-      sat:
-        100 *
-        (s
-          ? l <= 0.5
-            ? s / (2 * l - s)
-            : s / (2 - (2 * l - s))
-          : 0),
+      sat: 100 * (s ? (l <= 0.5 ? s / (2 * l - s) : s / (2 - (2 * l - s))) : 0),
       lightness: (100 * (2 * l - s)) / 2,
     };
   };
@@ -108,7 +100,7 @@ export default function ColorPage() {
     console.log(color);
     setColor(color.hex);
     setHue(color.hsl.h);
-    // toggleLight(); // This calls the API too much.
+    // toggleLight(); // This calls the API too often.
   };
 
   return (
@@ -121,10 +113,7 @@ export default function ColorPage() {
         paddingInline: "3rem",
       }}
     >
-      <select
-        value={lightId}
-        onChange={(e) => setLightId(e.target.value)}
-      >
+      <select value={lightId} onChange={(e) => setLightId(e.target.value)}>
         {lightIds.map((light) => {
           return (
             <option value={light.id} key={light.id}>
@@ -142,10 +131,7 @@ export default function ColorPage() {
         </button>
       </Grid>
       <div style={{ marginBlock: "3rem" }}>
-        <HuePicker
-          color={color}
-          onChangeComplete={handleColorChangeComplete}
-        />
+        <HuePicker color={color} onChangeComplete={handleColorChangeComplete} />
       </div>
     </DefaultLayout>
   );

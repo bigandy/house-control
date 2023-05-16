@@ -9,11 +9,16 @@ import FooterNavBar from "components/FooterNavBar";
 
 import styles from "styles/Home.module.scss";
 
-export default function DefaultLayout({
+type DefaultLayoutProps = {
+  title?: string;
+  style?: any;
+};
+
+const DefaultLayout: React.FC<DefaultLayoutProps> = ({
   children,
   title = "",
   ...props
-}) {
+}) => {
   return (
     <Fragment>
       <GoogleFonts href="https://fonts.googleapis.com/css2?family=Piazzolla:wght@400;700&display=swap" />
@@ -26,9 +31,7 @@ export default function DefaultLayout({
 
       <main className={styles.main} {...props}>
         <div>
-          {title && (
-            <h1 className={styles.pageTitle}>{title}</h1>
-          )}
+          {title && <h1 className={styles.pageTitle}>{title}</h1>}
 
           {children}
         </div>
@@ -37,4 +40,6 @@ export default function DefaultLayout({
       <FooterNavBar />
     </Fragment>
   );
-}
+};
+
+export default DefaultLayout;

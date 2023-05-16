@@ -25,18 +25,18 @@ export const deviceDiscovery = async () => {
 export const getRoomIpAddress = (room) => {
   let ipAddress = "";
   switch (room) {
-    case "kitchen":
-      ipAddress = process.env.SONOS_KITCHEN_IP;
-      break;
+    // case "kitchen":
+    //   ipAddress = process.env.SONOS_KITCHEN_IP;
+    //   break;
 
-      case "office":
-        ipAddress = process.env.SONOS_OFFICE_IP;
-        break;
-      case "lounge":
-        ipAddress = process.env.SONOS_LOUNGE_IP;
-   
+    // case "office":
+    //   ipAddress = process.env.SONOS_OFFICE_IP;
+    //   break;
+    // case "lounge":
+    //   ipAddress = process.env.SONOS_LOUNGE_IP;
+
     default:
-      ipAddress = process.env.SONOS_BEDROOM_IP;
+      ipAddress = process.env.SONOS_OFFICE_IP;
       break;
   }
   return ipAddress;
@@ -70,12 +70,9 @@ export const pauseRoom = async (roomToPlay) => {
 };
 
 export const toggleRoom = async (roomToPlay) => {
-
-  console.log({roomToPlay})
   try {
     const ipAddress = getRoomIpAddress(roomToPlay);
     const device = new Sonos(ipAddress);
-
     await device.togglePlayback();
     const state = await device.getCurrentState();
     return state;
