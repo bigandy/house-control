@@ -216,7 +216,7 @@ export default function MusicRoomPage() {
   };
 
   return (
-    <DefaultLayout title="">
+    <DefaultLayout title="Music Room">
       <h1 style={{ marginLeft: "0.75rem", marginBottom: 0, lineHeight: 1 }}>
         Music
         <select

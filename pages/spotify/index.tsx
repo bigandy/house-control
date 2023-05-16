@@ -1,16 +1,21 @@
-import { useState, useEffect, Fragment } from "react";
-import { signIn, signOut, useSession } from "next-auth/client";
-import Head from "next/head";
-import classnames from "classnames";
+import { useSession, signIn } from "next-auth/client";
 
 import DefaultLayout from "layouts/default";
 
 import SearchSpotify from "components/SearchSpotify";
 
 export default function SpotifyPage() {
+  const [session] = useSession();
+
   return (
     <DefaultLayout title="Spotify">
-      <SearchSpotify room="bedroom" />
+      {session ? (
+        <SearchSpotify room="bedroom" />
+      ) : (
+        <p style={{ paddingInline: "0.5rem" }}>
+          Please <button onClick={signIn}>Sign In</button>
+        </p>
+      )}
     </DefaultLayout>
   );
 }
