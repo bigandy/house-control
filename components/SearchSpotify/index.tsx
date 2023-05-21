@@ -1,5 +1,5 @@
 import { useState, Fragment, useMemo } from "react";
-import { useSession } from "next-auth/client";
+import { useSession } from "next-auth/react";
 
 import { SpotifySearch } from "pages/api/spotify/search";
 
@@ -8,7 +8,8 @@ const defaultType = SpotifySearch.PLAYLISTS;
 import styles from "./styles.module.scss";
 
 const SearchSpotify = ({ room }) => {
-  const [session, loading] = useSession();
+  const { data: session, status } = useSession();
+  const loading = status === "loading";
 
   const [value, setValue] = useState("");
   const [results, setResults] = useState(null);

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-import { signIn, signOut, useSession } from "next-auth/client";
+import { signIn, signOut, useSession } from "next-auth/react";
 
 import classNames from "classnames";
 
@@ -24,7 +24,8 @@ const pages = [
 
 const NavBar = () => {
   const router = useRouter();
-  const [session, loading] = useSession();
+  const { data: session, status } = useSession();
+  const loading = status === "loading";
 
   return (
     <nav className={styles.wrapper}>
@@ -32,14 +33,13 @@ const NavBar = () => {
         {pages.map((page) => {
           return (
             <li key={page.title}>
-              <Link href={page.url}>
-                <a
-                  className={classNames({
-                    [styles.active]: router.pathname === page.url,
-                  })}
-                >
-                  {page.title}
-                </a>
+              <Link
+                href={page.url}
+                className={classNames({
+                  [styles.active]: router.pathname === page.url,
+                })}
+              >
+                {page.title}
               </Link>
             </li>
           );

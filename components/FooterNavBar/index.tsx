@@ -33,15 +33,13 @@ const FooterNavBar = () => {
         {pages.map((page) => {
           return (
             <li key={page.title}>
-              <Link href={page.url}>
-                <a
-                  className={classNames({
-                    [styles.active]:
-                      router.pathname === page.url,
-                  })}
-                >
-                  {page.title}
-                </a>
+              <Link
+                href={page.url}
+                className={classNames({
+                  [styles.active]: router.pathname === page.url,
+                })}
+              >
+                {page.title}
               </Link>
             </li>
           );

@@ -1,6 +1,6 @@
 import Head from "next/head";
 
-import { Provider } from "next-auth/client";
+import { SessionProvider } from "next-auth/react";
 import { ApolloProvider } from "@apollo/client";
 
 import { useApollo } from "utils/useApollo";
@@ -15,9 +15,9 @@ function NextHouseControlApp({ Component, pageProps }) {
         <meta charSet="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
-      <Provider session={pageProps.initialSession}>
+      <SessionProvider session={pageProps.initialSession}>
         <Component {...pageProps} />
-      </Provider>
+      </SessionProvider>
     </ApolloProvider>
   );
 }

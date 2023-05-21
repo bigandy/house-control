@@ -1,6 +1,6 @@
 import NextAuth from "next-auth";
-import Providers from "next-auth/providers";
-import Adapters from "next-auth/adapters";
+import SpotifyProvider from "next-auth/providers/spotify";
+import { PrismaAdapter } from "@next-auth/prisma-adapter";
 
 import prisma from "utils/database/prisma";
 
@@ -11,7 +11,7 @@ const refreshAccessToken = async (token) => {
 export default NextAuth({
   // Configure one or more authentication providers
   providers: [
-    Providers.Spotify({
+    SpotifyProvider({
       clientId: process.env.SPOTIFY_CLIENT_ID,
       clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
       profile(profile) {
@@ -26,7 +26,7 @@ export default NextAuth({
     }),
     // ...add more providers here
   ],
-  adapter: Adapters.Prisma.Adapter({ prisma }),
+  adapter: PrismaAdapter({ prisma }),
 
   session: {
     jwt: true,

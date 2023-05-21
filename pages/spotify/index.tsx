@@ -1,4 +1,4 @@
-import { useSession, signIn } from "next-auth/client";
+import { useSession, signIn } from "next-auth/react";
 
 import DefaultLayout from "layouts/default";
 

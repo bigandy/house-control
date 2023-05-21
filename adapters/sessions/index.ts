@@ -2,7 +2,7 @@ import {
   Session as _Session,
   useSession as _useSession,
   getSession as _getSession,
-} from "next-auth/client";
+} from "next-auth/react";
 import { User as _User } from "next-auth";
 //   import { User } from "utils/database/context";
 

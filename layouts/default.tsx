@@ -2,8 +2,6 @@ import { Fragment } from "react";
 
 import Head from "next/head";
 
-import { GoogleFonts } from "next-google-fonts";
-
 import TopNavBar from "components/TopNavBar";
 import FooterNavBar from "components/FooterNavBar";
 
@@ -21,8 +19,6 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = ({
 }) => {
   return (
     <Fragment>
-      <GoogleFonts href="https://fonts.googleapis.com/css2?family=Piazzolla:wght@400;700&display=swap" />
-
       <Head>
         <title>{title}</title>
       </Head>
