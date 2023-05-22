@@ -1,11 +1,11 @@
 import { getSession } from "adapters/sessions";
-import { Resolver } from "node:dns";
+// import { Resolver } from "node:dns";
 
 import SpotifyWebApi from "spotify-web-api-node";
 
-import { playFavorite } from "../utils/sonos";
+// import { playFavorite } from "../utils/sonos";
 
-import prisma from "utils/database/prisma";
+// import prisma from "utils/database/prisma";
 
 export enum SpotifySearch {
   ALBUMS = "albums",
@@ -73,7 +73,7 @@ const resolver = async (req, res) => {
 
   try {
     console.log("using stored accessToken");
-    spotifyApi.setAccessToken(session.user.accessToken);
+    spotifyApi.setAccessToken(session.user.access_token);
     const results = await getSearchResults(type, searchText);
 
     res.status(200).json({
@@ -86,18 +86,23 @@ const resolver = async (req, res) => {
       async function (data) {
         console.log("The access token expires in " + data.body["expires_in"]);
         console.log("The access token is " + data.body["access_token"]);
-        const accessToken = data.body["access_token"];
+        const access_token = data.body["access_token"];
         // Save the access token so that it's used in future calls
-        spotifyApi.setAccessToken(accessToken);
+        spotifyApi.setAccessToken(access_token);
 
         // AHTODO SAVE TO DB SO DON't HAVE TO DO THIS EVERY TIME!
 
-        await prisma.account.update({
-          where: {
-            id: 1, // AHTODO GET THIS PROPERLY!
-          },
-          data: { accessToken: accessToken },
-        });
+        // try {
+        //   await prisma.account.update({
+        //     where: {
+        //       userId: 1, // AHTODO GET THIS PROPERLY!
+        //     },
+        //     data: { access_token: access_token },
+        //   });
+        // } catch (error) {
+        //   console.error(error);
+        //   throw new Error("bad things in prisma account update");
+        // }
       },
       function (err) {
         console.log(
@@ -107,6 +112,8 @@ const resolver = async (req, res) => {
       }
     );
     const results = await getSearchResults(type, searchText);
+
+    console.log(results);
 
     res.status(200).json({
       name: "Spotify Search",

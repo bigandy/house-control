@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import { Fragment, PropsWithChildren } from "react";
 
 import Head from "next/head";
 
@@ -7,16 +7,12 @@ import FooterNavBar from "components/FooterNavBar";
 
 import styles from "styles/Home.module.scss";
 
-type DefaultLayoutProps = {
-  title?: string;
+interface Props extends PropsWithChildren {
+  title: string;
   style?: any;
-};
+}
 
-const DefaultLayout: React.FC<DefaultLayoutProps> = ({
-  children,
-  title = "",
-  ...props
-}) => {
+const DefaultLayout = ({ title, children, ...props }: Props) => {
   return (
     <Fragment>
       <Head>

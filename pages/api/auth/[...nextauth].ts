@@ -26,10 +26,11 @@ export default NextAuth({
     }),
     // ...add more providers here
   ],
-  adapter: PrismaAdapter({ prisma }),
+  adapter: PrismaAdapter(prisma),
 
   session: {
-    jwt: true,
+    //   jwt: true,
+    strategy: "jwt",
   },
 
   callbacks: {
@@ -43,7 +44,6 @@ export default NextAuth({
           user,
         };
       }
-
       // Return previous token if the access token has not expired yet
       if (Date.now() < token.accessTokenExpires) {
         return token;
@@ -51,7 +51,6 @@ export default NextAuth({
         console.log("access token still valid");
         console.log("TOKEN", { token });
       }
-
       // Access token has expired, try to update it
       return refreshAccessToken(token);
     },

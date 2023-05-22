@@ -1,9 +1,4 @@
-import {
-  DeviceDiscovery,
-  Sonos,
-  AsyncDeviceDiscovery,
-  SpotifyRegion as Regions,
-} from "sonos";
+import { Sonos, AsyncDeviceDiscovery, SpotifyRegion as Regions } from "sonos";
 
 // find one device
 // Useful for finding all the IP addresses of devices.

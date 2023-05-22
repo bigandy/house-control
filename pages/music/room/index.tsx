@@ -15,8 +15,8 @@ import useInterval from "hooks/useInterval";
 // AHTODO: move into a consts file for sharing
 const rooms = ["bedroom", "kitchen"];
 
-// import VolumeOffIcon from "@material-ui/icons/VolumeOff";
-// import VolumeUpIcon from "@material-ui/icons/VolumeUp";
+import { HiVolumeOff, HiVolumeUp } from "react-icons/hi";
+
 import SearchSpotify from "components/SearchSpotify";
 
 export default function MusicRoomPage() {
@@ -193,10 +193,10 @@ export default function MusicRoomPage() {
         [selectedRoom]: volume,
       };
     });
-    updateVolume(volume, selectedRoom);
+    updateVolume(volume);
   };
 
-  const updateVolume = useDebouncedCallback(async (volume, room) => {
+  const updateVolume = useDebouncedCallback(async (volume) => {
     await fetch(`/api/sonos/volume/${selectedRoom}?volume=${volume}`)
       .then((res) => res.json())
       .catch((e) => console.error(e));
@@ -253,7 +253,21 @@ export default function MusicRoomPage() {
 
         {roomsMuted && (
           <button onClick={handleRoomMute} className="mute-button">
-            {/* {roomsMuted[selectedRoom] ? <VolumeOffIcon /> : <VolumeUpIcon />} */}
+            {roomsMuted[selectedRoom] ? (
+              <HiVolumeOff
+                style={{
+                  height: 24,
+                  width: 24,
+                }}
+              />
+            ) : (
+              <HiVolumeUp
+                style={{
+                  height: 24,
+                  width: 24,
+                }}
+              />
+            )}
           </button>
         )}
 
@@ -264,19 +278,23 @@ export default function MusicRoomPage() {
               min="0"
               max="40"
               value={roomVolumes[selectedRoom]}
-              onChange={(e) => handleVolumeChange(e.target.value)}
+              onChange={(e) => handleVolumeChange(Number(e.target.value))}
               className={styles["input-range"]}
             />
             {roomVolumes[selectedRoom]}
             <button
               className={styles.volButton}
-              onClick={() => handleVolumeChange(roomVolumes[selectedRoom] + 5)}
+              onClick={() =>
+                handleVolumeChange(Number(roomVolumes[selectedRoom]) + 5)
+              }
             >
               Up
             </button>
             <button
               className={styles.volButton}
-              onClick={() => handleVolumeChange(roomVolumes[selectedRoom] - 5)}
+              onClick={() =>
+                handleVolumeChange(Number(roomVolumes[selectedRoom]) - 5)
+              }
             >
               Down
             </button>
