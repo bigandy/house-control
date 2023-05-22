@@ -73,7 +73,7 @@ const resolver = async (req, res) => {
 
   try {
     console.log("using stored accessToken");
-    spotifyApi.setAccessToken(session.user.access_token);
+    spotifyApi.setAccessToken(session.user.accessToken);
     const results = await getSearchResults(type, searchText);
 
     res.status(200).json({

@@ -1,5 +1,5 @@
 import {
-  Session as _Session,
+  SessionContextValue as _Session,
   useSession as _useSession,
   getSession as _getSession,
 } from "next-auth/react";
@@ -47,5 +47,6 @@ export function getSession(
   if ((context as any).req.session) {
     return Promise.resolve((context as any).req.session);
   }
+  // @ts-ignore
   return _getSession(context) as Promise<Session>;
 }

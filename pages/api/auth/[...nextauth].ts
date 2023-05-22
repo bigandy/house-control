@@ -34,31 +34,32 @@ export default NextAuth({
   },
 
   callbacks: {
-    async jwt(token, user, account) {
-      // Initial sign in
-      if (account && user) {
-        return {
-          accessToken: account.accessToken,
-          accessTokenExpires: Date.now() + account.expires_in * 1000,
-          refreshToken: account.refresh_token,
-          user,
-        };
-      }
-      // Return previous token if the access token has not expired yet
-      if (Date.now() < token.accessTokenExpires) {
-        return token;
-      } else {
-        console.log("access token still valid");
-        console.log("TOKEN", { token });
-      }
-      // Access token has expired, try to update it
-      return refreshAccessToken(token);
-    },
-    async session(session, user) {
-      // console.log("SESSION", { session, user });
-      session.user = user;
-      return session;
-    },
+    // async jwt(token, user, account) {
+    //   // Initial sign in
+    //   if (account && user) {
+    //     return {
+    //       accessToken: account.accessToken,
+    //       accessTokenExpires: Date.now() + account.expires_in * 1000,
+    //       refreshToken: account.refresh_token,
+    //       user,
+    //     };
+    //   }
+    //   // Return previous token if the access token has not expired yet
+    //   if (Date.now() < token.accessTokenExpires) {
+    //     return token;
+    //   } else {
+    //     console.log("access token still valid");
+    //     console.log("TOKEN", { token });
+    //   }
+    //   // Access token has expired, try to update it
+    //   return refreshAccessToken(token);
+    // },
+    // async session(session, user) {
+    //   // console.log("SESSION", { session, user });
+    //   session.user = user;
+    //   return session;
+    // },
   },
+  // @ts-ignore
   database: "file:../prisma.db",
 });
