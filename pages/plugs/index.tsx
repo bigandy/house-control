@@ -8,7 +8,11 @@ import styles from "styles/Home.module.scss";
 
 import fetch from "node-fetch";
 
-const plugs = ["2", "3", "4", "office"];
+const plugs = [
+  // "2", "3", "4",
+  "office",
+  "office-led",
+];
 
 export default function Home() {
   const initialPlugState = {};
@@ -46,6 +50,10 @@ export default function Home() {
   const offAllPlugs = async (plug) => {
     await fetch(`/api/plug/plug-all-off`)
       .then((res) => res.json())
+      .then((json) => {
+        console.log(json);
+        return json;
+      })
       .then(({ statusesOut }) => {
         setStatus((prevState) => {
           Object.keys(prevState).forEach((key) => {
@@ -69,7 +77,7 @@ export default function Home() {
               key={plug}
               onClick={() => togglePlug(plug)}
               className={classnames("button-plug", {
-                active: status[plug],
+                active: status?.[plug],
               })}
             >
               {plug}

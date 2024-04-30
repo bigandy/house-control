@@ -1,53 +1,45 @@
-import {
-  cloudLogin,
-  listDevicesByType,
-  listDevices,
-  loginDeviceByIp,
-  loginDevice,
-  turnOff,
-  turnOn,
-  getDeviceInfo,
-} from "tp-link-tapo-connect";
+import { loginDeviceByIp } from "tp-link-tapo-connect";
 
 const email = process.env.TPLINK_EMAIL;
 const password = process.env.TPLINK_PASSWORD;
 
 export const getAllPlugs = async () => {
   try {
-    const cloudToken = await cloudLogin(
-      process.env.TPLINK_EMAIL,
-      process.env.TPLINK_PASSWORD
-    );
-
     const rooms = [
       {
         ip: process.env.TPLINK_PLUG_OFFICE_IP,
         name: "office",
       },
       {
-        ip: process.env.TPLINK_PLUG_2_IP,
-        name: "2",
+        ip: process.env.TPLINK_LED_OFFICE_IP,
+        name: "office-led",
       },
-      {
-        ip: process.env.TPLINK_PLUG_3_IP,
-        name: "3",
-      },
-      {
-        ip: process.env.TPLINK_PLUG_4_IP,
-        name: "4",
-      },
+      // {
+      //   ip: process.env.TPLINK_PLUG_2_IP,
+      //   name: "2",
+      // },
+      // {
+      //   ip: process.env.TPLINK_PLUG_3_IP,
+      //   name: "3",
+      // },
+      // {
+      //   ip: process.env.TPLINK_PLUG_4_IP,
+      //   name: "4",
+      // },
     ];
 
     const statuses = {};
     await Promise.all(
       rooms.map(async (room) => {
         try {
-          const token = await loginDeviceByIp(email, password, room.ip);
-          const getDeviceInfoResponse = await getDeviceInfo(token);
+          const device = await loginDeviceByIp(email, password, room.ip);
+          const getDeviceInfoResponse = await device.getDeviceInfo();
+
+          console.log({ getDeviceInfoResponse });
 
           statuses[room.name] = {
             status: getDeviceInfoResponse.device_on,
-            token,
+            device,
             ...room,
           };
         } catch (e) {
