@@ -12,8 +12,10 @@ main,
   height: 100%;
 }
 
-
-
+#__next {
+  display: grid;
+  grid-template-rows: max-content 1fr max-content;
+}
 
 a {
   color: inherit;

@@ -17,7 +17,6 @@ const rooms = ["bedroom", "kitchen"];
 
 import VolumeOffIcon from "@material-ui/icons/VolumeOff";
 import VolumeUpIcon from "@material-ui/icons/VolumeUp";
-import SearchSpotify from "components/SearchSpotify";
 
 export default function MusicRoomPage() {
   const [musicPlaying, setMusicPlaying] = useState(false);
@@ -314,8 +313,6 @@ export default function MusicRoomPage() {
           </button>
         )}
       </div>
-
-      <SearchSpotify room={selectedRoom} />
 
       {currentTrackPlaying && (
         <div style={{ marginLeft: "1rem" }}>

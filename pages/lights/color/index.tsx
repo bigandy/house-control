@@ -23,16 +23,17 @@ export default function ColorPage() {
       await fetch(`/api/hue/getall-lights`)
         .then((res) => res.json())
         .then(({ lights }) => {
-          const filteredLights = lights.filter((light) => {
+          console.log({ lights });
+          const filteredLights = lights?.filter((light) => {
             return light.state.reachable && light.state.hue;
             // && light.state.on
           });
           setLightIds(filteredLights);
 
-          if (filteredLights.length > 0) {
+          if (filteredLights?.length > 0) {
             setLightId(filteredLights[0].id);
           } else {
-            console.log(filteredLights);
+            console.log("no filtered lights");
           }
         });
     };
@@ -114,7 +115,7 @@ export default function ColorPage() {
       }}
     >
       <select value={lightId} onChange={(e) => setLightId(e.target.value)}>
-        {lightIds.map((light) => {
+        {lightIds?.map((light) => {
           return (
             <option value={light.id} key={light.id}>
               {light.name}

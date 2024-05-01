@@ -18,10 +18,6 @@ const pages = [
     url: "/lights/color",
     title: "Lights / Color",
   },
-  {
-    url: "/spotify",
-    title: "Spotify",
-  },
 ];
 
 const FooterNavBar = () => {
@@ -36,8 +32,7 @@ const FooterNavBar = () => {
               <Link href={page.url}>
                 <a
                   className={classNames({
-                    [styles.active]:
-                      router.pathname === page.url,
+                    [styles.active]: router.pathname === page.url,
                   })}
                 >
                   {page.title}

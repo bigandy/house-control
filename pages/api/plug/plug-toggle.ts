@@ -18,11 +18,12 @@ export default async function handler(req, res) {
     const statusesOut = await getAllPlugs();
 
     res.status(200).json({
+      success: true,
       plug,
       statusOut: statusesOut[plug].status,
     });
   } catch (e) {
     console.error(e);
-    res.status(400).json({ message: "Error", e });
+    res.status(400).json({ success: false, message: "Error", e });
   }
 }

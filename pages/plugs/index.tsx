@@ -22,6 +22,10 @@ export default function Home() {
       const plugs = await fetch(`/api/plug/statuses`)
         .then((res) => res.json())
         .then((json) => {
+          if (json.message) {
+            console.error(json.message);
+            return;
+          }
           setStatus(json.statuses);
         })
         .catch((e) => console.error(e));

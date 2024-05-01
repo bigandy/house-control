@@ -14,11 +14,6 @@ const password = process.env.TPLINK_PASSWORD;
 
 export const getAllPlugs = async () => {
   try {
-    const cloudToken = await cloudLogin(
-      process.env.TPLINK_EMAIL,
-      process.env.TPLINK_PASSWORD
-    );
-
     const rooms = [
       {
         ip: process.env.TPLINK_PLUG_OFFICE_IP,
@@ -51,7 +46,7 @@ export const getAllPlugs = async () => {
             ...room,
           };
         } catch (e) {
-          console.error("error", e);
+          console.error("error in statuses", e);
         }
       })
     );
@@ -75,15 +70,6 @@ export default async function handler(req, res) {
     });
 
     await res.status(200).json({
-      // plugs: Object.keys(plugs).map((plug) => {
-      //   const room = plugs[plug];
-      //   return {
-      //     // name: room.name,
-      //     // ip: room.ip,
-      //     // token: room.token,
-      //     status: room.response,
-      //   };
-      // }),
       statuses: plugsObj,
     });
   } catch (e) {
