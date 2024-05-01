@@ -1,7 +1,5 @@
 const { TOMORROW_API_KEY } = process.env;
 
-import fetch from "node-fetch";
-
 import { createUrl } from "../utils/urls";
 
 export default async function handler(req, res) {

@@ -1,33 +1,30 @@
-import { useState, useEffect } from "react";
-
-import classnames from "classnames";
+import { useEffect, useState } from "react";
 
 import DefaultLayout from "layouts/default";
 
 import styles from "styles/Home.module.scss";
 
-import fetch from "node-fetch";
+const plugs = ["office-led", "office"];
+const initialPlugState = {};
 
-const plugs = ["2", "3", "4", "office"];
+plugs.forEach((plug) => {
+  initialPlugState[plug] = false;
+});
 
 export default function TapoLight() {
-  const initialPlugState = {};
-  plugs.forEach((plug) => {
-    initialPlugState[plug] = false;
-  });
   const [status, setStatus] = useState(initialPlugState);
 
   useEffect(() => {
     const getAllStatuses = async () => {
       await fetch(`/api/tapo-light/statuses`)
         .then((res) => res.json())
-        .then((json) => {
-          if (json.message) {
-            console.error(json.message);
-            return;
-          }
+        .then((json: any) => {
+          // if (json.message) {
+          //   console.error(json.message);
+          //   return;
+          // }
           console.log({ json });
-          setStatus(json.statuses);
+          // setStatus(json.statuses);
         })
         .catch((e) => console.error(e));
     };

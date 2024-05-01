@@ -16,6 +16,7 @@ import styles from "styles/Home.module.scss";
 type DefaultLayoutProps = {
   title?: string;
   style?: any;
+  children: JSX.Element | JSX.Element[];
 };
 
 const DefaultLayout: React.FC<DefaultLayoutProps> = ({

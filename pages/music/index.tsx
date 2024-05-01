@@ -5,8 +5,6 @@ import DefaultLayout from "layouts/default";
 
 import styles from "styles/Home.module.scss";
 
-import fetch from "node-fetch";
-
 export default function MusicPage() {
   const [musicPlaying, setMusicPlaying] = useState(false);
 

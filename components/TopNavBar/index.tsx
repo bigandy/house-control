@@ -14,10 +14,10 @@ const pages = [
     url: "/plugs",
     title: "Plugs",
   },
-  {
-    url: "/tapo-light",
-    title: "Tapo Light",
-  },
+  // {
+  //   url: "/tapo-light",
+  //   title: "Tapo Light",
+  // },
   // {
   //   url: "/dashboard",
   //   title: "Dashboard",

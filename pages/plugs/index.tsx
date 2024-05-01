@@ -6,15 +6,14 @@ import DefaultLayout from "layouts/default";
 
 import styles from "styles/Home.module.scss";
 
-import fetch from "node-fetch";
+const plugs = ["office-led", "office"];
 
-const plugs = ["2", "3", "4", "office"];
+const initialPlugState = {};
+plugs.forEach((plug) => {
+  initialPlugState[plug] = false;
+});
 
 export default function Home() {
-  const initialPlugState = {};
-  plugs.forEach((plug) => {
-    initialPlugState[plug] = false;
-  });
   const [status, setStatus] = useState(initialPlugState);
 
   useEffect(() => {

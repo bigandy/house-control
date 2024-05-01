@@ -10,20 +10,19 @@
   "dependencies": {
     "classnames": "2.5.1",
     "cors": "2.8.5",
-    "date-fns": "2.20.3",
+    "date-fns": "3.6.0",
     "next": "14.2.3",
-    "node-fetch": "2.6.1",
-    "node-hue-api": "5.0.0-beta.13",
+    "node-hue-api": "5.0.0-beta.16",
     "react": "18.3.1",
     "react-color": "2.19.3",
     "react-dom": "18.3.1",
     "sass": "1.76.0",
     "sonos": "1.14.1",
-    "tp-link-tapo-connect": "1.0.8",
+    "tp-link-tapo-connect": "2.0.4",
     "use-debounce": "10.0.0"
   },
   "devDependencies": {
-    "@types/node": "14.14.37",
+    "@types/node": "20.12.7",
     "@types/react": "18.3.1",
     "typescript": "5.4.5"
   }

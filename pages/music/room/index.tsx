@@ -4,7 +4,6 @@ import classnames from "classnames";
 import DefaultLayout from "layouts/default";
 
 import styles from "./styles.module.scss";
-import fetch from "node-fetch";
 
 import { useDebouncedCallback } from "use-debounce";
 

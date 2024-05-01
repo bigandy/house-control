@@ -42,32 +42,32 @@ export default function HomePage() {
       .catch((e) => console.error(e));
   };
 
-  useEffect(() => {
-    const getAllStatuses = async () => {
-      await fetch(`/api/sonos/status-all`)
-        .then((res) => res.json())
-        .then(({ statuses }) => {
-          const roomsObj: any = {};
-          statuses.forEach(
-            ({ room, state }) =>
-              (roomsObj[room] = state !== "paused" && state !== "stopped")
-          );
-          setMusicPlaying(roomsObj);
-        })
-        .catch((e) => console.error(e));
-    };
-    getAllStatuses();
-  }, []);
+  // useEffect(() => {
+  //   const getAllStatuses = async () => {
+  //     await fetch(`/api/sonos/status-all`)
+  //       .then((res) => res.json())
+  //       .then(({ statuses }) => {
+  //         const roomsObj: any = {};
+  //         statuses.forEach(
+  //           ({ room, state }) =>
+  //             (roomsObj[room] = state !== "paused" && state !== "stopped")
+  //         );
+  //         setMusicPlaying(roomsObj);
+  //       })
+  //       .catch((e) => console.error(e));
+  //   };
+  //   getAllStatuses();
+  // }, []);
 
-  useEffect(() => {
-    const getStatus = async () => {
-      await fetch(`/api/hue/status-light`)
-        .then((res) => res.json())
-        .then((json) => setLightsOn(json.state.on))
-        .catch((e) => console.error(e));
-    };
-    getStatus();
-  }, []);
+  // useEffect(() => {
+  //   const getStatus = async () => {
+  //     await fetch(`/api/hue/status-light`)
+  //       .then((res) => res.json())
+  //       .then((json) => setLightsOn(json.state.on))
+  //       .catch((e) => console.error(e));
+  //   };
+  //   getStatus();
+  // }, []);
 
   const toggleMusic = async () => {
     await fetch(`/api/sonos/toggle-room/?room=${selectedRoom}`)

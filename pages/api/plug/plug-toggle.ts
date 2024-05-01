@@ -1,4 +1,3 @@
-import { turnOff, turnOn } from "tp-link-tapo-connect";
 import { getAllPlugs } from "pages/api/plug/statuses";
 
 export default async function handler(req, res) {
@@ -9,10 +8,12 @@ export default async function handler(req, res) {
 
     const plug = room || "4";
 
+    const { device } = plugs[plug];
+
     if (plugs[plug].status === false) {
-      await turnOn(plugs[plug].token);
+      await device.turnOn();
     } else {
-      await turnOff(plugs[plug].token);
+      await device.turnOff();
     }
 
     const statusesOut = await getAllPlugs();

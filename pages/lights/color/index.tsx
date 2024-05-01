@@ -2,8 +2,6 @@ import { useEffect, useState } from "react";
 import { HuePicker } from "react-color";
 import DefaultLayout from "layouts/default";
 
-import fetch from "node-fetch";
-
 export default function ColorPage() {
   const [lightId, setLightId] = useState("");
 

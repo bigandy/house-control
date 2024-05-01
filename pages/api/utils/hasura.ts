@@ -1,5 +1,3 @@
-import fetch from "node-fetch";
-
 async function query({ query, variables = {} }) {
   const result = await fetch(process.env.HASURA_API_URL, {
     method: "POST",
