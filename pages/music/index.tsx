@@ -4,6 +4,7 @@ import classnames from "classnames";
 import DefaultLayout from "layouts/default";
 
 import styles from "styles/Home.module.scss";
+import { availableRooms } from "utils/availableRooms";
 
 export default function MusicPage() {
   const [musicPlaying, setMusicPlaying] = useState(false);
@@ -58,16 +59,16 @@ export default function MusicPage() {
       <div className={styles.container}>
         <button onClick={() => turnOffAllSonos()}>Off All</button>
 
-        {["bedroom", "kitchen"].map((room) => {
+        {availableRooms.map(({ id, label }) => {
           return (
             <button
-              key={room}
-              onClick={() => toggleMusic(room)}
+              key={id}
+              onClick={() => toggleMusic(id)}
               className={classnames("button-music", {
-                active: musicPlaying[room],
+                active: musicPlaying[id],
               })}
             >
-              Turn {room} {musicPlaying[room] ? "off" : "on"}
+              Turn {label} {musicPlaying[id] ? "off" : "on"}
             </button>
           );
         })}

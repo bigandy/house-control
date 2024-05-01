@@ -7,4 +7,8 @@ export const sonosRooms = [
     text: "Bedroom",
     id: "bedroom",
   },
+  {
+    text: "Landing",
+    id: "landing",
+  },
 ];

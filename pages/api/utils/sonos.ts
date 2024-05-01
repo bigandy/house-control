@@ -1,9 +1,6 @@
-import {
-  DeviceDiscovery,
-  Sonos,
-  AsyncDeviceDiscovery,
-  SpotifyRegion as Regions,
-} from "sonos";
+import { AsyncDeviceDiscovery, SpotifyRegion as Regions, Sonos } from "sonos";
+
+import { availableRooms } from "utils/availableRooms";
 
 // find one device
 // Useful for finding all the IP addresses of devices.
@@ -24,6 +21,8 @@ export const deviceDiscovery = async () => {
 
 export const getRoomIpAddress = (room) => {
   let ipAddress = "";
+
+  console.log({ room });
   switch (room) {
     // case "kitchen":
     //   ipAddress = process.env.SONOS_KITCHEN_IP;
@@ -32,11 +31,12 @@ export const getRoomIpAddress = (room) => {
     // case "office":
     //   ipAddress = process.env.SONOS_OFFICE_IP;
     //   break;
-    // case "lounge":
-    //   ipAddress = process.env.SONOS_LOUNGE_IP;
+    case "kitchen":
+      ipAddress = process.env.SONOS_KITCHEN_IP;
 
+    case "landing":
     default:
-      ipAddress = process.env.SONOS_OFFICE_IP;
+      ipAddress = process.env.SONOS_LANDING_IP;
       break;
   }
   return ipAddress;
@@ -264,25 +264,23 @@ export const playFavoriteWithStatuses = async (favorite, roomToPlay = "") => {
 };
 
 export const handleAll = async (method = "pause") => {
-  const rooms = ["lounge", "bedroom", "kitchen", "kitchen-eating"];
-
   if (method === "pause" || method === "play") {
-    await rooms.reduce(async (previousPromise, nextID) => {
+    await availableRooms.reduce(async (previousPromise, nextID) => {
       await previousPromise;
 
       if (method === "pause") {
-        return pauseRoom(nextID);
+        return pauseRoom(nextID.id);
       } else {
-        return playRoom(nextID);
+        return playRoom(nextID.id);
       }
     }, Promise.resolve());
   }
 
   const statuses = [];
-  await rooms.reduce(async (previousPromise, nextID) => {
+  await availableRooms.reduce(async (previousPromise, nextID) => {
     await previousPromise;
-    const { state, volume, currentTrack, muted } = await statusRoom(nextID);
-    statuses.push({ state, volume, currentTrack, muted, room: nextID });
+    const { state, volume, currentTrack, muted } = await statusRoom(nextID.id);
+    statuses.push({ state, volume, currentTrack, muted, room: nextID.id });
     return state;
   }, Promise.resolve());
 

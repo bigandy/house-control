@@ -11,8 +11,9 @@ import useInterval from "hooks/useInterval";
 
 // import { getFavorites } from "pages/api/utils/sonos";
 
-// AHTODO: move into a consts file for sharing
-const rooms = ["bedroom", "kitchen"];
+import { availableRooms } from "utils/availableRooms";
+
+import { FaVolumeUp, FaVolumeMute } from "react-icons/fa";
 
 export default function MusicRoomPage() {
   const [musicPlaying, setMusicPlaying] = useState(false);
@@ -76,10 +77,17 @@ export default function MusicRoomPage() {
           .then((json) => {
             const roomsObj: any = {};
             const soundObj = {};
-            json.statuses.forEach(({ room, state, volume }) => {
+
+            const { statuses } = json;
+
+            console.log({ statuses });
+
+            statuses.forEach(({ room, state, volume }) => {
               roomsObj[room] = state !== "paused" && state !== "stopped";
               soundObj[room] = volume;
             });
+
+            console.log({ soundObj, roomsObj });
             setRoomVolumes(soundObj);
             setMusicPlaying(roomsObj);
           })
@@ -165,6 +173,8 @@ export default function MusicRoomPage() {
       .catch((e) => console.error(e));
   };
 
+  console.log({ selectedRoom });
+
   const icon = useMemo(() => {
     const playIcon = "M11,10 L17,10 17,26 11,26 M20,10 L26,10 26,26 20,26";
     const pauseIcon =
@@ -176,7 +186,9 @@ export default function MusicRoomPage() {
     return pauseIcon;
   }, [musicPlaying, selectedRoom]);
 
-  const handleRoomChange = (room) => {
+  const handleRoomChange = (e) => {
+    const room = e.target.value;
+    // console.log(e.target.value);
     setSelectedRoom(room);
     localStorage.setItem("room", room);
   };
@@ -216,19 +228,20 @@ export default function MusicRoomPage() {
         Music
         <select
           value={selectedRoom}
-          onChange={(e) => handleRoomChange(e.target.value)}
+          onChange={handleRoomChange}
           className="inline-select"
         >
-          {rooms.map((room) => {
+          {availableRooms.map(({ id, label }) => {
             return (
               <option
-                id={room}
-                key={room}
+                value={id}
+                id={id}
+                key={id}
                 className={classnames({
-                  active: room === selectedRoom,
+                  active: id === selectedRoom,
                 })}
               >
-                {room}
+                {label}
               </option>
             );
           })}
@@ -248,7 +261,11 @@ export default function MusicRoomPage() {
 
         {roomsMuted && (
           <button onClick={handleRoomMute} className="mute-button">
-            {roomsMuted[selectedRoom] ? "down" : "up"}
+            {roomsMuted[selectedRoom] ? (
+              <FaVolumeMute size="22" />
+            ) : (
+              <FaVolumeUp size="22" />
+            )}
           </button>
         )}
 
