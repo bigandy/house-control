@@ -2,7 +2,11 @@ import { Fragment } from "react";
 
 import Head from "next/head";
 
-import { GoogleFonts } from "next-google-fonts";
+// import { GoogleFonts } from "next-google-fonts";
+
+import { Piazzolla } from "next/font/google";
+
+const piazzolla = Piazzolla({ subsets: ["latin"] });
 
 import TopNavBar from "components/TopNavBar";
 import FooterNavBar from "components/FooterNavBar";
@@ -21,7 +25,11 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = ({
 }) => {
   return (
     <Fragment>
-      <GoogleFonts href="https://fonts.googleapis.com/css2?family=Piazzolla:wght@400;700&display=swap" />
+      <style jsx global>{`
+        html {
+          font-family: ${piazzolla.style.fontFamily};
+        }
+      `}</style>
 
       <Head>
         <title>{title}</title>
@@ -29,7 +37,7 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = ({
 
       <TopNavBar />
 
-      <main className={styles.main} {...props}>
+      <main className={`${styles.main}`} {...props}>
         <div>
           {title && <h1 className={styles.pageTitle}>{title}</h1>}
 

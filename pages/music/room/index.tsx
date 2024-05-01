@@ -15,9 +15,6 @@ import useInterval from "hooks/useInterval";
 // AHTODO: move into a consts file for sharing
 const rooms = ["bedroom", "kitchen"];
 
-import VolumeOffIcon from "@material-ui/icons/VolumeOff";
-import VolumeUpIcon from "@material-ui/icons/VolumeUp";
-
 export default function MusicRoomPage() {
   const [musicPlaying, setMusicPlaying] = useState(false);
   const [roomVolumes, setRoomVolumes] = useState(null);
@@ -252,7 +249,7 @@ export default function MusicRoomPage() {
 
         {roomsMuted && (
           <button onClick={handleRoomMute} className="mute-button">
-            {roomsMuted[selectedRoom] ? <VolumeOffIcon /> : <VolumeUpIcon />}
+            {roomsMuted[selectedRoom] ? "down" : "up"}
           </button>
         )}
 
